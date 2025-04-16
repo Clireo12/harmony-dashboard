@@ -3,7 +3,7 @@ import { Header } from '../../component/Header'
 import { SteeringWheelAngleFeedback } from './SteeringWheelAngleFeedback'
 import { Constants } from './Constants'
 import { Bottom } from '../../component/Bottom'
-import { City } from './City'
+import { City } from '../../component/City'
 
 @Entry
 @Component
@@ -24,10 +24,19 @@ export struct SwitchMode {
           .margin({
             right:"3%"
           })
+
         DrivingMode({
           _height:this.Height
         })
-        City()
+
+        // 车辆图标展示
+        Stack(){
+          City()
+
+          Image($r("app.media.car"))
+            .width("45%")
+            .offset({ y : 50})
+        }
       }
       .justifyContent(FlexAlign.Start)
       .alignItems(VerticalAlign.Top)
@@ -35,9 +44,6 @@ export struct SwitchMode {
         left:"5%"
       })
       .layoutWeight(1)
-
-      // 车辆图标展示
-
 
       Bottom()
     }

@@ -16,7 +16,7 @@ export struct Header {
     this.timer = setInterval(() => {
       this.date = new Date()
       this.time = this.date.toTimeString().split(' ')[0]
-      this.timeState = timeDesc[Math.round(parseInt(this.time.split(':')[0]) / 8)]
+      this.timeState = timeDesc[Math.floor(parseInt(this.time.split(':')[0]) / 8)]
     }, 1000)
   }
 
@@ -87,6 +87,6 @@ export struct Header {
     .width('100%')
     .height(60)
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor($r('app.color.dashboard_background')) // 后期需要根据时间,修改黑夜或白天模式
+    .backgroundColor(Color.Transparent) // 后期需要根据时间,修改黑夜或白天模式
   }
 }
