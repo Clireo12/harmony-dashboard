@@ -1,20 +1,33 @@
+import { MenuItem } from "../../model/MenuItem"
+
 @Component
 export struct SidePanel {
-  @Prop warning: boolean // 应急灯
-  @Prop charge: boolean // 充电
-  @Prop carDoor: boolean // 车门
-  @Prop fan: boolean // 风扇
-  @Prop temp: number // 温度
+  @Prop menu: MenuItem[]
 
   build() {
-    Column({ space: 80 }) {
-      Text('666')
-      Text('666')
-      Text('666')
+    Column({ space: 60 }) {
+      ForEach(this.menu, (item: MenuItem) => {
+        if (item.img) {
+          Image(item.img)
+            .width(35)
+        } else {
+          Column() {
+            Text('▲')
+              .fontSize(18)
+              .fontColor($r('app.color.text_color'))
+            Text(`${item.text}°`)
+              .fontSize(30)
+              .fontColor($r('app.color.theme_blue'))
+            Text('▼')
+              .fontSize(18)
+              .fontColor($r('app.color.text_color'))
+          }
+        }
+      })
     }
-    .padding(8)
+    .padding(10)
     .justifyContent(FlexAlign.Center)
-    .width(100)
+    .width(80)
     .height('100%')
   }
 }

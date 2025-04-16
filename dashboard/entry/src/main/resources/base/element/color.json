@@ -25,6 +25,22 @@
       "value": "#cdecfe"
     },
     {
+      "name": "speed_high",
+      "value": "#fc827e"
+    },
+    {
+      "name": "speed_mid",
+      "value": "#c0ffec"
+    },
+    {
+      "name": "speed_low",
+      "value": "#d3f0fc"
+    },
+    {
+      "name": "traffic_light_bg",
+      "value": "#d7d7d7"
+    },
+    {
       "name": "clicked",
       "value": "#007AFF"
     },

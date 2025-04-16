@@ -25,12 +25,8 @@
       "value": "#426173"
     },
     {
-      "name": "clicked",
-      "value": "#007AFF"
-    },
-    {
-      "name": "normal",
-      "value": "#000000"
+      "name": "traffic_light_bg",
+      "value": "#575757"
     }
   ]
 }

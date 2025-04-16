@@ -1,43 +1,47 @@
 import { Bottom } from '../../component/Bottom';
+import { Header } from '../../component/Header';
+import { CarPanel } from './CarPanel';
 import { CirclePanel } from './CirclePanel';
+import { MenuItem } from '../../model/MenuItem';
 import { SidePanel } from './SidePanel';
 
 @Entry
 @Component
 struct Index {
-  @State message: string = 'Hello World';
+  @State leftMenu: MenuItem[] = [
+    { img: $r('app.media.warning'), text: '', active: true },
+    { img: $r('app.media.charge'), text: '', active: true },
+    { img: $r('app.media.cardoor'), text: '', active: true }
+  ]
+  @State rightMenu: MenuItem[] = [
+    { img: null, text: '20', active: true },
+    { img: $r('app.media.fan'), text: '', active: true },
+    { img: null, text: '20', active: true }
+  ]
 
   build() {
     Column() {
-      Row({ space: 10 }) {
-        SidePanel({
-          warning: true,
-          charge: true,
-          carDoor: true,
-          fan: true,
-          temp: 20
-        })
+      Header()
+
+      Row({ space: 5 }) {
+        SidePanel({ menu: this.leftMenu })
 
         CirclePanel({
           num: 80,
-          unit: 'km/h'
+          unit: 'km/h',
+          current: 100
         })
 
-        Blank()
-          .width(200)
+        CarPanel()
 
         CirclePanel({
-          num: 80,
-          unit: 'km/h'
+          num: 50,
+          unit: 'km',
+          current: 100,
+          reverse: true
         })
 
-        SidePanel({
-          warning: true,
-          charge: true,
-          carDoor: true,
-          fan: true,
-          temp: 20
-        })
+        SidePanel({ menu: this.rightMenu })
       }
       .layoutWeight(1)
       .justifyContent(FlexAlign.SpaceBetween)

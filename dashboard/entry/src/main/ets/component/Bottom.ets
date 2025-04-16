@@ -2,7 +2,7 @@
 @Component
 export struct Bottom {
   // 组件属性定义
-  @Prop mileage: string = '212 km' // 里程显示文本，默认值'212 km'
+  @Prop mileage: number = 212 // 里程显示文本，默认值'212 km'
   @Prop activeTab: string = 'D'    // 当前选中标签，默认选中'D'
   @State progress: number = 0.7    // 进度条进度值(0-1)，默认0.7(70%)
 
@@ -11,10 +11,8 @@ export struct Bottom {
    * @returns 计算后的进度值(0-1之间)
    */
   private getMileageProgress(): number {
-    // 从里程字符串中提取数字部分(如从"212 km"提取212)
-    const mileageNumber = parseFloat(this.mileage.split(' ')[0])
     // 计算进度比例(假设最大里程为300km)，不超过1
-    return Math.min(mileageNumber / 300, 1)
+    return Math.min(this.mileage / 300, 1)
   }
 
   /**
@@ -34,7 +32,7 @@ export struct Bottom {
       // 主内容行
       Row() {
         // 左侧区域：包含进度条、里程和图标
-        Row() {
+        Row({ space: 10 }) {
           // 进度条背景
           Row() {
             // 进度条前景(实际进度部分)
@@ -50,16 +48,16 @@ export struct Bottom {
           .margin({ right: 10 })   // 右侧间距10px
 
           // 里程文本显示
-          Text(this.mileage)
+          Text(`${this.mileage} km`)
             .fontSize(22)          // 字体大小22px
             .fontWeight(FontWeight.Bold) // 加粗显示
 
           // 右侧图标
           Image($r("app.media.light_near")) // 使用资源路径引用图标
             .fillColor('#007AFF')      // 图标填充色(蓝色)
-            .width(24)
-            .height(24)
-            .margin({ left: 30 })      // 左侧间距30px
+            .width(30)
+            .height(30)
+            .margin({ left: 50 })
         }
         .padding({ left: 70 })     // 左侧内边距70px
         .layoutWeight(1)          // 布局权重1
@@ -86,7 +84,7 @@ export struct Bottom {
       .alignItems(VerticalAlign.Center) // 垂直居中
     }
     .width('100%')
-    .height(50)
+    .height(60)
   }
 
   /**

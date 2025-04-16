@@ -1,13 +1,32 @@
-import { ThemeConfig } from '../../model/ThemeConfig';
+// 引入 Header 组件
+import { Header } from '../component/Header';
+
+//引入Bottom组件
+import { Bottom } from '../component/Bottom';
 
 // 定义主题键类型，用于标识不同的主题
 type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
+
+// 主题配置接口，定义了每个主题的配置项
+interface ThemeConfig {
+  bg: Resource; // 背景图片资源
+  mask: ResourceColor; // 蒙版颜色
+  textColor: ResourceColor; // 文字颜色
+  iconColor: ResourceColor; // 图标颜色
+  buttonIcon: Resource; // 按钮图标资源
+}
+
+// 定义偏好设置项的类型
+interface PreferenceItem {
+  name: string;       // 选项名称（如“相机灯显示屏”）
+  enabled: boolean;    // 是否启用
+}
 
 @Entry
 @Component
 struct PersonalizationSettings {
   // 状态变量
-  @State currentTheme: ThemeKey = 'custom'; // 当前选中的主题，默认为 'custom'
+  @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题，默认为 'custom'
   @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
 
   // 主题配置，定义了每个主题的具体配置
@@ -42,11 +61,29 @@ struct PersonalizationSettings {
     }
   };
 
+  // 默认偏好设置配置
+  private preferenceConfig: PreferenceItem[] = [
+    { name: '转向灯提示音', enabled: true },
+    { name: '驾驶模式切换音效', enabled: true },
+    { name: '故障报警语音播报', enabled: true },
+    { name: '仪表盘动画速度', enabled: true },
+    { name: '方言识别模式', enabled: false },
+    { name: '盲区监测提示', enabled: true },
+    { name: '语音反馈模式', enabled: true },
+  ];
+
   // 当前主题配置，根据当前主题获取对应的配置
   @State currentConfig: ThemeConfig = this.themeConfig[this.currentTheme];
 
   build() {
     Stack() {
+
+      // 添加 Header 组件
+      Header()
+        .width('100%')
+        .height(50) // 根据需要调整高度
+        .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+
       // 背景层，用于显示当前主题的背景图片
       if (this.currentConfig.bg) {
         Image(this.currentConfig.bg)
@@ -78,10 +115,10 @@ struct PersonalizationSettings {
             .width('100%')  // 确保填满父容器
             .margin({ bottom: 40 });
           }
-          .width('100%')
+          .width('80%')
           .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
           .borderRadius(10) // 圆角
-          .margin({ bottom: 20 }); // 底部外边距
+          .margin({ left : -100,bottom: 20 }); // 外边距
 
           // 亮度调节区域
           Column() {
@@ -98,7 +135,7 @@ struct PersonalizationSettings {
               this.buildBrightnessIcon('right'); // 右侧亮度图标
             }
             .justifyContent(FlexAlign.SpaceEvenly) // 图标和滑块水平均匀分布
-            .width('100%')
+            .width('90%')
 
 
             //滑块刻度
@@ -117,41 +154,86 @@ struct PersonalizationSettings {
             .justifyContent(FlexAlign.SpaceEvenly) // 数字水平均匀分布
             .width('90%'); // 与滑块宽度一致
           }
-          .width('100%')
+          .width('80%')
           .padding({ bottom: 15 })
           .justifyContent(FlexAlign.SpaceEvenly)
           .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+          .margin({left : -100})// 外边距
           .borderRadius(10); // 圆角
         }
         .width('50%') // 左侧区域宽度设置为 50%
         .padding({ left: 30 }) // 左侧内边距
+        .height(330)
 
-        // 右侧：其他组件区域
-        Column() {
-          // 可以在这里放置其他组件
-          Text('其他组件') // 右侧标题
-            .fontSize(20)
-            .fontColor(this.currentConfig.textColor)
-            .textAlign(TextAlign.Center)
-            .margin({ bottom: 20 });
-
-          // 示例：空的 Row 占位
-          Row() {
-            Text('右侧内容1') // 右侧内容示例
+        // 右侧
+        Row() {
+          //偏好设置
+          Column(){
+            Text('偏好设置')
+              .width('100%')
+              .fontSize(20)
               .fontColor(this.currentConfig.textColor)
-              .margin({ right: 20 });
-            Text('右侧内容2')
-              .fontColor(this.currentConfig.textColor);
+              .textAlign(TextAlign.Center);
+
+            // 动态渲染所有偏好设置项
+
+            Column(){
+              ForEach(this.preferenceConfig, (item: PreferenceItem,index) => {
+                Row(){
+                  Text(item.name)
+                    .fontSize(14)
+                    .fontColor(this.currentConfig.textColor)
+                    .layoutWeight(1)
+                    .margin({left : 10});
+
+                  //按钮设置
+                  Toggle({ type: ToggleType.Switch, isOn: item.enabled })
+                    .onChange((isOn: boolean) => {
+                      this.preferenceConfig[index].enabled = isOn;
+                    })
+                    .margin({ right: 10 })
+                    .width(30)  // 明确设置宽度
+                    .height(20); // 明确设置高度
+                }
+                .width('100%')
+                .height(40)
+                .justifyContent(FlexAlign.SpaceBetween)
+                .margin({ bottom: 5 });
+              })
+            }
+            .width('100%')
+            .height("80%")  // 固定高度确保内容不超出
+            .margin({ top: 5, bottom: 5 })
+
+              // ForEach(this.preferenceConfig, (item: PreferenceItem) => {
+              //   this.buildPreferenceItem(item.name, item.enabled);
+              // })
+
+          }
+          .width('45%')
+          .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+          .borderRadius(10) // 圆角
+          .height(330) // 设置固定高度
+          .padding({ left: 5 }) // 右侧内边距
+          .margin({ left: -110, right:-30 }); // 添加左侧间隔
+
+          //汽车图片
+          Column() {
+            // Image($r('app.media.person_car')).width(480).height(300)
           }
         }
         .width('50%') // 右侧区域宽度设置为 50%
+        .height(330)
         .padding({ left: 30 }); // 右侧内边距
+
       }
       .width('100%')
       .height('100%');
+
+
+
     }
-    .width('100%')
-    .height('100%');
+
   }
 
   /**
@@ -211,6 +293,38 @@ struct PersonalizationSettings {
         this.brightnessValue = value / 100; // 更新亮度值
       });
   }
+
+  // 构建单个偏好设置项的方法
+  @Builder
+  buildPreferenceItem(name: string, enabled: boolean) {
+    Row() {
+      Column() {
+        Text(name) // 选项名称
+          .fontSize(14)
+          .fontColor(this.currentConfig.textColor)
+          .textAlign(TextAlign.Start) // 文字左对齐
+          .margin({ bottom: 5 }); // 调整间距
+      }
+      .layoutWeight(1) // 左侧文本占满剩余空间
+
+      // Toggle 按钮样式调整
+      Toggle({ type: ToggleType.Switch, isOn: enabled })
+        .onChange((isOn: boolean) => {
+          // 更新对应选项的状态
+          const index = this.preferenceConfig.findIndex(item => item.name === name);
+          if (index >= 0) {
+            this.preferenceConfig[index].enabled = isOn;
+          }
+        })
+        .selectedColor(Color.Blue)
+    }
+    .width('100%')
+    .height(60)
+    .padding({ left: 10, right: 10 })
+    .borderRadius(8)
+    .margin({ bottom: 10 });
+  }
+
 
   /**
    * 切换主题
