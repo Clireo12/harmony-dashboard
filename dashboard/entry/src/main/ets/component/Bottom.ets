@@ -80,7 +80,7 @@ export struct Bottom {
       }
       .width('100%')
       .height(60)
-      .backgroundColor($r('app.color.dashboard_background'))
+      .backgroundColor(Color.Transparent)
       .alignItems(VerticalAlign.Center) // 垂直居中
     }
     .width('100%')
