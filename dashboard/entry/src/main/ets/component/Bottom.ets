@@ -82,11 +82,11 @@ export struct Bottom {
       }
       .width('100%')
       .height(60)
-      .backgroundColor('#f5f5f5')
+      .backgroundColor($r('app.color.dashboard_background'))
       .alignItems(VerticalAlign.Center) // 垂直居中
     }
     .width('100%')
-    .height('100%')
+    .height(50)
   }
 
   /**

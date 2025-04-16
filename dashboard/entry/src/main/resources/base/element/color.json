@@ -9,6 +9,22 @@
       "value": "#fff"
     },
     {
+      "name": "text_color",
+      "value": "#000"
+    },
+    {
+      "name": "circle_one",
+      "value": "#54b9fe"
+    },
+    {
+      "name": "circle_two",
+      "value": "#85cdfe"
+    },
+    {
+      "name": "circle_three",
+      "value": "#cdecfe"
+    },
+    {
       "name": "clicked",
       "value": "#007AFF"
     },
