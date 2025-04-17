@@ -1,3 +1,4 @@
+
 // 主题配置接口，定义了每个主题的配置项
 export interface ThemeConfig {
   mask: ResourceColor; // 蒙版颜色

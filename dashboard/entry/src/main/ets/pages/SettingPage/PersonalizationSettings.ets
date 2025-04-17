@@ -11,7 +11,6 @@ import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
 // 定义主题键类型，用于标识不同的主题
 type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
 
-
 // 定义偏好设置项的类型
 interface PreferenceItem {
   name: string;       // 选项名称（如“相机灯显示屏”）
