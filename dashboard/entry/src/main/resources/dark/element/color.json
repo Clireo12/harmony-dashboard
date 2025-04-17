@@ -27,6 +27,9 @@
     {
       "name": "traffic_light_bg",
       "value": "#575757"
+    },{
+      "name": "active_light",
+      "value": "#ffffff"
     }
   ]
 }

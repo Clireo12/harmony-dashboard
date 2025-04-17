@@ -14,9 +14,9 @@ struct Index {
     { img: $r('app.media.cardoor'), text: '', active: true }
   ]
   @State rightMenu: MenuItem[] = [
-    { img: null, text: '20', active: true },
-    { img: $r('app.media.fan'), text: '', active: true },
-    { img: null, text: '20', active: true }
+    { img: null, text: `${20}`, active: true },
+    { img: $r('app.media.fan'), text: ``, active: true },
+    { img: null, text: `${20}`, active: true }
   ]
 
   build() {
@@ -32,7 +32,7 @@ struct Index {
           current: 100
         })
 
-        CarPanel()
+        CarPanel({ activeLight: 0 })
 
         CirclePanel({
           num: 50,

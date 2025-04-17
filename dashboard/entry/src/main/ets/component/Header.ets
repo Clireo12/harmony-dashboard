@@ -66,8 +66,9 @@ export struct Header {
           right:20
         })
 
-        Image($r("app.media.leaf"))
-          .width(25)
+        Image(this.timeState == '下午' ? $r('app.media.daohang_white') : $r('app.media.daohang_black'))
+          .width(30)
+          .offset({ y: -5 })
 
         Text("东南")
       }

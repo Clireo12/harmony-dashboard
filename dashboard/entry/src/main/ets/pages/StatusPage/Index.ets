@@ -7,7 +7,7 @@ import { City } from '../../component/City'
 
 @Entry
 @Component
-export struct SwitchMode {
+export struct Index {
   // @State Width:number = 380
   @State Height:number = 380
   build() {

@@ -41,6 +41,10 @@
       "value": "#d7d7d7"
     },
     {
+      "name": "active_light",
+      "value": "#6b6b6b"
+    },
+    {
       "name": "clicked",
       "value": "#007AFF"
     },
