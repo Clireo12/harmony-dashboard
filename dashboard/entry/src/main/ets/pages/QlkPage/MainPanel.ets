@@ -24,7 +24,6 @@ struct SensorItem {
       .borderRadius(20)
       //在这里设置事件触发 当该组件被接触时 修改该组件的页面背景颜色
 
-
   }
 
 }
@@ -73,39 +72,31 @@ export struct MainPanel {
      .width("35%")
      .height("95%")
      .shadow( ShadowStyle.OUTER_DEFAULT_XS)
-      //Car
-      City()
-      Image($r("app.media.car"))
-        .width("35%")
-        .height("70%")
-        .offset({
-          y: 50,
-          x: -300
-        })
-        .margin({
-          top: 20
-        })
+
+     Stack() {
+       //Car
+       City()
+       Image($r("app.media.car"))
+         .height("70%")
+         .offset({ y: 80 })
+     }
+     .layoutWeight(1)
 
      // 自检功能
      Column() {
        Text('自检功能')
+         .height(50)
          .fontSize(20)
          .fontColor(Color.Gray)
-         .margin({
-           top: 10,
-           bottom: 10 })
-       CirclePanel({
 
+       CirclePanel({
          num: 10,
          unit: '自检中',
-         current: 100
+         current: 0
        })
+         .layoutWeight(1)
 
-         .margin({
-           top:-130
-         })
-
-       Column() {
+       Column({ space: 10 }) {
          Text('车胎自检中...')
            .fontSize(15)
            .fontColor(Color.Gray)
@@ -116,18 +107,13 @@ export struct MainPanel {
            .fontSize(15)
            .fontColor(Color.Gray)
        }
-
-       .margin({ top: -110 })
-
+       .height(100)
      }
      .shadow( ShadowStyle.OUTER_DEFAULT_XS)
      .width('35%')
-     .height('95%')
      .backgroundColor(Color.Transparent)
      .borderRadius(20)
-     .offset({
-       x: -350
-     })
-      }
+    }
+    .padding({ left: 20, right: 20 })
   }
 }

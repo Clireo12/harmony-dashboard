@@ -1,6 +1,5 @@
 import { Header } from '../../component/Header'
 import { Bottom } from '../../component/Bottom'
-import { City } from '../../component/City'
 import { MainPanel } from './MainPanel'
 
 
