@@ -5,17 +5,11 @@ import { Header } from '../../component/Header';
 import { Bottom } from '../../component/Bottom';
 import { City } from '../../component/City';
 
+//引入主题配置接口
+import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
+
 // 定义主题键类型，用于标识不同的主题
 type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
-
-// 主题配置接口，定义了每个主题的配置项
-interface ThemeConfig {
-  bg: Resource; // 背景图片资源
-  mask: ResourceColor; // 蒙版颜色
-  textColor: ResourceColor; // 文字颜色
-  iconColor: ResourceColor; // 图标颜色
-  buttonIcon: Resource; // 按钮图标资源
-}
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -30,38 +24,6 @@ struct PersonalizationSettings {
   @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题，默认为 'custom'
   @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
 
-  // 主题配置，定义了每个主题的具体配置
-  private themeConfig: Record<ThemeKey, ThemeConfig> = {
-    'custom': {
-      bg: $r('app.media.bg_minimal_white'), // 背景图片
-      mask: $r('app.color.theme_white'), // 蒙版颜色
-      textColor: $r('app.color.theme_black'), // 文字颜色
-      iconColor: $r('app.color.theme_black'), // 图标颜色
-      buttonIcon: $r('app.media.bg_minimal_white') // 按钮图标
-    },
-    'tech-blue': {
-      bg: $r('app.media.bg_tech_blue'),
-      mask: $r('app.color.theme_blue'),
-      textColor: $r('app.color.theme_white'),
-      iconColor: $r('app.color.theme_white'),
-      buttonIcon: $r('app.media.bg_tech_blue')
-    },
-    'minimal-white': {
-      bg: $r('app.media.bg_minimal_white'),
-      mask: $r('app.color.theme_white'),
-      textColor: $r('app.color.theme_black'),
-      iconColor: $r('app.color.theme_black'),
-      buttonIcon: $r('app.media.bg_minimal_white')
-    },
-    'classic-blackRed': {
-      bg: $r('app.media.bg_classic_blackRed'),
-      mask: $r('app.color.theme_black'),
-      textColor: $r('app.color.theme_white'),
-      iconColor: $r('app.color.theme_white'),
-      buttonIcon: $r('app.media.bg_classic_blackRed')
-    }
-  };
-
   // 默认偏好设置配置
   private preferenceConfig: PreferenceItem[] = [
     { name: '转向灯提示音', enabled: false },
@@ -74,163 +36,154 @@ struct PersonalizationSettings {
   ];
 
   // 当前主题配置，根据当前主题获取对应的配置
-  @State currentConfig: ThemeConfig = this.themeConfig[this.currentTheme];
+  @State currentConfig: ThemeConfig = themeConfig[this.currentTheme];
 
   build() {
     Column(){
-    // 添加 Header 组件
-    Header()
+      // 添加 Header 组件
+      Header()
 
-    Stack() {
-      // 背景层，用于显示当前主题的背景图片
-      if (this.currentConfig.bg) {
-        Image(this.currentConfig.bg)
-          .width('100%')
-          .height('100%'); // 背景图片铺满整个屏幕
-      }
+      Stack() {
 
-      // 控制面板，包含主题切换和亮度调节区域
-      Row() {
-        // 左侧：主题切换和亮度调节区域
-        Column() {
-          // 主题切换区域
-          Column() {
-            // 主题切换标题
-            Text('主题切换')
-              .fontSize(20)
-              .fontColor(this.currentConfig.textColor)
-              .textAlign(TextAlign.Center)
-              .margin({ bottom: 20 });
-
-            // 主题切换按钮
-            Row() {
-              this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
-              this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
-              this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
-              this.buildThemeButton('custom', '自定义'); // 自定义主题按钮
-            }
-            .justifyContent(FlexAlign.SpaceEvenly)  // 均匀分配空间
-            .width('100%')  // 确保填满父容器
-            .margin({ bottom: 40 });
-          }
-          .padding({ top: 20 })
-          .width('80%')
-          .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
-          .borderRadius(10) // 圆角
-          .margin({ left : -100,bottom: 20 }); // 外边距
-
-          // 亮度调节区域
-          Column() {
-            Text('亮度调节') // 亮度调节标题
-              .fontSize(20)
-              .fontColor(this.currentConfig.textColor)
-              .textAlign(TextAlign.Center)
-              .margin({ top: 10, bottom: 10 });
-
-            //滑块和图标
-            Row() {
-              this.buildBrightnessIcon('left'); // 左侧亮度图标
-              this.buildBrightnessSlider(); // 亮度滑块
-              this.buildBrightnessIcon('right'); // 右侧亮度图标
-            }
-            .justifyContent(FlexAlign.SpaceEvenly) // 图标和滑块水平均匀分布
-            .width('90%')
-
-
-            //滑块刻度
-            Row() {
-              ForEach([0, 20, 40, 60, 80, 100], (value: number) => {
-                Text(value.toString()) // 亮度刻度数字
-                  .fontColor(this.currentConfig.textColor)
-                  .width('10%')
-                  .textAlign(
-                    value === 0 ? TextAlign.Start :
-                      value === 100 ? TextAlign.End :
-                      TextAlign.Center
-                  );
-              })
-            }
-            .justifyContent(FlexAlign.SpaceEvenly) // 数字水平均匀分布
-            .width('90%'); // 与滑块宽度一致
-          }
-          .width('80%')
-          .padding({ bottom: 15 })
-          .justifyContent(FlexAlign.SpaceEvenly)
-          .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
-          .margin({left : -100})// 外边距
-          .borderRadius(10); // 圆角
-        }
-        .width('50%') // 左侧区域宽度设置为 50%
-        .padding({ left: 30 }) // 左侧内边距
-        .height(350)
-
-        // 右侧
+        // 控制面板，包含主题切换和亮度调节区域
         Row() {
-          //偏好设置
-          Column(){
-            Text('偏好设置')
-              .width('100%')
-              .fontSize(20)
-              .fontColor(this.currentConfig.textColor)
-              .textAlign(TextAlign.Center);
+          // 左侧：主题切换和亮度调节区域
+          Column() {
+            // 主题切换区域
+            Column() {
+              // 主题切换标题
+              Text('主题切换')
+                .fontSize(20)
+                .fontColor(this.currentConfig.textColor)
+                .textAlign(TextAlign.Center)
+                .margin({ bottom: 20 });
 
-            // 动态渲染所有偏好设置项
-
-            Column(){
-              ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
-                Row(){
-                  Text(item.name)
-                    .fontSize(14)
-                    .fontColor(this.currentConfig.textColor)
-                    .layoutWeight(1)
-                    .margin({left : 10});
-
-                  // 按钮设置
-                  Toggle({ type: ToggleType.Switch, isOn: item.enabled })
-                    .margin({ right: 10 })
-                    .width(30)  // 明确设置宽度
-                    .height(20) // 明确设置高度
-                    .onChange((isOn: boolean) => {
-                      this.preferenceConfig[index].enabled = isOn;
-                    })
-                }
-                .width('100%')
-                .height(40)
-                .margin({ bottom: 5 });
-              })
+              // 主题切换按钮
+              Row() {
+                this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
+                this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
+                this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
+                this.buildThemeButton('custom', '自定义'); // 自定义主题按钮
+              }
+              .justifyContent(FlexAlign.SpaceEvenly)  // 均匀分配空间
+              .width('100%')  // 确保填满父容器
+              .margin({ bottom: 40 });
             }
-            .width('100%')
-            .height("80%")  // 固定高度确保内容不超出
-            .margin({ top: 5, bottom: 5 })
+            .padding({ top: 20 })
+            .width('80%')
+            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .borderRadius(10) // 圆角
+            .margin({ left : -100,bottom: 20 }); // 外边距
 
-          }
-          .width('45%')
-          .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
-          .borderRadius(10) // 圆角
-          .height(360) // 设置固定高度
-          .padding(10) // 右侧内边距
-          .margin({ left: -110, right: -30 }); // 添加左侧间隔
+            // 亮度调节区域
+            Column() {
+              Text('亮度调节') // 亮度调节标题
+                .fontSize(20)
+                .fontColor(this.currentConfig.textColor)
+                .textAlign(TextAlign.Center)
+                .margin({ top: 10, bottom: 10 });
 
-          //汽车图片
-          Stack(){
-            City()
-            Image($r('app.media.car')).width(480).height(300)
+              //滑块和图标
+              Row() {
+                this.buildBrightnessIcon('left'); // 左侧亮度图标
+                this.buildBrightnessSlider(); // 亮度滑块
+                this.buildBrightnessIcon('right'); // 右侧亮度图标
+              }
+              .justifyContent(FlexAlign.SpaceEvenly) // 图标和滑块水平均匀分布
+              .width('90%')
+
+              //滑块刻度
+              Row() {
+                ForEach([0, 20, 40, 60, 80, 100], (value: number) => {
+                  Text(value.toString()) // 亮度刻度数字
+                    .fontColor(this.currentConfig.textColor)
+                    .width('10%')
+                    .textAlign(
+                      value === 0 ? TextAlign.Start :
+                        value === 100 ? TextAlign.End :
+                        TextAlign.Center
+                    );
+                })
+              }
+              .justifyContent(FlexAlign.SpaceEvenly) // 数字水平均匀分布
+              .width('90%'); // 与滑块宽度一致
+            }
+            .width('80%')
+            .padding({ bottom: 15 })
+            .justifyContent(FlexAlign.SpaceEvenly)
+            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .margin({left : -100})// 外边距
+            .borderRadius(10); // 圆角
           }
+          .width('50%') // 左侧区域宽度设置为 50%
+          .padding({ left: 30 }) // 左侧内边距
+          .height(350)
+
+          // 右侧
+          Row() {
+            //偏好设置
+            Column(){
+              Text('偏好设置')
+                .width('100%')
+                .fontSize(20)
+                .fontColor(this.currentConfig.textColor)
+                .textAlign(TextAlign.Center);
+
+              // 动态渲染所有偏好设置项
+
+              Column(){
+                ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
+                  Row(){
+                    Text(item.name)
+                      .fontSize(14)
+                      .fontColor(this.currentConfig.textColor)
+                      .layoutWeight(1)
+                      .margin({left : 10});
+
+                    // 按钮设置
+                    Toggle({ type: ToggleType.Switch, isOn: item.enabled })
+                      .margin({ right: 10 })
+                      .width(30)  // 明确设置宽度
+                      .height(20) // 明确设置高度
+                      .onChange((isOn: boolean) => {
+                        this.preferenceConfig[index].enabled = isOn;
+                      })
+                  }
+                  .width('100%')
+                  .height(40)
+                  .margin({ bottom: 5 });
+                })
+              }
+              .width('100%')
+              .height("80%")  // 固定高度确保内容不超出
+              .margin({ top: 5, bottom: 5 })
+
+            }
+            .width('45%')
+            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .borderRadius(10) // 圆角
+            .height(360) // 设置固定高度
+            .padding(10) // 右侧内边距
+            .margin({ left: -110, right: -30 }); // 添加左侧间隔
+
+            //汽车图片
+            Stack(){
+              City()
+              Image($r('app.media.car')).width(480).height(300)
+            }
+          }
+          .width('50%') // 右侧区域宽度设置为 50%
+          .height(330)
+          .padding({ left: 30 }); // 右侧内边距
+
         }
-        .width('50%') // 右侧区域宽度设置为 50%
-        .height(330)
-        .padding({ left: 30 }); // 右侧内边距
-
+        .width('100%')
+        .height('100%');
       }
-      .width('100%')
-      .height('100%');
-
-
-    }
-    .layoutWeight(1)
+      .layoutWeight(1)
 
       // 添加 Bottom 组件
-    Bottom()
+      Bottom()
 
     }
   }
@@ -243,7 +196,7 @@ struct PersonalizationSettings {
   @Builder
   buildThemeButton(theme: ThemeKey, label: string) {
     Column() {
-      Image(this.themeConfig[theme].buttonIcon) // 主题按钮图标
+      Image(themeConfig[theme].buttonIcon) // 主题按钮图标
         .width(80)
         .height(80)
         .borderRadius(40) // 圆形按钮
@@ -330,6 +283,6 @@ struct PersonalizationSettings {
    */
   private changeTheme(theme: ThemeKey) {
     this.currentTheme = theme; // 更新当前主题
-    this.currentConfig = this.themeConfig[theme]; // 更新当前主题配置
+    this.currentConfig = themeConfig[theme]; // 更新当前主题配置
   }
 }
