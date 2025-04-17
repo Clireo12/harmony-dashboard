@@ -1,4 +1,3 @@
-
 // 主题配置接口，定义了每个主题的配置项
 export interface ThemeConfig {
   mask: ResourceColor; // 蒙版颜色
@@ -6,9 +5,11 @@ export interface ThemeConfig {
   iconColor: ResourceColor; // 图标颜色
   buttonIcon: Resource; // 按钮图标资源
 }
+
 // 定义主题键类型
 export type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
 // 主题配置，定义了每个主题的具体配置
+
 export const themeConfig: Record<ThemeKey, ThemeConfig> = {
   'custom': {
     mask: $r('app.color.theme_white'), // 蒙版颜色

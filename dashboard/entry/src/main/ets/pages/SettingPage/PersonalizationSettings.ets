@@ -93,7 +93,6 @@ export struct PersonalizationSettings {
               .justifyContent(FlexAlign.SpaceEvenly) // 图标和滑块水平均匀分布
               .width('90%')
 
-
               //滑块刻度
               Row() {
                 ForEach([0, 20, 40, 60, 80, 100], (value: number) => {
