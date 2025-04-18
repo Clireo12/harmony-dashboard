@@ -16,7 +16,7 @@ interface PreferenceItem {
 
 @Entry
 @Component
-struct Main {
+struct MainPage {
   @State location: string = '北京市朝阳区建国路88号';
   @State distance: string = '距离目的地还有3.2公里';
   @State vehicleStatus: VehicleStatus = {
