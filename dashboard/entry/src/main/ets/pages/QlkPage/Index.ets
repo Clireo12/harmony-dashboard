@@ -5,7 +5,7 @@ import { MainPanel } from './MainPanel'
 
 @Entry
 @Component
-struct SwitchMode {
+export struct VehicleControlPage {
   // @State Width:number = 380
   @State Height:number = 380
   build() {
