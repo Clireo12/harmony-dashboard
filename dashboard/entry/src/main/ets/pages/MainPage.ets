@@ -281,7 +281,7 @@ struct MainPage {
           .borderRadius(10)
           .margin({ bottom: 10 })
           .onClick(() => {
-            this.navigateToVehicleStatus();
+            this.navigateToVehicleControl();
           })
 
 
@@ -327,7 +327,7 @@ struct MainPage {
           .backgroundColor('#FFFFFF')
           .borderRadius(10)
           .onClick(() => {
-            this.navigateToVehicleControl();
+            this.navigateToVehicleStatus();
           })
         }
         .width("30%")
