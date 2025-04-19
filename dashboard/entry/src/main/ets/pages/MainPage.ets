@@ -2,6 +2,9 @@ import { Header } from '../component/Header';
 import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
 import { PersonalizationSettings } from '../pages/SettingPage/PersonalizationSettings'
+import {DashboardPage } from '../pages/SpeedPage/Index'
+import {VehicleStatusPage } from '../pages/StatusPage/Index'
+import {VehicleControlPage } from '../pages/QlkPage/Index'
 
 interface VehicleStatus {
   oil: string;
@@ -13,6 +16,18 @@ interface VehicleStatus {
 @Entry
 @Component
 struct MainPage {
+
+  navigateToDashboard() {
+    router.push({ url: 'pages/SpeedPage/Index' });
+  }
+
+  navigateToVehicleStatus() {
+    router.push({ url: 'pages/StatusPage/Index' });
+  }
+
+  navigateToVehicleControl() {
+    router.push({ url: 'pages/QlkPage/Index' });
+  }
 
   navigateToSettings() {
     router.push({ url: 'pages/SettingPage/PersonalizationSettings' });
@@ -118,6 +133,9 @@ struct MainPage {
           .backgroundColor('#FFFFFF')
           .borderRadius(10)
           .margin({ bottom: 10 })
+          .onClick(() => {
+            this.navigateToDashboard();
+          })
 
 
           Column() {
@@ -262,6 +280,9 @@ struct MainPage {
           .backgroundColor('#FFFFFF')
           .borderRadius(10)
           .margin({ bottom: 10 })
+          .onClick(() => {
+            this.navigateToVehicleStatus();
+          })
 
 
           Column() {
@@ -305,6 +326,9 @@ struct MainPage {
           .padding(10)
           .backgroundColor('#FFFFFF')
           .borderRadius(10)
+          .onClick(() => {
+            this.navigateToVehicleControl();
+          })
         }
         .width("30%")
         .height('100%')
