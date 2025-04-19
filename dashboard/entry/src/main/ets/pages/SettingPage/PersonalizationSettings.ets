@@ -21,7 +21,7 @@ interface PreferenceItem {
 @Component
 export struct PersonalizationSettings {
   // 状态变量
-  @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题，默认为 'custom'
+  @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题
   @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
 
   // 默认偏好设置配置
