@@ -1,5 +1,7 @@
 {
   "src": [
-    "pages/SpeedPage/Index"
+    "pages/MainPage",
+    "pages/SpeedPage/Index",
+    "pages/SettingPage/PersonalizationSettings"
   ]
 }
