@@ -1,8 +1,8 @@
 // 引入 Header 组件
 import { Header } from '../../component/Header';
-
 //引入Bottom组件
 import { Bottom } from '../../component/Bottom';
+
 import { City } from '../../component/City';
 
 //引入主题配置接口
@@ -19,7 +19,7 @@ interface PreferenceItem {
 
 @Entry
 @Component
-struct PersonalizationSettings {
+export struct PersonalizationSettings {
   // 状态变量
   @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题，默认为 'custom'
   @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
