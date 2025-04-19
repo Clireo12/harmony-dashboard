@@ -1,6 +1,7 @@
 import { Header } from '../component/Header';
 import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
+import { PersonalizationSettings } from '../pages/SettingPage/PersonalizationSettings'
 
 interface VehicleStatus {
   oil: string;
@@ -9,14 +10,14 @@ interface VehicleStatus {
   coolantTemp: string;
 }
 
-interface PreferenceItem {
-  name: string;
-  enabled: boolean;
-}
-
 @Entry
 @Component
 struct MainPage {
+
+  navigateToSettings() {
+    router.push({ url: 'pages/SettingPage/PersonalizationSettings' });
+  }
+
   @State location: string = '北京市朝阳区建国路88号';
   @State distance: string = '距离目的地还有3.2公里';
   @State vehicleStatus: VehicleStatus = {
@@ -29,22 +30,14 @@ struct MainPage {
   @State throttleBrakeStatus: string = '减速中...';
   @State drivingModes: string[] = ['经济模式', '运动模式', '雪地模式', '标准模式'];
   @State selectedDrivingMode: number = 3;
+  @State CirclePanel: string="80km/h"
 
-  @State preferences: PreferenceItem[] = [
-    { name: '转向灯提示音', enabled: false },
-    { name: '驾驶模式切换音效', enabled: true },
-    { name: '故障报警语音播报', enabled: false },
-    { name: '仪表盘动画速度', enabled: true },
-    { name: '方言识别模式', enabled: false },
-    { name: '盲区监测提示', enabled: true },
-    { name: '语音反馈模式', enabled: false }
-  ];
 
   build() {
     Column() {
       Header()
 
-      Row() {
+      Row({space:10}) {
 
         Column() {
           Text('当前位置')
@@ -85,7 +78,7 @@ struct MainPage {
           .width('100%')
         }
         .width("35%")
-        .height('90%')
+        .height('100%')
         .borderRadius(10)
         .padding(10)
         .margin({left:15})
@@ -93,11 +86,31 @@ struct MainPage {
 
 
         Column() {
-
           Column() {
-            Text("这里是主仪表盘页面")
+            Text('主仪表盘')
+              .fontSize(18)
+              .fontWeight(FontWeight.Bold)
+              .margin({ top: 8, bottom: 8 })
+              .align(Alignment.Start)
               .width('100%')
-              .textAlign(TextAlign.Center)
+
+            Column() {
+
+              Text(this.CirclePanel)
+                .fontSize(20)
+                .fontWeight(FontWeight.Bold)
+                .margin({ bottom: 10 })
+                .width('100%')
+                .textAlign(TextAlign.Center)
+
+              Image($r('app.media.car2'))
+                .width(200)
+                .margin({ top: -40 })
+            }
+            .width('100%')
+            .height(150)
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
           }
           .width('100%')
           .layoutWeight(1)
@@ -111,45 +124,70 @@ struct MainPage {
             Text('设置与个性化')
               .fontSize(18)
               .fontWeight(FontWeight.Bold)
-              .margin({top:8, bottom: 12 })
+              .margin({top:8, bottom: 20 })
               .align(Alignment.Start)
               .width('100%');
 
-            Scroll() {
-              Column() {
-                ForEach(this.preferences, (item: PreferenceItem) => {
-                  Row() {
-                    Text(item.name)
-                      .fontSize(16)
-                      .layoutWeight(1)
-                      .align(Alignment.Start)
-
-                    Toggle({ type: ToggleType.Switch, isOn: item.enabled })
-                      .width(45)
-                      .height(27)
-                      .onChange((isOn: boolean) => {
-                        item.enabled = isOn;
-                      })
-                  }
-                  .width('100%')
-                  .height(30)
-                  .margin({ bottom: 8 })
-                })
+            Row({space:5}) {
+              Column(){
+                Image($r('app.media.theme'))
+                  .width(30)
+                  .margin({ bottom: 10 })
+                Text("主题")
+                  .fontSize(16)
+                  .textAlign(TextAlign.Center)
               }
-              .width('100%')
+              .borderRadius(10)
+              .layoutWeight(1)
+              .height(80)
+              .justifyContent(FlexAlign.Center)
+              .alignItems(HorizontalAlign.Center)
+              .backgroundColor('#f0f0f0')
+
+              Column(){
+                Image($r('app.media.sun_left'))
+                  .width(30)
+                  .margin({ bottom: 10 })
+                Text("亮度")
+                  .fontSize(16)
+                  .textAlign(TextAlign.Center)
+              }.layoutWeight(1)
+              .borderRadius(10)
+              .height(80)
+              .justifyContent(FlexAlign.Center)
+              .alignItems(HorizontalAlign.Center)
+              .backgroundColor('#f0f0f0')
+
+              Column(){
+                Image($r('app.media.like'))
+                  .width(30)
+                  .margin({ bottom: 10 })
+                Text("偏好")
+                  .fontSize(16)
+                  .textAlign(TextAlign.Center)
+              }.layoutWeight(1)
+              .height(80)
+              .justifyContent(FlexAlign.Center)
+              .alignItems(HorizontalAlign.Center)
+              .borderRadius(10)
+              .backgroundColor('#f0f0f0')
             }
-            .height(130)
-            .margin({ bottom: 10 })
+            .width("100%")
+            .height("65%")
+            .justifyContent(FlexAlign.SpaceBetween)
+
           }
           .width('100%')
           .layoutWeight(1)
           .padding(10)
           .backgroundColor('#FFFFFF')
           .borderRadius(10)
+          .onClick(() => {
+            this.navigateToSettings();
+          })
         }
         .width("30%")
-        .height('90%')
-        .margin({ left: 10 })
+        .height('100%')
 
 
         Column() {
@@ -269,8 +307,8 @@ struct MainPage {
           .borderRadius(10)
         }
         .width("30%")
-        .height('90%')
-        .margin({left:10,right:15})
+        .height('100%')
+        .margin({right:15})
       }
       .layoutWeight(1)
       .height('100%')
