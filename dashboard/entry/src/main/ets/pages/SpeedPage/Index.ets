@@ -7,7 +7,7 @@ import { SidePanel } from './SidePanel';
 
 @Entry
 @Component
-struct Index {
+export struct DashboardPage {
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), text: '', active: true },
     { img: $r('app.media.charge'), text: '', active: true },
