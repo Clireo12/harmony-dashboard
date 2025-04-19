@@ -7,7 +7,7 @@ import { City } from '../../component/City'
 
 @Entry
 @Component
-export struct Index {
+export struct VehicleStatusPage {
   // @State Width:number = 380
   @State Height:number = 380
   build() {
