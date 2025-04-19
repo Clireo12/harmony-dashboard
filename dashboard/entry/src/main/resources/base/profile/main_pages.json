@@ -2,7 +2,9 @@
   "src": [
     "pages/MainPage",
     "pages/SpeedPage/Index",
-    "pages/SettingPage/PersonalizationSettings"
+    "pages/SettingPage/PersonalizationSettings",
+    "pages/QlkPage/Index",
+    "pages/StatusPage/Index"
   ]
 }
 
