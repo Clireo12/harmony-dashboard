@@ -6,8 +6,6 @@ import { MainPanel } from './MainPanel'
 @Entry
 @Component
 export struct VehicleControlPage {
-  // @State Width:number = 380
-  @State Height:number = 380
   build() {
     Column(){
       Header()

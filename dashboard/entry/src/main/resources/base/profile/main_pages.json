@@ -3,7 +3,7 @@
     "pages/MainPage",
     "pages/SpeedPage/Index",
     "pages/SettingPage/PersonalizationSettings",
-    "pages/QlkPage/Index",
+    "pages/ControlPage/Index",
     "pages/StatusPage/Index"
   ]
 }
