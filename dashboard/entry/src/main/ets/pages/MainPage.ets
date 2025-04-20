@@ -35,6 +35,9 @@ struct MainPage {
 
   @State location: string = '北京市 朝阳区 建国路88号';
   @State distance: string = '3.2公里';
+  @State area: string = '深圳市 南山区'
+  @State temperature: number = 29
+  @State weather: string = '晴天'
   @State vehicleStatus: VehicleStatus = {
     oil: '正常',
     fuel: '充足',
@@ -171,6 +174,32 @@ struct MainPage {
 
           }
           .width("30%")
+          .height('90%')
+        }
+
+        ListItem() {
+
+          Column() {
+            Image($r('app.media.travel'))
+              .height('50%')
+
+            Row({ space: 15 }) {
+              Column({ space: 8 }) {
+                Text(this.area)
+                Text(`${this.temperature}℃`)
+                  .fontSize(36)
+                  .fontWeight(500)
+                Text(this.weather)
+              }
+              Image($r('app.media.sun_left'))
+                .width(80)
+            }
+            .CardStyle()
+            .justifyContent(FlexAlign.SpaceAround)
+            .layoutWeight(1)
+
+          }
+          .width("28%")
           .height('90%')
         }
 
@@ -318,7 +347,7 @@ struct MainPage {
   CardStyle() {
     .width('100%')
     .padding(15)
-    .backgroundColor('#FFFFFF')
+    .backgroundColor($r('app.color.dashboard_background'))
     .borderRadius(10)
   }
 }
