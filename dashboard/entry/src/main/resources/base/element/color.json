@@ -2,7 +2,11 @@
   "color": [
     {
       "name": "start_window_background",
-      "value": "#FFFFFF"
+      "value": "#E9F4F9"
+    },
+    {
+      "name": "Component_Color",
+      "value": "#fff"
     },
     {
       "name": "dashboard_background",

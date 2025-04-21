@@ -6,7 +6,7 @@ export struct Header {
   @Prop temperature: number = 23.5
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
-
+  @State textColor:Resource = $r("app.color.text_color")
   /**
    * 组件生命周期 - 即将出现时调用
    */
@@ -35,8 +35,10 @@ export struct Header {
         Row({ space: 10 }) {
           Text(this.timeState)
             .fontSize(20)
+            .fontColor(this.textColor)
           Text(this.time)
             .fontSize(20)
+            .fontColor(this.textColor)
         }
 
         Row({ space: 10 }) {
@@ -44,6 +46,7 @@ export struct Header {
             .width(22)
           Text(`${this.temperature}℃`)
             .fontSize(20)
+            .fontColor(this.textColor)
         }
       }
       .width(200)
@@ -51,15 +54,17 @@ export struct Header {
       Row({ space: 10 }){
         Button(){
           Text('<')
+            .fontColor(this.textColor)
         }
-        .backgroundColor(Color.Transparent)
+        .backgroundColor($r("app.color.start_window_background"))
 
         Image($r('app.media.leaf'))
           .width(25)
         Text('ECO')
-
+          .fontColor(this.textColor)
         Button(){
           Text(">")
+            .fontColor(this.textColor)
         }
         .backgroundColor(Color.Transparent)
         .margin({
@@ -78,8 +83,10 @@ export struct Header {
       Row({ space: 10 }){
         Text('总里程')
           .fontSize(20)
+          .fontColor(this.textColor)
         Text(`${this.TotalMileage} km`)
           .fontSize(20)
+          .fontColor(this.textColor)
       }
       .width(200)
       .justifyContent(FlexAlign.End)
@@ -88,6 +95,6 @@ export struct Header {
     .width('100%')
     .height(60)
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor(Color.Transparent) // 后期需要根据时间,修改黑夜或白天模式
+    .backgroundColor($r("app.color.start_window_background")) // 后期需要根据时间,修改黑夜或白天模式
   }
 }
