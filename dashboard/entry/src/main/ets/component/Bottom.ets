@@ -1,3 +1,5 @@
+import { router } from "@kit.ArkUI"
+
 @Preview
 @Component
 export struct Bottom {
@@ -76,7 +78,13 @@ export struct Bottom {
         .justifyContent(FlexAlign.Center) // 标签居中排列
 
         // 右侧占位区域(保持布局平衡)
-        Row().layoutWeight(1)
+        Row(){
+          Image($r('app.media.back')).width(30).height(30)
+            .onClick(() => {
+              // 点击事件：跳转到主页
+              router.push({ url: 'pages/MainPage' });
+            })
+        }.layoutWeight(1)
       }
       .width('100%')
       .height(60)
