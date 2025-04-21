@@ -7,16 +7,8 @@ import { City } from '../../component/City'
 
 @Entry
 @Component
-export struct VehicleStatusPage {
+struct VehicleStatusPage {
   @State Height:number = 380
-
-
-
-
-  // onPageShow(): void {
-  //   this.WIDTH = this.wm.getWidth() > 0 ? this.wm.getWidth():1920
-  //   this.HEIGHT = this.wm.getHeight() > 0 ? this.wm.getHeight():1080
-  // }
 
 
   build() {

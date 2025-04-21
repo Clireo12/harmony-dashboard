@@ -1,3 +1,7 @@
+import { geoLocationManager } from '@kit.LocationKit';
+import { BusinessError } from '@kit.BasicServicesKit';
+import { weatherService } from '@kit.WeatherServiceKit';
+
 @Component
 export struct Header {
   @State date: Date = new Date()
@@ -7,10 +11,12 @@ export struct Header {
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
   @State textColor:Resource = $r("app.color.text_color")
+  private  latitude:number = 0;   // 经度
+  private  longitude:number = 0;  // 纬度
   /**
    * 组件生命周期 - 即将出现时调用
    */
-  aboutToAppear() {
+  async aboutToAppear() {
     const timeDesc: string[] = ['上午', '中午', '下午']
     // 初始化变量
     this.timer = setInterval(() => {
@@ -18,6 +24,34 @@ export struct Header {
       this.time = this.date.toTimeString().split(' ')[0]
       this.timeState = timeDesc[Math.floor(parseInt(this.time.split(':')[0]) / 8)]
     }, 1000)
+
+
+    // 初始化经纬度
+    geoLocationManager.getCurrentLocation().then((result) => {
+      console.info('current location latitude: ' + result.latitude);
+      console.info('current location longitude: ' + result.longitude);
+      this.latitude = result.latitude
+      this.longitude = result.longitude
+    }).catch((err: BusinessError ) => {
+      console.error(`getCurrentLocation failed. Code: ${err.code}, message: ${err.message}`);
+    });
+
+    let request: weatherService.WeatherRequest = {
+      location: {
+        latitude: this.latitude, // 使用实际获取的纬度
+        longitude: this.longitude // 使用实际获取的经度
+      },
+      limitedDatasets: [weatherService.Dataset.CURRENT, weatherService.Dataset.ALERTS]
+    };
+    let weather = await weatherService.getWeather(request);
+    if (weather.current) {
+      console.info('getWeather current temperature: ' + weather.current.temperature);
+      this.temperature = weather.current.temperature
+    }
+    if (weather.alerts?.length) {
+      console.info('getWeather alert: ' + weather.alerts[0].title);
+    }
+
   }
 
   /**
