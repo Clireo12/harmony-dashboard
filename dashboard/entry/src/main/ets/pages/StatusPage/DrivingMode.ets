@@ -1,3 +1,4 @@
+import { theme } from '../../Singleton/singleton';
 import { Constants } from './Constants'
 
 // 驾驶状态组件
@@ -10,7 +11,7 @@ export struct DrivingMode {
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['经济模式','运动模式','雪地模式','城市模式']
   private selectedMode:number|number[] = 1
-
+  @State Theme:theme = theme.getInstance()
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
   }
@@ -20,8 +21,8 @@ export struct DrivingMode {
       // 油门/刹车状态
       Column({space:30}){
         Text("油门/刹车状态")
-          .fontColor(Color.White)
-          .backgroundColor("#2D2E2E")
+          .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
+          .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
           .margin({
             top:3
           })
@@ -30,7 +31,7 @@ export struct DrivingMode {
           Row(){
             Row(){
               Text(this.leftState == 1 ? "刹车":"油门")
-                .fontColor(Color.White)
+                .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
             }
             .shadow({ radius: 10, color: Color.Gray })
             .width("60%")
@@ -73,7 +74,7 @@ export struct DrivingMode {
       .width("98%")
       .height("45%")
       .borderRadius(15)
-      .backgroundColor("#2B3338")
+      .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
 
 
 
@@ -82,8 +83,8 @@ export struct DrivingMode {
       Row(){
         Column(){
           Text("驾驶模式切换")
-            .fontColor(Color.White)
-            .backgroundColor("#2D2E2E")
+            .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
+            .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
             .margin({
               top:3
             })
@@ -119,7 +120,7 @@ export struct DrivingMode {
         .width("98%")
         // .height("50%")
         .borderRadius(15)
-        .backgroundColor("#2B323A")
+        .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
 
       }
       .width(Constants.HEAD_WEIGHT)

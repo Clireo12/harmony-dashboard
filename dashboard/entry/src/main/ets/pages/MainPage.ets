@@ -182,6 +182,7 @@ struct MainPage {
           Column() {
             Image($r('app.media.travel'))
               .height('50%')
+              .offset({ y: 15 })
 
             Row({ space: 15 }) {
               Column({ space: 8 }) {

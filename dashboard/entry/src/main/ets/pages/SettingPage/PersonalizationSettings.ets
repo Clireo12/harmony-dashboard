@@ -9,7 +9,7 @@ import { City } from '../../component/City';
 import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
 
 // 定义主题键类型，用于标识不同的主题
-type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
+type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -63,7 +63,7 @@ export struct PersonalizationSettings {
                 this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
                 this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
                 this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
-                this.buildThemeButton('custom', '自定义'); // 自定义主题按钮
+                this.buildThemeButton('fresh-green', '清新绿'); // 自定义主题按钮
               }
               .justifyContent(FlexAlign.SpaceEvenly)  // 均匀分配空间
               .width('100%')  // 确保填满父容器

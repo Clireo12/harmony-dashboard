@@ -67,6 +67,10 @@
     {
       "name": "theme_blue",
       "value": "#FF56B6F6"
+    },
+    {
+      "name": "theme_green",
+      "value": "#dbead5"
     }
   ]
 }

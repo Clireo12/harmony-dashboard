@@ -32,7 +32,7 @@ export struct DashboardPage {
           current: 100
         })
 
-        CarPanel({ activeLight: 0 })
+        CarPanel({ activeLight: 2 })
 
         CirclePanel({
           num: 50,

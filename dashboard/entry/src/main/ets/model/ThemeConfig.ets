@@ -8,15 +8,15 @@ export interface ThemeConfig {
 }
 
 // 定义主题键类型
-export type ThemeKey = 'custom' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
+export type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
 // 主题配置，定义了每个主题的具体配置
 
 export const themeConfig: Record<ThemeKey, ThemeConfig> = {
-  'custom': {
-    mask: $r('app.color.theme_white'), // 蒙版颜色
+  'fresh-green': {
+    mask: $r('app.color.theme_green'), // 蒙版颜色
     textColor: $r('app.color.theme_black'), // 文字颜色
     iconColor: $r('app.color.theme_black'), // 图标颜色
-    buttonIcon: $r('app.media.bg_minimal_white') // 按钮图标
+    buttonIcon: $r("app.media.fresh_green") // 按钮图标
   },
   'tech-blue': {
     mask: $r('app.color.theme_blue'),

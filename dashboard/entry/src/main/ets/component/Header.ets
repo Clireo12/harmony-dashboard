@@ -52,7 +52,7 @@ export struct Header {
         Button(){
           Text('<')
         }
-        .backgroundColor($r('app.color.dashboard_background'))
+        .backgroundColor(Color.Transparent)
 
         Image($r('app.media.leaf'))
           .width(25)
@@ -61,7 +61,7 @@ export struct Header {
         Button(){
           Text(">")
         }
-        .backgroundColor($r('app.color.dashboard_background'))
+        .backgroundColor(Color.Transparent)
         .margin({
           right:20
         })
