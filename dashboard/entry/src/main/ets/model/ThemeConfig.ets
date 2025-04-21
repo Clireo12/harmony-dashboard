@@ -16,7 +16,7 @@ export const themeConfig: Record<ThemeKey, ThemeConfig> = {
     mask: $r('app.color.theme_green'), // 蒙版颜色
     textColor: $r('app.color.theme_black'), // 文字颜色
     iconColor: $r('app.color.theme_black'), // 图标颜色
-    buttonIcon: $r('app.media.fresh-green') // 按钮图标
+    buttonIcon: $r("app.media.fresh_green") // 按钮图标
   },
   'tech-blue': {
     mask: $r('app.color.theme_blue'),
