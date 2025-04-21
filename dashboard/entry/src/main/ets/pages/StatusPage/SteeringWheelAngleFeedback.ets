@@ -1,36 +1,41 @@
-import { theme } from "../../Singleton/singleton"
+
+
+
 
 // 方向盘角度反馈组件
-@Preview
 @Component
 export struct SteeringWheelAngleFeedback {
-  @State _width:number|string = 300
-  @State _height:number|string = 350
+
   @State bgkColor:Color|string = "#2B323A"
   @State angle:number = -270
   @State angleColor:Color|string = Color.Red
-  @State Theme:theme = theme.getInstance();
   build() {
-
     Column({space:15}){
       Text("方向盘角度反馈")
-        .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
+        .textAlign(TextAlign.Center)
+        .fontSize(15)
+        .width("100%")
+        .height("10")
+        .fontColor($r("app.color.text_color"))
         .margin({
           top:5
         })
       Stack(){
         Image($r("app.media.fang_xiang_pan_jiao_du"))
-          .width("90%")
+          .width("88%")
+
         Text(this.angle.toString()+"°")
           .textAlign(TextAlign.Center)
-          .fontSize(30)
+          .fontSize(28)
           .fontColor(this.angleColor)
       }
+      .width("100%")
+      .height("95%")
     }
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
     .borderRadius(20)
-    .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
-    .width(this._width)
-    .height(this._height)
+    .backgroundColor($r("app.color.Component_Color"))
 
   }
 }

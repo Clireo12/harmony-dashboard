@@ -5,7 +5,7 @@ export struct Bottom {
   @Prop mileage: number = 212 // 里程显示文本，默认值'212 km'
   @Prop activeTab: string = 'D'    // 当前选中标签，默认选中'D'
   @State progress: number = 0.7    // 进度条进度值(0-1)，默认0.7(70%)
-
+  @State textColor:Resource = $r("app.color.text_color")
   /**
    * 根据里程计算进度百分比
    * @returns 计算后的进度值(0-1之间)
@@ -50,6 +50,7 @@ export struct Bottom {
           // 里程文本显示
           Text(`${this.mileage} km`)
             .fontSize(22)          // 字体大小22px
+            .fontColor(this.textColor)
             .fontWeight(FontWeight.Bold) // 加粗显示
 
           // 右侧图标
