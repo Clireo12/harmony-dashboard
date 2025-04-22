@@ -53,3 +53,6 @@ struct VehicleStatusPage {
     .height("100%")
   }
 }
+
+
+export { VehicleStatusPage }
