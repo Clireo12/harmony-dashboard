@@ -26,7 +26,7 @@ struct MainPage {
   }
 
   navigateToVehicleControl() {
-    router.push({ url: 'pages/QlkPage/Index' });
+    router.push({ url: 'pages/ControlPage/Index' });
   }
 
   navigateToSettings() {
