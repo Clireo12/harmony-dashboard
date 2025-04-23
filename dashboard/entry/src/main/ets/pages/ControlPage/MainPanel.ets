@@ -1,9 +1,12 @@
 import { City } from '../../component/City'
 import { CirclePanel } from '../SpeedPage/CirclePanel'
+import { ThemeManager } from '../../model/ThemeManager';
 
 @Component
 //实时传感器监控组件
 struct SensorItem {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   @Prop label: string
   @Prop img : Resource
   build() {
@@ -15,7 +18,7 @@ struct SensorItem {
           bottom: 5
         })
       Text(this.label)
-        .fontColor(Color.Black)
+        .fontColor(this.themeManager.getCurrentTheme().textColor)
         .fontSize(20)
     }.shadow(ShadowStyle.OUTER_DEFAULT_XS)
       .width("85%")
@@ -30,12 +33,14 @@ struct SensorItem {
 
 @Component
 export struct MainPanel {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   build() {
    Row(){
      //实时传感器监控
      Column() {
        Text("实时传感器监控")
-         .fontColor(Color.Black)
+         .fontColor(this.themeManager.getCurrentTheme().textColor)
          .fontSize(20)
          .margin({
            top:15

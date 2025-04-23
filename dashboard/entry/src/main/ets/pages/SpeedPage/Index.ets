@@ -4,10 +4,13 @@ import { CarPanel } from './CarPanel';
 import { CirclePanel } from './CirclePanel';
 import { MenuItem } from '../../model/MenuItem';
 import { SidePanel } from './SidePanel';
+import { ThemeManager } from '../../model/ThemeManager';
 
 @Entry
 @Component
 export struct DashboardPage {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), text: '', active: true },
     { img: $r('app.media.charge'), text: '', active: true },
@@ -21,6 +24,7 @@ export struct DashboardPage {
 
   build() {
     Column() {
+
       Header()
 
       Row({ space: 5 }) {
@@ -51,6 +55,6 @@ export struct DashboardPage {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor($r('app.color.dashboard_background'))
+    .backgroundColor(this.themeManager.getCurrentTheme().mask)
   }
 }

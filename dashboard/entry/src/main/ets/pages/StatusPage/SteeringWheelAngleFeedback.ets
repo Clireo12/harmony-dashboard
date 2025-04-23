@@ -1,10 +1,11 @@
-
+import { ThemeManager } from '../../model/ThemeManager';
 
 
 
 // 方向盘角度反馈组件
 @Component
 export struct SteeringWheelAngleFeedback {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
 
   @State bgkColor:Color|string = "#2B323A"
   @State angle:number = -270
@@ -16,7 +17,7 @@ export struct SteeringWheelAngleFeedback {
         .fontSize(15)
         .width("100%")
         .height("10")
-        .fontColor($r("app.color.text_color"))
+        .fontColor(this.themeManager.getCurrentTheme().textColor)
         .margin({
           top:5
         })
@@ -35,7 +36,7 @@ export struct SteeringWheelAngleFeedback {
     .justifyContent(FlexAlign.Start)
     .alignItems(HorizontalAlign.Start)
     .borderRadius(20)
-    .backgroundColor($r("app.color.Component_Color"))
+    .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
   }
 }

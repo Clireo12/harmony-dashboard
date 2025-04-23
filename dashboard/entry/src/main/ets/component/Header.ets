@@ -1,9 +1,12 @@
 import { geoLocationManager } from '@kit.LocationKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { weatherService } from '@kit.WeatherServiceKit';
+import { ThemeManager } from '../model/ThemeManager';
 
 @Component
 export struct Header {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
@@ -69,10 +72,10 @@ export struct Header {
         Row({ space: 10 }) {
           Text(this.timeState)
             .fontSize(20)
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
           Text(this.time)
             .fontSize(20)
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
         }
 
         Row({ space: 10 }) {
@@ -80,7 +83,7 @@ export struct Header {
             .width(22)
           Text(`${this.temperature}℃`)
             .fontSize(20)
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
         }
       }
       .width(200)
@@ -88,17 +91,17 @@ export struct Header {
       Row({ space: 10 }){
         Button(){
           Text('<')
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
         }
         .backgroundColor($r("app.color.start_window_background"))
 
         Image($r('app.media.leaf'))
           .width(25)
         Text('ECO')
-          .fontColor(this.textColor)
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
         Button(){
           Text(">")
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
         }
         .backgroundColor(Color.Transparent)
         .margin({
@@ -110,6 +113,7 @@ export struct Header {
           .offset({ y: -5 })
 
         Text("东南")
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
       }
       .layoutWeight(1)
       .justifyContent(FlexAlign.Center)
@@ -117,10 +121,10 @@ export struct Header {
       Row({ space: 10 }){
         Text('总里程')
           .fontSize(20)
-          .fontColor(this.textColor)
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
         Text(`${this.TotalMileage} km`)
           .fontSize(20)
-          .fontColor(this.textColor)
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
       }
       .width(200)
       .justifyContent(FlexAlign.End)
@@ -129,6 +133,6 @@ export struct Header {
     .width('100%')
     .height(60)
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor($r("app.color.start_window_background")) // 后期需要根据时间,修改黑夜或白天模式
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
   }
 }

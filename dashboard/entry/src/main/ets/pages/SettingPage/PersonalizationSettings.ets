@@ -1,12 +1,9 @@
-// 引入 Header 组件
 import { Header } from '../../component/Header';
-//引入Bottom组件
 import { Bottom } from '../../component/Bottom';
-
 import { City } from '../../component/City';
-
 //引入主题配置接口
 import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
+import { ThemeManager } from '../../model/ThemeManager';
 
 // 定义主题键类型，用于标识不同的主题
 type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
@@ -20,9 +17,21 @@ interface PreferenceItem {
 @Entry
 @Component
 export struct PersonalizationSettings {
-  // 状态变量
-  @State currentTheme: ThemeKey = 'minimal-white'; // 当前选中的主题
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
+  @State currentTheme: ThemeKey = this.themeManager.getCurrentThemeKey();
   @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
+
+  // 提供默认的BuilderParam
+  @BuilderParam content: () => void = this.defaultContent;
+
+  // 默认内容构建器
+  @Builder
+  defaultContent() {
+    Column() {
+      // 可以留空或添加默认占位内容
+    }
+  }
 
   // 默认偏好设置配置
   private preferenceConfig: PreferenceItem[] = [
@@ -40,6 +49,7 @@ export struct PersonalizationSettings {
 
   build() {
     Column(){
+      this.content
       // 添加 Header 组件
       Header()
 
@@ -54,7 +64,7 @@ export struct PersonalizationSettings {
               // 主题切换标题
               Text('主题切换')
                 .fontSize(20)
-                .fontColor(this.currentConfig.textColor)
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ bottom: 20 });
 
@@ -63,7 +73,7 @@ export struct PersonalizationSettings {
                 this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
                 this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
                 this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
-                this.buildThemeButton('fresh-green', '清新绿'); // 自定义主题按钮
+                this.buildThemeButton('fresh-green', '清新绿'); // 清新绿主题按钮
               }
               .justifyContent(FlexAlign.SpaceEvenly)  // 均匀分配空间
               .width('100%')  // 确保填满父容器
@@ -71,7 +81,7 @@ export struct PersonalizationSettings {
             }
             .padding({ top: 20 })
             .width('80%')
-            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .backgroundColor(this.themeManager.getCurrentTheme().mask) // 背景颜色随主题切换
             .borderRadius(10) // 圆角
             .margin({ left : -100,bottom: 20 }); // 外边距
 
@@ -79,7 +89,7 @@ export struct PersonalizationSettings {
             Column() {
               Text('亮度调节') // 亮度调节标题
                 .fontSize(20)
-                .fontColor(this.currentConfig.textColor)
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ top: 10, bottom: 10 });
 
@@ -96,7 +106,7 @@ export struct PersonalizationSettings {
               Row() {
                 ForEach([0, 20, 40, 60, 80, 100], (value: number) => {
                   Text(value.toString()) // 亮度刻度数字
-                    .fontColor(this.currentConfig.textColor)
+                    .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .width('10%')
                     .textAlign(
                       value === 0 ? TextAlign.Start :
@@ -111,7 +121,7 @@ export struct PersonalizationSettings {
             .width('80%')
             .padding({ bottom: 15 })
             .justifyContent(FlexAlign.SpaceEvenly)
-            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .backgroundColor(this.themeManager.getCurrentTheme().mask) // 背景颜色随主题切换
             .margin({left : -100})// 外边距
             .borderRadius(10); // 圆角
           }
@@ -126,7 +136,7 @@ export struct PersonalizationSettings {
               Text('偏好设置')
                 .width('100%')
                 .fontSize(20)
-                .fontColor(this.currentConfig.textColor)
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .textAlign(TextAlign.Center);
 
               // 动态渲染所有偏好设置项
@@ -136,7 +146,7 @@ export struct PersonalizationSettings {
                   Row(){
                     Text(item.name)
                       .fontSize(14)
-                      .fontColor(this.currentConfig.textColor)
+                      .fontColor(this.themeManager.getCurrentTheme().textColor)
                       .layoutWeight(1)
                       .margin({left : 10});
 
@@ -160,7 +170,7 @@ export struct PersonalizationSettings {
 
             }
             .width('45%')
-            .backgroundColor(this.currentConfig.mask) // 背景颜色随主题切换
+            .backgroundColor(this.themeManager.getCurrentTheme().mask) // 背景颜色随主题切换
             .borderRadius(10) // 圆角
             .height(360) // 设置固定高度
             .padding(10) // 右侧内边距
@@ -186,29 +196,29 @@ export struct PersonalizationSettings {
       Bottom()
 
     }
+    .onAppear(() => {
+      // 确保每次显示时获取最新主题
+      this.currentTheme = this.themeManager.getCurrentThemeKey();
+    })
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
   }
 
-  /**
-   * 构建主题切换按钮
-   * @param theme 当前主题键
-   * @param label 按钮显示的标签
-   */
+  // 构建主题切换按钮
   @Builder
   buildThemeButton(theme: ThemeKey, label: string) {
     Column() {
-      Image(themeConfig[theme].buttonIcon) // 主题按钮图标
+      Image(themeConfig[theme].buttonIcon)
         .width(80)
         .height(80)
-        .borderRadius(40) // 圆形按钮
-        .backgroundColor(this.currentConfig.textColor)
+        .borderRadius(40)
         .onClick(() => {
-          this.changeTheme(theme); // 切换主题
+          this.themeManager.changeTheme(theme); // 调用 ThemeManager 的 changeTheme 方法
+          this.currentTheme = theme; // 更新当前主题状态
         });
 
-      Text(label) // 主题按钮文字
+      Text(label)
         .fontSize(14)
-        .fontColor(this.currentConfig.textColor)
-        .textAlign(TextAlign.Center)
+        .fontColor(this.themeManager.getCurrentTheme().textColor)
         .margin({ top: 10 });
     }
   }
@@ -222,7 +232,7 @@ export struct PersonalizationSettings {
     Image(position === 'left' ? $r('app.media.sun_left') : $r('app.media.sun_right')) // 亮度图标
       .width(24)
       .height(24)
-      .fillColor(this.currentConfig.iconColor);
+      .fillColor(this.themeManager.getCurrentTheme().iconColor);
   }
 
   /**
@@ -253,7 +263,7 @@ export struct PersonalizationSettings {
       Column() {
         Text(name) // 选项名称
           .fontSize(14)
-          .fontColor(this.currentConfig.textColor)
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
           .textAlign(TextAlign.Start) // 文字左对齐
           .margin({ bottom: 5 }); // 调整间距
       }
@@ -277,12 +287,4 @@ export struct PersonalizationSettings {
     .margin({ bottom: 10 });
   }
 
-  /**
-   * 切换主题
-   * @param theme 新的主题键
-   */
-  private changeTheme(theme: ThemeKey) {
-    this.currentTheme = theme; // 更新当前主题
-    this.currentConfig = themeConfig[theme]; // 更新当前主题配置
-  }
 }

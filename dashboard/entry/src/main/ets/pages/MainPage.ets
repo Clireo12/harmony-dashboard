@@ -5,6 +5,7 @@ import { PersonalizationSettings } from './SettingPage/PersonalizationSettings'
 import { DashboardPage } from './SpeedPage/Index'
 import { VehicleStatusPage } from './StatusPage/Index'
 import { VehicleControlPage } from './ControlPage/Index'
+import { ThemeManager } from '../model/ThemeManager';
 
 interface VehicleStatus {
   oil: string;
@@ -16,6 +17,7 @@ interface VehicleStatus {
 @Entry
 @Component
 struct MainPage {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
 
   navigateToDashboard() {
     router.push({ url: 'pages/SpeedPage/Index' });
@@ -58,6 +60,7 @@ struct MainPage {
         ListItem() {
           Column() {
             Text('当前位置')
+              .fontColor(this.themeManager.getCurrentTheme().textColor)
               .fontSize(18)
               .fontWeight(FontWeight.Bold)
               .align(Alignment.Start)
@@ -76,6 +79,7 @@ struct MainPage {
 
             Column({ space: 15 }) {
               Text(this.location)
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .fontSize(18)
                 .fontWeight(500)
                 .textAlign(TextAlign.Center)
@@ -83,9 +87,11 @@ struct MainPage {
                 .width('100%');
 
               Text('距离目标位置')
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .fontSize(16)
 
               Text(this.distance)
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .fontSize(28)
                 .fontWeight(600)
                 .textAlign(TextAlign.Center)
@@ -97,7 +103,9 @@ struct MainPage {
               }
               .width('100%')
             }
+
           }
+
           .CardStyle()
           .width("30%")
           .height('90%')
@@ -116,6 +124,7 @@ struct MainPage {
                     .width(55)
 
                   Text(this.CirclePanel)
+                    .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .fontSize(20)
                     .fontWeight(FontWeight.Bold)
                     .margin({ bottom: 10 })
@@ -133,11 +142,13 @@ struct MainPage {
             Column({ space: 20 }) {
               Row() {
                 Text('车辆控制')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(18)
                   .fontWeight(FontWeight.Bold)
                   .layoutWeight(1)
 
                 Text('驾驶模式切换')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
               }
               .justifyContent(FlexAlign.SpaceBetween)
@@ -187,10 +198,13 @@ struct MainPage {
             Row({ space: 15 }) {
               Column({ space: 8 }) {
                 Text(this.area)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                 Text(`${this.temperature}℃`)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(36)
                   .fontWeight(500)
                 Text(this.weather)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
               }
               Image($r('app.media.sun_left'))
                 .width(80)
@@ -209,6 +223,7 @@ struct MainPage {
 
             Column({ space: 15 }) {
               Text('车辆状态')
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
                 .fontSize(18)
                 .fontWeight(FontWeight.Bold)
                 .align(Alignment.Start)
@@ -216,10 +231,12 @@ struct MainPage {
 
               Row() {
                 Text('机油')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .layoutWeight(1)
                   .align(Alignment.Start)
                 Text(this.vehicleStatus.oil)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .fontWeight(FontWeight.Bold)
                   .align(Alignment.End)
@@ -228,10 +245,12 @@ struct MainPage {
 
               Row() {
                 Text('燃油')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .layoutWeight(1)
                   .align(Alignment.Start)
                 Text(this.vehicleStatus.fuel)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .fontWeight(FontWeight.Bold)
                   .align(Alignment.End)
@@ -240,10 +259,12 @@ struct MainPage {
 
               Row() {
                 Text('电池电压')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .layoutWeight(1)
                   .align(Alignment.Start)
                 Text(this.vehicleStatus.batteryVoltage)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .fontWeight(FontWeight.Bold)
                   .align(Alignment.End)
@@ -252,10 +273,12 @@ struct MainPage {
 
               Row() {
                 Text('冷却液温度')
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .layoutWeight(1)
                   .align(Alignment.Start)
                 Text(this.vehicleStatus.coolantTemp)
+                  .fontColor(this.themeManager.getCurrentTheme().textColor)
                   .fontSize(16)
                   .fontWeight(FontWeight.Bold)
                   .align(Alignment.End)
@@ -276,6 +299,7 @@ struct MainPage {
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("主题")
+                    .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .fontSize(16)
                     .textAlign(TextAlign.Center)
                 }
@@ -284,13 +308,14 @@ struct MainPage {
                 .height(80)
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
-                .backgroundColor('#f0f0f0')
+                .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
                 Column(){
                   Image($r('app.media.sun_left'))
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("亮度")
+                    .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .fontSize(16)
                     .textAlign(TextAlign.Center)
                 }.layoutWeight(1)
@@ -298,13 +323,14 @@ struct MainPage {
                 .height(80)
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
-                .backgroundColor('#f0f0f0')
+                .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
                 Column(){
                   Image($r('app.media.like'))
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("偏好")
+                    .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .fontSize(16)
                     .textAlign(TextAlign.Center)
                 }.layoutWeight(1)
@@ -312,7 +338,7 @@ struct MainPage {
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
                 .borderRadius(10)
-                .backgroundColor('#f0f0f0')
+                .backgroundColor(this.themeManager.getCurrentTheme().mask)
               }
               .width("100%")
               .justifyContent(FlexAlign.SpaceBetween)
@@ -341,14 +367,14 @@ struct MainPage {
     }
     .width('100%')
     .height('100%')
-    .backgroundColor('#f0f0f0')
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
   }
 
   @Styles
   CardStyle() {
     .width('100%')
     .padding(15)
-    .backgroundColor($r('app.color.dashboard_background'))
+    .backgroundColor(this.themeManager.getCurrentTheme().mask)
     .borderRadius(10)
   }
 }

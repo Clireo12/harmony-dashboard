@@ -1,8 +1,11 @@
 import { router } from "@kit.ArkUI"
+import { ThemeManager } from '../model/ThemeManager';
 
 @Preview
 @Component
 export struct Bottom {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   // 组件属性定义
   @Prop mileage: number = 212 // 里程显示文本，默认值'212 km'
   @Prop activeTab: string = 'D'    // 当前选中标签，默认选中'D'
@@ -52,7 +55,7 @@ export struct Bottom {
           // 里程文本显示
           Text(`${this.mileage} km`)
             .fontSize(22)          // 字体大小22px
-            .fontColor(this.textColor)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
             .fontWeight(FontWeight.Bold) // 加粗显示
 
           // 右侧图标
@@ -92,6 +95,7 @@ export struct Bottom {
       .backgroundColor(Color.Transparent)
       .alignItems(VerticalAlign.Center) // 垂直居中
     }
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
     .width('100%')
     .height(60)
   }
@@ -109,7 +113,7 @@ export struct Bottom {
         .fontSize(22)
         .fontColor(this.activeTab === tabName
           ? $r('app.color.clicked') // 选中状态颜色(从资源文件获取)
-          : $r('app.color.normal')) // 未选中状态颜色
+          : this.themeManager.getCurrentTheme().textColor) // 未选中状态颜色
         .margin({ bottom: 2 }) // 底部间距2px
 
       // 选中状态指示器

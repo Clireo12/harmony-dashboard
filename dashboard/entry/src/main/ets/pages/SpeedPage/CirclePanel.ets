@@ -1,5 +1,9 @@
+import { ThemeManager } from '../../model/ThemeManager';
+
 @Component
 export struct CirclePanel {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   @Prop num: number // 数值
   @Prop unit: string // 单位
   @Prop reverse: boolean = false // 反向
@@ -46,11 +50,12 @@ export struct CirclePanel {
         Column() {
           Text(this.num.toString())
             .fontSize(65)
-            .fontColor($r('app.color.text_color'))
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
             .fontWeight(600)
           Text(this.unit)
             .fontSize(20)
             .fontWeight(600)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
             .offset({
               y: -5
             })

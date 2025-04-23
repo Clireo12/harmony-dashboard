@@ -1,7 +1,10 @@
 import { City } from "../../component/City"
+import { ThemeManager } from '../../model/ThemeManager';
 
 @Component
 export struct CarPanel {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   private light: ResourceStr[] = ['#f7f7f7','#f7f7f7','#f7f7f7']
   @Prop activeLight: number  // 0左 1中 2右
 

@@ -3,11 +3,12 @@ import { Header } from '../../component/Header'
 import { SteeringWheelAngleFeedback } from './SteeringWheelAngleFeedback'
 import { Bottom } from '../../component/Bottom'
 import { City } from '../../component/City'
-
+import { ThemeManager } from '../../model/ThemeManager';
 
 @Entry
 @Component
 struct VehicleStatusPage {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
   @State Height:number = 380
 
 
@@ -46,8 +47,8 @@ struct VehicleStatusPage {
 
       Bottom()
     }
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor($r("app.color.start_window_background"))
     .alignItems(HorizontalAlign.Start)
     .width("100%")
     .height("100%")

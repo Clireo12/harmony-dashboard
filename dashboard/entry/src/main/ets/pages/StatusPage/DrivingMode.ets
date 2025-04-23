@@ -1,8 +1,10 @@
-
+import { ThemeManager } from '../../model/ThemeManager';
 
 // 驾驶状态组件
 @Component
 export struct DrivingMode {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
+
   @State leftState:number = 1;
   @State left:string = "40%";
   uiContext: UIContext | undefined = undefined;
@@ -18,8 +20,8 @@ export struct DrivingMode {
       Column({space:30}){
         Text("油门/刹车状态")
           .fontSize(15)
-          .fontColor($r("app.color.text_color"))
-          .backgroundColor($r("app.color.Component_Color"))
+          .fontColor(this.themeManager.getCurrentTheme().textColor)
+          .backgroundColor(this.themeManager.getCurrentTheme().mask)
           .margin({
             top:3
           })
@@ -29,7 +31,7 @@ export struct DrivingMode {
             Row(){
               Text(this.leftState == 1 ? "刹车":"油门")
                 .fontSize(18)
-                .fontColor($r("app.color.text_color"))
+                .fontColor(this.themeManager.getCurrentTheme().textColor)
             }
             .shadow({ radius: 10, color: Color.Gray })
             .width("60%")
@@ -72,7 +74,7 @@ export struct DrivingMode {
       .width("100%")
       .height("45%")
       .borderRadius(15)
-      .backgroundColor($r("app.color.Component_Color"))
+      .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
       Row(){
 
@@ -85,8 +87,8 @@ export struct DrivingMode {
         Column(){
           Text("驾驶模式切换")
             .fontSize(15)
-            .fontColor($r("app.color.text_color"))
-            .backgroundColor($r("app.color.Component_Color"))
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .backgroundColor(this.themeManager.getCurrentTheme().mask)
             .margin({
               top:3
             })
@@ -122,7 +124,7 @@ export struct DrivingMode {
         .width("100%")
         .height("100%")
         .borderRadius(15)
-        .backgroundColor($r("app.color.Component_Color"))
+        .backgroundColor(this.themeManager.getCurrentTheme().mask)
       }
       .width("100%")
       .height("45%")
@@ -130,6 +132,7 @@ export struct DrivingMode {
     }
     .justifyContent(FlexAlign.SpaceBetween)
   }
+
 }
 
 

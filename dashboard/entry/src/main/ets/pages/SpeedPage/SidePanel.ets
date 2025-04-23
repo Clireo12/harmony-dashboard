@@ -1,7 +1,9 @@
 import { MenuItem } from "../../model/MenuItem"
+import { ThemeManager } from '../../model/ThemeManager';
 
 @Component
 export struct SidePanel {
+  private themeManager: ThemeManager = ThemeManager.getInstance();
   @Prop menu: MenuItem[]
 
   build() {
@@ -14,13 +16,13 @@ export struct SidePanel {
           Column() {
             Text('▲')
               .fontSize(18)
-              .fontColor($r('app.color.text_color'))
+              .fontColor(this.themeManager.getCurrentTheme().textColor)
             Text(`${item.text}°`)
               .fontSize(30)
-              .fontColor($r('app.color.theme_blue'))
+              .fontColor(this.themeManager.getCurrentTheme().textColor)
             Text('▼')
               .fontSize(18)
-              .fontColor($r('app.color.text_color'))
+              .fontColor(this.themeManager.getCurrentTheme().textColor)
           }
         }
       })
@@ -29,5 +31,6 @@ export struct SidePanel {
     .justifyContent(FlexAlign.Center)
     .width(80)
     .height('100%')
+    .backgroundColor(this.themeManager.getCurrentTheme().mask)
   }
 }
