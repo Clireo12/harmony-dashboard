@@ -1,17 +1,13 @@
-import { theme } from '../../Singleton/singleton';
-import { Constants } from './Constants'
+
 
 // 驾驶状态组件
 @Component
 export struct DrivingMode {
-  @State _width:number|string = 300
-  @State _height:number|string = 350
   @State leftState:number = 1;
   @State left:string = "40%";
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['经济模式','运动模式','雪地模式','城市模式']
   private selectedMode:number|number[] = 1
-  @State Theme:theme = theme.getInstance()
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
   }
@@ -21,8 +17,9 @@ export struct DrivingMode {
       // 油门/刹车状态
       Column({space:30}){
         Text("油门/刹车状态")
-          .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
-          .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
+          .fontSize(15)
+          .fontColor($r("app.color.text_color"))
+          .backgroundColor($r("app.color.Component_Color"))
           .margin({
             top:3
           })
@@ -31,7 +28,8 @@ export struct DrivingMode {
           Row(){
             Row(){
               Text(this.leftState == 1 ? "刹车":"油门")
-                .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
+                .fontSize(18)
+                .fontColor($r("app.color.text_color"))
             }
             .shadow({ radius: 10, color: Color.Gray })
             .width("60%")
@@ -43,6 +41,7 @@ export struct DrivingMode {
             .borderRadius(25)
             .justifyContent(FlexAlign.Center)
             .onClick(() => {
+              console.log("Clicked")
               this.uiContext?.keyframeAnimateTo({ iterations: 1 }, [
                 {
                   // 第一段关键帧动画时长为800ms，left属性做从0到40的动画
@@ -61,30 +60,33 @@ export struct DrivingMode {
             })
 
           }
-          .width(200)
-          .height(50)
+          .width("84%")
+          .height("100%")
           .borderRadius(25)
           .backgroundColor("#0E62A9")
-
-
         }
         .justifyContent(FlexAlign.Center)
-        .width(Constants.HEAD_WEIGHT)
+        .width("100%")
+        .height("33%")
       }
-      .width("98%")
+      .width("100%")
       .height("45%")
       .borderRadius(15)
-      .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
+      .backgroundColor($r("app.color.Component_Color"))
 
+      Row(){
 
-
+      }
+      .width("100%")
+      .height("10%")
 
       // 驾驶模式
       Row(){
         Column(){
           Text("驾驶模式切换")
-            .fontColor(this.Theme.textColor[this.Theme.modeList[this.Theme.mode]])
-            .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
+            .fontSize(15)
+            .fontColor($r("app.color.text_color"))
+            .backgroundColor($r("app.color.Component_Color"))
             .margin({
               top:3
             })
@@ -94,7 +96,7 @@ export struct DrivingMode {
             .selectedTextStyle({
               color: "#007CE6",
               font: {
-                size: '28fp',
+                size: '28vp',
                 weight: FontWeight.Regular
               }
             })
@@ -102,7 +104,7 @@ export struct DrivingMode {
             .textStyle({
               color: "#0E62AA",
               font: {
-                size: '18fp',
+                size: '18vp',
                 weight: FontWeight.Regular
               }
             })
@@ -114,21 +116,18 @@ export struct DrivingMode {
               this.selectedMode = index
             })
             .width("100%")
-            .height("100%")
+            .height("80%")
 
         }
-        .width("98%")
-        // .height("50%")
+        .width("100%")
+        .height("100%")
         .borderRadius(15)
-        .backgroundColor(this.Theme.ComponentBGColor[this.Theme.modeList[this.Theme.mode]])
-
+        .backgroundColor($r("app.color.Component_Color"))
       }
-      .width(Constants.HEAD_WEIGHT)
-      .height("50%")
+      .width("100%")
+      .height("45%")
       .justifyContent(FlexAlign.Center)
     }
-    .width(this._width)
-    .height(this._height)
     .justifyContent(FlexAlign.SpaceBetween)
   }
 }
