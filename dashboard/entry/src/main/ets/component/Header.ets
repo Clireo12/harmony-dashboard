@@ -80,6 +80,7 @@ export struct Header {
 
         Row({ space: 10 }) {
           Image($r('app.media.sun_right'))
+            .fillColor(this.themeManager.getCurrentTheme().textColor)
             .width(22)
           Text(`${this.temperature}℃`)
             .fontSize(20)
@@ -93,9 +94,10 @@ export struct Header {
           Text('<')
             .fontColor(this.themeManager.getCurrentTheme().textColor)
         }
-        .backgroundColor($r("app.color.start_window_background"))
+        .backgroundColor(this.themeManager.getCurrentTheme().theme)
 
         Image($r('app.media.leaf'))
+          .fillColor(this.themeManager.getCurrentTheme().textColor)
           .width(25)
         Text('ECO')
           .fontColor(this.themeManager.getCurrentTheme().textColor)
@@ -108,7 +110,7 @@ export struct Header {
           right:20
         })
 
-        Image(this.timeState == '下午' ? $r('app.media.daohang_white') : $r('app.media.daohang_black'))
+        Image(this.timeState == '下午' ? $r('app.media.daohang_black'):$r('app.media.daohang_white'))
           .width(30)
           .offset({ y: -5 })
 

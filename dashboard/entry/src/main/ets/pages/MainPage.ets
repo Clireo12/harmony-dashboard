@@ -207,6 +207,7 @@ struct MainPage {
                   .fontColor(this.themeManager.getCurrentTheme().textColor)
               }
               Image($r('app.media.sun_left'))
+                .fillColor(this.themeManager.getCurrentTheme().textColor)
                 .width(80)
             }
             .CardStyle()
@@ -296,6 +297,7 @@ struct MainPage {
               Row({ space: 10 }) {
                 Column(){
                   Image($r('app.media.theme'))
+                    .fillColor(this.themeManager.getCurrentTheme().textColor)
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("主题")
@@ -312,6 +314,7 @@ struct MainPage {
 
                 Column(){
                   Image($r('app.media.sun_left'))
+                    .fillColor(this.themeManager.getCurrentTheme().textColor)
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("亮度")
@@ -327,6 +330,7 @@ struct MainPage {
 
                 Column(){
                   Image($r('app.media.like'))
+                    .fillColor(this.themeManager.getCurrentTheme().textColor)
                     .width(30)
                     .margin({ bottom: 10 })
                   Text("偏好")

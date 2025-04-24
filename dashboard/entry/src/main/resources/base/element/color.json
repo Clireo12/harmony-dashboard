@@ -70,11 +70,11 @@
     },
     {
       "name": "theme_green",
-      "value": "#dbead5"
+      "value": "#FFBAECA6"
     },
     {
       "name": "mask_white",
-      "value": "#FFF1ECEC"
+      "value": "#FFF3ECEC"
     },
     {
       "name": "mask_black",
@@ -82,7 +82,7 @@
     },
     {
       "name": "mask_green",
-      "value": "#E8F5E9"
+      "value": "#FFC5EEC9"
     },
     {
       "name": "mask_blue",
@@ -94,7 +94,7 @@
     },
     {
       "name": "text_color_light",
-      "value": "#000"
+      "value": "#F000"
     },
     {
       "name": "text_color_dark",

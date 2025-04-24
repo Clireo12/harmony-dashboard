@@ -55,6 +55,6 @@ export struct DashboardPage {
     }
     .height('100%')
     .width('100%')
-    .backgroundColor(this.themeManager.getCurrentTheme().mask)
+    .backgroundColor(this.themeManager.getCurrentTheme().theme)
   }
 }

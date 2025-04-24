@@ -16,7 +16,7 @@ export const themeConfig: Record<ThemeKey, ThemeConfig> = {
   'fresh-green': {
     theme: $r('app.color.theme_green'),
     mask: $r('app.color.mask_green'),
-    textColor: $r('app.color.text_color_dark'),
+    textColor: $r('app.color.text_color_light'),
     iconColor: $r('app.color.text_color_dark'),
     buttonIcon: $r("app.media.fresh_green")
   },
