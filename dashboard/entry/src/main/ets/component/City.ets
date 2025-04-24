@@ -5,12 +5,12 @@ export struct City {
   build() {
     Column(){
       Image($r("app.media.city"))
-        .offset({y:40})
+        .offset({ y: 40 })
         .width("220%")
 
       Image($r("app.media.pavement"))
         .width("200%")
-        .offset({ y: 100 })
+        .offset({ y: 50 })
     }
     .justifyContent(FlexAlign.SpaceBetween)
     .width(this.Width)

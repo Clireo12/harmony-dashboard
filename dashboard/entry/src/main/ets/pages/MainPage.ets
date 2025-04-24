@@ -1,11 +1,8 @@
 import { Header } from '../component/Header';
 import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
-import { PersonalizationSettings } from './SettingPage/PersonalizationSettings'
-import { DashboardPage } from './SpeedPage/Index'
-import { VehicleStatusPage } from './StatusPage/Index'
-import { VehicleControlPage } from './ControlPage/Index'
 import { ThemeManager } from '../model/ThemeManager';
+import { ThemeConfig } from '../model/ThemeConfig';
 
 interface VehicleStatus {
   oil: string;
@@ -18,23 +15,7 @@ interface VehicleStatus {
 @Component
 struct MainPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
-
-  navigateToDashboard() {
-    router.push({ url: 'pages/SpeedPage/Index' });
-  }
-
-  navigateToVehicleStatus() {
-    router.push({ url: 'pages/StatusPage/Index' });
-  }
-
-  navigateToVehicleControl() {
-    router.push({ url: 'pages/ControlPage/Index' });
-  }
-
-  navigateToSettings() {
-    router.push({ url: 'pages/SettingPage/PersonalizationSettings' });
-  }
-
+  @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State location: string = '北京市 朝阳区 建国路88号';
   @State distance: string = '3.2公里';
   @State area: string = '深圳市 南山区'
@@ -52,9 +33,32 @@ struct MainPage {
   @State selectedDrivingMode: number = 3;
   @State CirclePanel: string="80km/h"
 
+  navigateToDashboard() {
+    router.pushUrl({ url: 'pages/SpeedPage/Index' });
+  }
+
+  navigateToVehicleStatus() {
+    router.pushUrl({ url: 'pages/StatusPage/Index' });
+  }
+
+  navigateToVehicleControl() {
+    router.pushUrl({ url: 'pages/ControlPage/Index' });
+  }
+
+  navigateToSettings() {
+    router.pushUrl({ url: 'pages/SettingPage/PersonalizationSettings' });
+  }
+
+  onPageShow() {
+    const themeConfig = router.getParams() as ThemeConfig
+    if (themeConfig) {
+      this.currentTheme = themeConfig
+    }
+  }
+
   build() {
     Column() {
-      Header()
+      Header({ currentTheme: this.currentTheme })
 
       List({ space: 30 }) {
         ListItem() {
@@ -321,7 +325,8 @@ struct MainPage {
                     .fontColor(this.themeManager.getCurrentTheme().textColor)
                     .fontSize(16)
                     .textAlign(TextAlign.Center)
-                }.layoutWeight(1)
+                }
+                .layoutWeight(1)
                 .borderRadius(10)
                 .height(80)
                 .justifyContent(FlexAlign.Center)
@@ -367,11 +372,11 @@ struct MainPage {
       .height('100%')
       .padding(15)
 
-      Bottom()
+      Bottom({ currentTheme: this.currentTheme })
     }
     .width('100%')
     .height('100%')
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
+    .backgroundColor(this.currentTheme.theme)
   }
 
   @Styles

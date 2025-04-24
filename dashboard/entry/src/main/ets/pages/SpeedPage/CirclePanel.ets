@@ -18,7 +18,7 @@ export struct CirclePanel {
     Row() {
       Stack() {
         Progress({ value: this.current / 2, total: 100, type: ProgressType.Ring })
-          .width(300)
+          .width(270)
           .color(this.gradientColor)
           .backgroundColor(Color.Transparent)
           .style({
@@ -28,28 +28,28 @@ export struct CirclePanel {
           .rotate({ angle: this.reverse ? 30 : 150 })
 
         Circle()
-          .width(230)
-          .height(230)
+          .width(200)
+          .height(200)
           .fill($r('app.color.circle_one'))
 
         Circle()
-          .width(180)
-          .height(180)
+          .width(150)
+          .height(150)
           .fill($r('app.color.circle_two'))
 
         Circle()
-          .width(130)
-          .height(130)
+          .width(100)
+          .height(100)
           .fill($r('app.color.circle_three'))
 
         Circle()
-          .width(110)
-          .height(110)
-          .fill($r('app.color.dashboard_background'))
+          .width(80)
+          .height(80)
+          .fill(this.themeManager.getCurrentTheme().mask)
 
         Column() {
           Text(this.num.toString())
-            .fontSize(65)
+            .fontSize(36)
             .fontColor(this.themeManager.getCurrentTheme().textColor)
             .fontWeight(600)
           Text(this.unit)
@@ -63,7 +63,7 @@ export struct CirclePanel {
 
       }
     }
-    .height('100%')
+    // .height('100%')
     .backgroundColor(Color.Transparent)
   }
 }

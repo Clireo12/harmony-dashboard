@@ -4,17 +4,18 @@ import { SteeringWheelAngleFeedback } from './SteeringWheelAngleFeedback'
 import { Bottom } from '../../component/Bottom'
 import { City } from '../../component/City'
 import { ThemeManager } from '../../model/ThemeManager';
+import { ThemeConfig } from '../../model/ThemeConfig'
 
 @Entry
 @Component
 struct VehicleStatusPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
+  @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State Height:number = 380
-
 
   build() {
     Column(){
-      Header()
+      Header({ currentTheme: this.currentTheme })
 
       // 方向盘角度反馈,油门状态反馈,驾驶模式反馈组件
       Row(){
@@ -45,9 +46,9 @@ struct VehicleStatusPage {
       })
       .layoutWeight(1)
 
-      Bottom()
+      Bottom({ currentTheme: this.currentTheme })
     }
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
+    .backgroundColor(this.currentTheme.theme)
     .justifyContent(FlexAlign.SpaceBetween)
     .alignItems(HorizontalAlign.Start)
     .width("100%")

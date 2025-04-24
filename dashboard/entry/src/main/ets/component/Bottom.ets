@@ -1,12 +1,10 @@
 import { router } from "@kit.ArkUI"
-import { ThemeManager } from '../model/ThemeManager';
+import { ThemeConfig } from "../model/ThemeConfig";
 
-@Preview
 @Component
 export struct Bottom {
-  private themeManager: ThemeManager = ThemeManager.getInstance();
-
   // 组件属性定义
+  @Link currentTheme: ThemeConfig
   @Prop mileage: number = 212 // 里程显示文本，默认值'212 km'
   @Prop activeTab: string = 'D'    // 当前选中标签，默认选中'D'
   @State progress: number = 0.7    // 进度条进度值(0-1)，默认0.7(70%)
@@ -55,7 +53,7 @@ export struct Bottom {
           // 里程文本显示
           Text(`${this.mileage} km`)
             .fontSize(22)          // 字体大小22px
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
             .fontWeight(FontWeight.Bold) // 加粗显示
 
           // 右侧图标
@@ -86,7 +84,10 @@ export struct Bottom {
           Image($r('app.media.back')).width(30).height(30)
             .onClick(() => {
               // 点击事件：跳转到主页
-              router.push({ url: 'pages/MainPage' });
+              router.back({
+                url: 'pages/MainPage',
+                params: this.currentTheme
+              })
             })
         }.layoutWeight(1)
       }
@@ -95,7 +96,7 @@ export struct Bottom {
       .backgroundColor(Color.Transparent)
       .alignItems(VerticalAlign.Center) // 垂直居中
     }
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
+    .backgroundColor(this.currentTheme.theme)
     .width('100%')
     .height(60)
   }
@@ -113,7 +114,7 @@ export struct Bottom {
         .fontSize(22)
         .fontColor(this.activeTab === tabName
           ? $r('app.color.clicked') // 选中状态颜色(从资源文件获取)
-          : this.themeManager.getCurrentTheme().textColor) // 未选中状态颜色
+          : this.currentTheme.textColor) // 未选中状态颜色
         .margin({ bottom: 2 }) // 底部间距2px
 
       // 选中状态指示器

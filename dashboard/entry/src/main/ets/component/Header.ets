@@ -1,12 +1,11 @@
 import { geoLocationManager } from '@kit.LocationKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { weatherService } from '@kit.WeatherServiceKit';
-import { ThemeManager } from '../model/ThemeManager';
+import { ThemeConfig } from '../model/ThemeConfig';
 
 @Component
 export struct Header {
-  private themeManager: ThemeManager = ThemeManager.getInstance();
-
+  @Link currentTheme: ThemeConfig
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
@@ -39,7 +38,7 @@ export struct Header {
       console.error(`getCurrentLocation failed. Code: ${err.code}, message: ${err.message}`);
     });
 
-    let request: weatherService.WeatherRequest = {
+    /*let request: weatherService.WeatherRequest = {
       location: {
         latitude: this.latitude, // 使用实际获取的纬度
         longitude: this.longitude // 使用实际获取的经度
@@ -53,7 +52,7 @@ export struct Header {
     }
     if (weather.alerts?.length) {
       console.info('getWeather alert: ' + weather.alerts[0].title);
-    }
+    }*/
 
   }
 
@@ -72,19 +71,19 @@ export struct Header {
         Row({ space: 10 }) {
           Text(this.timeState)
             .fontSize(20)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
           Text(this.time)
             .fontSize(20)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
         }
 
         Row({ space: 10 }) {
           Image($r('app.media.sun_right'))
-            .fillColor(this.themeManager.getCurrentTheme().textColor)
+            .fillColor(this.currentTheme.textColor)
             .width(22)
           Text(`${this.temperature}℃`)
             .fontSize(20)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
         }
       }
       .width(200)
@@ -92,18 +91,18 @@ export struct Header {
       Row({ space: 10 }){
         Button(){
           Text('<')
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
         }
-        .backgroundColor(this.themeManager.getCurrentTheme().theme)
+        .backgroundColor(this.currentTheme.theme)
 
         Image($r('app.media.leaf'))
-          .fillColor(this.themeManager.getCurrentTheme().textColor)
+          .fillColor(this.currentTheme.textColor)
           .width(25)
         Text('ECO')
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
+          .fontColor(this.currentTheme.textColor)
         Button(){
           Text(">")
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
         }
         .backgroundColor(Color.Transparent)
         .margin({
@@ -115,7 +114,7 @@ export struct Header {
           .offset({ y: -5 })
 
         Text("东南")
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
+          .fontColor(this.currentTheme.textColor)
       }
       .layoutWeight(1)
       .justifyContent(FlexAlign.Center)
@@ -123,10 +122,10 @@ export struct Header {
       Row({ space: 10 }){
         Text('总里程')
           .fontSize(20)
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
+          .fontColor(this.currentTheme.textColor)
         Text(`${this.TotalMileage} km`)
           .fontSize(20)
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
+          .fontColor(this.currentTheme.textColor)
       }
       .width(200)
       .justifyContent(FlexAlign.End)
@@ -135,6 +134,6 @@ export struct Header {
     .width('100%')
     .height(60)
     .justifyContent(FlexAlign.SpaceBetween)
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
+    .backgroundColor(this.currentTheme.theme)
   }
 }

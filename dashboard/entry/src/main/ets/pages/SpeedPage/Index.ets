@@ -1,15 +1,17 @@
 import { Bottom } from '../../component/Bottom';
 import { Header } from '../../component/Header';
 import { CarPanel } from './CarPanel';
-import { CirclePanel } from './CirclePanel';
 import { MenuItem } from '../../model/MenuItem';
 import { SidePanel } from './SidePanel';
 import { ThemeManager } from '../../model/ThemeManager';
+import { SignalLight } from './SignalLight';
+import { ThemeConfig } from '../../model/ThemeConfig';
 
 @Entry
 @Component
 export struct DashboardPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
+  @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
 
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), text: '', active: true },
@@ -25,25 +27,17 @@ export struct DashboardPage {
   build() {
     Column() {
 
-      Header()
+      Header({ currentTheme: this.currentTheme })
 
       Row({ space: 5 }) {
         SidePanel({ menu: this.leftMenu })
 
-        CirclePanel({
-          num: 80,
-          unit: 'km/h',
-          current: 100
-        })
+        Column() {
+          SignalLight({ activeLight: 0 })
 
-        CarPanel({ activeLight: 2 })
-
-        CirclePanel({
-          num: 50,
-          unit: 'km',
-          current: 100,
-          reverse: true
-        })
+          CarPanel()
+        }
+        .layoutWeight(1)
 
         SidePanel({ menu: this.rightMenu })
       }
@@ -51,10 +45,10 @@ export struct DashboardPage {
       .justifyContent(FlexAlign.SpaceBetween)
       .width('100%')
 
-      Bottom()
+      Bottom({ currentTheme: this.currentTheme })
     }
     .height('100%')
     .width('100%')
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
+    .backgroundColor(this.currentTheme.theme)
   }
 }
