@@ -13,6 +13,7 @@ struct VehicleStatusPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State Height:number = 380
 
+
   build() {
     Column(){
       Header({ currentTheme: this.currentTheme })

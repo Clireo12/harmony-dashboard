@@ -1,4 +1,5 @@
 import { ThemeManager } from '../../model/ThemeManager';
+import PreferencesUtil from '../../utils/PreferencesUtil';
 
 // 驾驶状态组件
 @Component
@@ -12,6 +13,11 @@ export struct DrivingMode {
   private selectedMode:number|number[] = 1
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
+    // 初始化pref
+    PreferencesUtil.Load()
+    // 读取当前选中的模式
+    this.selectedMode = PreferencesUtil.get('selectedMode', 0) as number
+    console.log("selectedMode: " + this.selectedMode.toString())
   }
 
   build() {
@@ -93,7 +99,7 @@ export struct DrivingMode {
               top:3
             })
 
-          TextPicker({range:this.DrivingMode, selected:1})
+          TextPicker({range:this.DrivingMode, selected:this.selectedMode})
             // 选中的选项的字体样式
             .selectedTextStyle({
               color: "#007CE6",
@@ -113,9 +119,11 @@ export struct DrivingMode {
             // 取消Picker的分割线
             .divider(null)
             // 滑动该组件后触发回调函数, 获取当前选中的驾驶模式
-            .onChange((value: string | string[], index: number | number[]) => {
+            .onScrollStop((value: string | string[], index: number | number[]) => {
               console.info('Picker item changed, value: ' + value + ', index: ' + index)
               this.selectedMode = index
+              PreferencesUtil.put('selectedMode', this.selectedMode as number)
+              console.info('selectedMode: ' + this.selectedMode)
             })
             .width("100%")
             .height("80%")
