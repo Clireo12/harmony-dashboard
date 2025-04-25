@@ -1,5 +1,6 @@
 import { router } from "@kit.ArkUI"
 import { ThemeConfig } from "../model/ThemeConfig";
+import PreferencesUtil from "../utils/PreferencesUtil";
 
 @Component
 export struct Bottom {
@@ -23,6 +24,8 @@ export struct Bottom {
    */
   aboutToAppear() {
     // 初始化时根据里程计算进度
+    PreferencesUtil.Load()
+    this.activeTab = PreferencesUtil.get('drivingMode', 'D') as string
     this.progress = this.getMileageProgress()
   }
 
@@ -130,6 +133,8 @@ export struct Bottom {
     .onClick(() => {
       // 点击事件：切换当前选中标签
       this.activeTab = tabName
+      // 驾驶模式 drivingMode
+      PreferencesUtil.put('drivingMode', tabName)
     })
   }
 }

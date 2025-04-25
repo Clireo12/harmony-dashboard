@@ -2,6 +2,10 @@ import { geoLocationManager } from '@kit.LocationKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { weatherService } from '@kit.WeatherServiceKit';
 import { ThemeConfig } from '../model/ThemeConfig';
+import PreferencesUtil from '../utils/PreferencesUtil';
+import { preferences } from '@kit.ArkData';
+import { common } from '@kit.AbilityKit';
+
 
 @Component
 export struct Header {
@@ -15,11 +19,18 @@ export struct Header {
   @State textColor:Resource = $r("app.color.text_color")
   private  latitude:number = 0;   // 经度
   private  longitude:number = 0;  // 纬度
+
   /**
    * 组件生命周期 - 即将出现时调用
    */
   async aboutToAppear() {
     const timeDesc: string[] = ['上午', '中午', '下午']
+
+    // 加载用户首选项实例
+    PreferencesUtil.Load()
+    console.log('Load ok')
+    this.TotalMileage = PreferencesUtil.get('TotalMileage', 0) as number
+
     // 初始化变量
     this.timer = setInterval(() => {
       this.date = new Date()
@@ -37,29 +48,13 @@ export struct Header {
     }).catch((err: BusinessError ) => {
       console.error(`getCurrentLocation failed. Code: ${err.code}, message: ${err.message}`);
     });
-
-    /*let request: weatherService.WeatherRequest = {
-      location: {
-        latitude: this.latitude, // 使用实际获取的纬度
-        longitude: this.longitude // 使用实际获取的经度
-      },
-      limitedDatasets: [weatherService.Dataset.CURRENT, weatherService.Dataset.ALERTS]
-    };
-    let weather = await weatherService.getWeather(request);
-    if (weather.current) {
-      console.info('getWeather current temperature: ' + weather.current.temperature);
-      this.temperature = weather.current.temperature
-    }
-    if (weather.alerts?.length) {
-      console.info('getWeather alert: ' + weather.alerts[0].title);
-    }*/
-
   }
 
   /**
    * 组件生命周期 - 即将退出时调用
    */
   aboutToDisappear() {
+    console.log('aboutToDisappear')
     if (this.timer) {
       clearInterval(this.timer)
     }
@@ -126,6 +121,7 @@ export struct Header {
         Text(`${this.TotalMileage} km`)
           .fontSize(20)
           .fontColor(this.currentTheme.textColor)
+
       }
       .width(200)
       .justifyContent(FlexAlign.End)
