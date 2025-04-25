@@ -3,6 +3,7 @@ import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { ThemeConfig } from '../model/ThemeConfig';
+import PreferencesUtil from '../utils/PreferencesUtil';
 
 interface VehicleStatus {
   oil: string;
@@ -29,9 +30,16 @@ struct MainPage {
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
-  @State drivingModes: string[] = ['经济模式', '运动模式', '雪地模式', '标准模式'];
+  @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
   @State selectedDrivingMode: number = 3;
   @State CirclePanel: string="80km/h"
+
+
+  aboutToAppear(): void {
+    PreferencesUtil.Load()
+    this.selectedDrivingMode = PreferencesUtil.get('selectedMode', 0) as number
+  }
+
 
   navigateToDashboard() {
     router.pushUrl({ url: 'pages/SpeedPage/Index' });
@@ -168,11 +176,11 @@ struct MainPage {
                     font: { size: 16 },
                     color: '#666666'
                   })
-                  .onChange((value: string | string[], index: number | number[]) => {
-                    if (typeof value === 'string') {
-                      this.selectedDrivingMode = index as number;
-                      console.log('Selected driving mode:', value);
-                    }
+                  .onScrollStop((value: string | string[], index: number | number[]) => {
+                    console.info('Picker item changed, value: ' + value + ', index: ' + index)
+                    this.selectedDrivingMode = index as number
+                    PreferencesUtil.put('selectedMode', this.selectedDrivingMode)
+                    console.info('selectedMode: ' + this.selectedDrivingMode)
                   })
                   .width('100%')
                   .height(110)

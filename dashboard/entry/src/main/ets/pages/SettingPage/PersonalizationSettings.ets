@@ -4,6 +4,7 @@ import { City } from '../../component/City';
 //引入主题配置接口
 import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
+import PreferencesUtil from '../../utils/PreferencesUtil';
 
 // 定义主题键类型，用于标识不同的主题
 type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
@@ -32,6 +33,13 @@ export struct PersonalizationSettings {
     Column() {
       // 可以留空或添加默认占位内容
     }
+  }
+
+  aboutToAppear(): void {
+    PreferencesUtil.Load()
+    // 初始化亮度值
+    this.brightnessValue = PreferencesUtil.get('brightnessValue',0) as number
+
   }
 
   // 默认偏好设置配置
@@ -255,6 +263,7 @@ export struct PersonalizationSettings {
       .width('90%') // 滑块宽度
       .onChange((value: number) => {
         this.brightnessValue = value / 100; // 更新亮度值
+        PreferencesUtil.put('brightnessValue',this.brightnessValue)
       });
   }
 
