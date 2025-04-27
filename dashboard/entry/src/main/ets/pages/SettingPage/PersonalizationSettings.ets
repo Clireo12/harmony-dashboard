@@ -40,6 +40,35 @@ export struct PersonalizationSettings {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue',0) as number
 
+    // 加载偏好设置
+    const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', ''); // 默认值为空字符串 调用 PreferencesUtil.get 方法，尝试获取 preferenceConfig 对应的值。如果该键不存在，则返回默认值空字符串 ''。
+    let savedPreferences: PreferenceItem[] = []; //初始化一个空的 savedPreferences 数组，用于存储解析后的偏好设置数据。
+
+    if (savedPreferencesRaw && typeof savedPreferencesRaw === 'string') { //确保 savedPreferencesRaw 不为空且是字符串。
+      try {
+        // 使用类型断言明确 JSON 解析结果的类型
+        const parsedData: PreferenceItem[] = JSON.parse(savedPreferencesRaw) as PreferenceItem[]; //将 savedPreferencesRaw 解析为 PreferenceItem[] 类型的数组。
+
+        // 验证解析结果是否符合预期格式 验证解析后的数据是否为有效的 PreferenceItem[] 数组。
+        if (Array.isArray(parsedData) && parsedData.every(item =>
+        typeof item === 'object' &&
+          item !== null && // 确保不是 null
+          typeof item.name === 'string' && // 直接检查 name 是否为字符串
+          typeof item.enabled === 'boolean' // 直接检查 enabled 是否为布尔值
+        )) {
+          savedPreferences = parsedData; //如果验证通过，将解析后的数据赋值给 savedPreferences。
+        } else {
+          console.warn("PreferenceConfig format is invalid, using default preferences.");
+        }
+      } catch (error) {
+        console.error("Failed to parse preferenceConfig:", error);
+      }
+    }
+
+    if (savedPreferences.length > 0) {
+      this.preferenceConfig = savedPreferences; //如果 savedPreferences 数组中有数据，则将其赋值给 this.preferenceConfig。
+    }
+
   }
 
   // 默认偏好设置配置
