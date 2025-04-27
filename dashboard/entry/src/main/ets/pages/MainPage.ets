@@ -167,23 +167,23 @@ struct MainPage {
 
               Column() {
 
-                TextPicker({ range: this.drivingModes, selected: this.selectedDrivingMode })
-                  .selectedTextStyle({
-                    font: { size: 20, weight: FontWeight.Bold },
-                    color: '#007DFF'
-                  })
-                  .textStyle({
-                    font: { size: 16 },
-                    color: '#666666'
-                  })
-                  .onScrollStop((value: string | string[], index: number | number[]) => {
-                    console.info('Picker item changed, value: ' + value + ', index: ' + index)
-                    this.selectedDrivingMode = index as number
-                    PreferencesUtil.put('selectedMode', this.selectedDrivingMode)
-                    console.info('selectedMode: ' + this.selectedDrivingMode)
-                  })
-                  .width('100%')
-                  .height(110)
+                // TextPicker({ range: this.drivingModes, selected: this.selectedDrivingMode })
+                //   .selectedTextStyle({
+                //     font: { size: 20, weight: FontWeight.Bold },
+                //     color: '#007DFF'
+                //   })
+                //   .textStyle({
+                //     font: { size: 16 },
+                //     color: '#666666'
+                //   })
+                //   .onScrollStop((value: string | string[], index: number | number[]) => {
+                //     console.info('Picker item changed, value: ' + value + ', index: ' + index)
+                //     this.selectedDrivingMode = index as number
+                //     // PreferencesUtil.put('selectedMode', this.selectedDrivingMode)
+                //     console.info('selectedMode: ' + this.selectedDrivingMode)
+                //   })
+                //   .width('100%')
+                //   .height(110)
               }
               .width('100%')
               .margin({ bottom: 10 })
