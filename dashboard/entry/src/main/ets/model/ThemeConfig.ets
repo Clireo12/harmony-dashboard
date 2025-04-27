@@ -1,7 +1,7 @@
 
 // 主题配置接口，定义了每个主题的配置项
 export interface ThemeConfig {
-  theme: ResourceColor;
+  theme: ResourceColor; // 背景颜色
   mask: ResourceColor; // 蒙版颜色
   textColor: ResourceColor; // 文字颜色
   iconColor: ResourceColor; // 图标颜色

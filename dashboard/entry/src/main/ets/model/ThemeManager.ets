@@ -1,5 +1,6 @@
 // theme.ts
 import { ThemeConfig, themeConfig } from '../model/ThemeConfig';
+import PreferencesUtil from '../utils/PreferencesUtil';
 
 // 主题键类型
 export type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
@@ -21,6 +22,9 @@ export class ThemeManager {
   private static instance: ThemeManager;
 
   private constructor() {
+    PreferencesUtil.Load();
+    const savedTheme = PreferencesUtil.get('userTheme', "");
+    this.userSelectedTheme = savedTheme && savedTheme !== "" ? savedTheme as ThemeKey : null;
     this.checkTimeAndUpdateTheme();
     this.startTimeChecker();
   }
@@ -67,12 +71,14 @@ export class ThemeManager {
   public changeTheme(themeKey: ThemeKey) {
     this.userSelectedTheme = themeKey;
     this.currentThemeKey = themeKey;
+    PreferencesUtil.put('userTheme', themeKey);
   }
 
   // 重置为时间主题
   public resetToTimeBasedTheme() {
     this.userSelectedTheme = null;
     this.currentThemeKey = this.timeBasedTheme;
+    PreferencesUtil.put('userTheme', "");
   }
 
   // 清理资源

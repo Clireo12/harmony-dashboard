@@ -322,7 +322,6 @@ struct MainPage {
                 .height(80)
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
-                .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
                 Column(){
                   Image($r('app.media.sun_left'))
@@ -339,7 +338,7 @@ struct MainPage {
                 .height(80)
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
-                .backgroundColor(this.themeManager.getCurrentTheme().mask)
+
 
                 Column(){
                   Image($r('app.media.like'))
@@ -355,7 +354,6 @@ struct MainPage {
                 .justifyContent(FlexAlign.Center)
                 .alignItems(HorizontalAlign.Center)
                 .borderRadius(10)
-                .backgroundColor(this.themeManager.getCurrentTheme().mask)
               }
               .width("100%")
               .justifyContent(FlexAlign.SpaceBetween)
@@ -391,7 +389,7 @@ struct MainPage {
   CardStyle() {
     .width('100%')
     .padding(15)
-    .backgroundColor(this.themeManager.getCurrentTheme().mask)
+    .backgroundColor(this.currentTheme.mask)
     .borderRadius(10)
   }
 }

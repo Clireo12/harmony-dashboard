@@ -25,8 +25,6 @@ struct SensorItem {
       .height("45%")
       .justifyContent(FlexAlign.Center)
       .borderRadius(20)
-      //在这里设置事件触发 当该组件被接触时 修改该组件的页面背景颜色
-
   }
 
 }
