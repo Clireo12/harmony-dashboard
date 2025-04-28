@@ -17,6 +17,7 @@ interface PreferenceItem {
 @Entry
 @Component
 export struct PersonalizationSettings {
+  @StorageProp('fontSize') fontSize: number = 20;
   private themeManager: ThemeManager = ThemeManager.getInstance();
 
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
@@ -100,10 +101,10 @@ export struct PersonalizationSettings {
             Column() {
               // 主题切换标题
               Text('主题切换')
-                .fontSize(20)
+                .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
-                .margin({ bottom: 20 });
+                .margin({ top: 10, bottom: 10 });
 
               // 主题切换按钮
               Row() {
@@ -114,10 +115,11 @@ export struct PersonalizationSettings {
               }
               .justifyContent(FlexAlign.SpaceEvenly)
               .width('100%')
-              .margin({ bottom: 40 });
+              .padding({ bottom: 10 });
             }
-            .padding({ top: 20 })
+            .padding({ top: 10 })
             .width('80%')
+            .height('60%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
             .margin({ left : -100,bottom: 20 });
@@ -125,10 +127,10 @@ export struct PersonalizationSettings {
             // 亮度调节区域
             Column() {
               Text('亮度调节')
-                .fontSize(20)
+                .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
-                .margin({ top: 10, bottom: 10 });
+                .margin({ top: 5, bottom: 5 });
 
               //滑块和图标
               Row() {
@@ -153,9 +155,10 @@ export struct PersonalizationSettings {
                 })
               }
               .justifyContent(FlexAlign.SpaceEvenly)
-              .width('90%');
+              .width('87%');
             }
             .width('80%')
+            .height('35%')
             .padding({ bottom: 15 })
             .justifyContent(FlexAlign.SpaceEvenly)
             .backgroundColor(this.currentTheme.mask)
@@ -164,15 +167,16 @@ export struct PersonalizationSettings {
           }
           .width('50%')
           .padding({ left: 30 })
-          .height(350)
+          .height("85%")
 
           // 右侧
           Row() {
             //偏好设置
             Column(){
               Text('偏好设置')
+                .margin({ top: 5})
                 .width('100%')
-                .fontSize(20)
+                .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center);
 
@@ -182,7 +186,7 @@ export struct PersonalizationSettings {
                 ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
                   Row(){
                     Text(item.name)
-                      .fontSize(14)
+                      .fontSize(this.fontSize-5)
                       .fontColor(this.currentTheme.textColor)
                       .layoutWeight(1)
                       .margin({left : 10});
@@ -190,15 +194,15 @@ export struct PersonalizationSettings {
                     // 按钮设置
                     Toggle({ type: ToggleType.Switch, isOn: item.enabled })
                       .margin({ right: 10 })
-                      .width(30)
-                      .height(20)
+                      .width("20%")
+                      .height("50%")
                       .onChange((isOn: boolean) => {
                         this.preferenceConfig[index].enabled = isOn;
                       })
                   }
                   .width('100%')
-                  .height(40)
-                  .margin({ bottom: 5 });
+                  .height("15%")
+                  .margin({ bottom: 3 });
                 })
               }
               .width('100%')
@@ -209,8 +213,7 @@ export struct PersonalizationSettings {
             .width('45%')
             .backgroundColor(this.currentTheme.mask) // 背景颜色随主题切换
             .borderRadius(10)
-            .height(360)
-            .padding(10)
+            .height("100%")
             .margin({ left: -110, right: -30 });
 
             //汽车图片
@@ -220,7 +223,7 @@ export struct PersonalizationSettings {
             }
           }
           .width('50%')
-          .height(330)
+          .height("85%")
           .padding({ left: 30 });
 
         }
@@ -245,8 +248,8 @@ export struct PersonalizationSettings {
   buildThemeButton(theme: ThemeKey, label: string) {
     Column() {
       Image(themeConfig[theme].buttonIcon)
-        .width(80)
-        .height(80)
+        .width(75)
+        .height(75)
         .borderRadius(40)
         .onClick(() => {
           this.themeManager.changeTheme(theme); // 调用 ThemeManager 的 changeTheme 方法
@@ -255,7 +258,7 @@ export struct PersonalizationSettings {
         });
 
       Text(label)
-        .fontSize(14)
+        .fontSize(this.fontSize-6)
         .fontColor(this.currentTheme.textColor)
         .margin({ top: 10 });
     }
@@ -301,10 +304,10 @@ export struct PersonalizationSettings {
     Row() {
       Column() {
         Text(name)
-          .fontSize(14)
+          .fontSize(this.fontSize-6)
           .fontColor(this.currentTheme.textColor)
           .textAlign(TextAlign.Start)
-          .margin({ bottom: 5 });
+
       }
       .layoutWeight(1)
 
@@ -320,10 +323,10 @@ export struct PersonalizationSettings {
         .selectedColor(Color.Blue)
     }
     .width('100%')
-    .height(60)
+    .height("30%")
     .padding({ left: 10, right: 10 })
     .borderRadius(8)
-    .margin({ bottom: 10 });
+
   }
 
 }
