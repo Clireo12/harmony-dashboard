@@ -19,9 +19,6 @@ import { common } from '@kit.AbilityKit';
  */
 
 
-
-
-
 class PreferencesUtil {
 
   // 初始化的标识
@@ -32,7 +29,7 @@ class PreferencesUtil {
   public pref:preferences.Preferences = {} as preferences.Preferences;
 
   private uiAbilityContext: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
-  private applicationContext = this.uiAbilityContext.getApplicationContext(); // 获取应用级上下文
+
 
   // 加载实例(初始化)
   Load(context:common.UIAbilityContext){

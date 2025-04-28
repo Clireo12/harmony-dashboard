@@ -14,7 +14,7 @@ export struct DrivingMode {
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
     // 初始化pref
-    PreferencesUtil.Load()
+
     // 读取当前选中的模式
     this.selectedMode = PreferencesUtil.get('selectedMode', 0) as number
     console.log("selectedMode: " + this.selectedMode.toString())
@@ -99,32 +99,32 @@ export struct DrivingMode {
               top:3
             })
 
-          // TextPicker({range:this.DrivingMode, selected:this.selectedMode})
-          //   // 选中的选项的字体样式
-          //   .selectedTextStyle({
-          //     color: "#007CE6",
-          //     font: {
-          //       size: '28vp',
-          //       weight: FontWeight.Regular
-          //     }
-          //   })
-          //   // 未选中的选项的字体样式
-          //   .textStyle({
-          //     color: "#0E62AA",
-          //     font: {
-          //       size: '18vp',
-          //       weight: FontWeight.Regular
-          //     }
-          //   })
-          //   // 取消Picker的分割线
-          //   .divider(null)
-          //   // 滑动该组件后触发回调函数, 获取当前选中的驾驶模式
-          //   .onScrollStop((value: string | string[], index: number | number[]) => {
-          //     console.info('Picker item changed, value: ' + value + ', index: ' + index)
-          //     this.selectedMode = index
-          //     PreferencesUtil.put('selectedMode', this.selectedMode as number)
-          //     console.info('selectedMode: ' + this.selectedMode)
-          //   })
+              TextPicker({range:this.DrivingMode, selected:this.selectedMode})
+                // 选中的选项的字体样式
+                .selectedTextStyle({
+                  color: "#007CE6",
+                  font: {
+                    size: '28vp',
+                    weight: FontWeight.Regular
+                  }
+                })
+                // 未选中的选项的字体样式
+                .textStyle({
+                  color: "#0E62AA",
+                  font: {
+                    size: '18vp',
+                    weight: FontWeight.Regular
+                  }
+                })
+                // 取消Picker的分割线
+                .divider(null)
+                // 滑动该组件后触发回调函数, 获取当前选中的驾驶模式
+                .onChange(async(value: string | string[], index: number | number[]) => {
+                  console.info('Picker item changed, value: ' + value + ', index: ' + index)
+                  this.selectedMode = index as number
+                  PreferencesUtil.put('selectedMode', this.selectedMode)
+                  console.info('selectedMode: ' + this.selectedMode)
+                })
             .width("100%")
             .height("80%")
 

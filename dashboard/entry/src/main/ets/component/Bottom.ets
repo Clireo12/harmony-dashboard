@@ -24,7 +24,7 @@ export struct Bottom {
    */
   aboutToAppear() {
     // 初始化时根据里程计算进度
-    PreferencesUtil.Load()
+
     this.activeTab = PreferencesUtil.get('drivingMode', 'D') as string
     this.progress = this.getMileageProgress()
   }

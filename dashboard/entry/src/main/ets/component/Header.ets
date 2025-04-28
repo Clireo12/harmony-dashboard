@@ -27,7 +27,7 @@ export struct Header {
     const timeDesc: string[] = ['上午', '中午', '下午']
 
     // 加载用户首选项实例
-    PreferencesUtil.Load()
+
     console.log('Load ok')
     this.TotalMileage = PreferencesUtil.get('TotalMileage', 0) as number
 

@@ -1,7 +1,6 @@
 import { Header } from '../../component/Header';
 import { Bottom } from '../../component/Bottom';
 import { City } from '../../component/City';
-//引入主题配置接口
 import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
 import PreferencesUtil from '../../utils/PreferencesUtil';
@@ -22,7 +21,7 @@ export struct PersonalizationSettings {
 
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
-  @State brightnessValue: number = 0.5; // 亮度值，初始为 50%
+  @State brightnessValue: number = 0; // 亮度值
 
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
@@ -36,7 +35,7 @@ export struct PersonalizationSettings {
   }
 
   aboutToAppear(): void {
-    PreferencesUtil.Load()
+
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue',0) as number
 
@@ -113,19 +112,19 @@ export struct PersonalizationSettings {
                 this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
                 this.buildThemeButton('fresh-green', '清新绿'); // 清新绿主题按钮
               }
-              .justifyContent(FlexAlign.SpaceEvenly)  // 均匀分配空间
-              .width('100%')  // 确保填满父容器
+              .justifyContent(FlexAlign.SpaceEvenly)
+              .width('100%')
               .margin({ bottom: 40 });
             }
             .padding({ top: 20 })
             .width('80%')
-            .backgroundColor(this.currentTheme.mask) // 背景颜色随主题切换
-            .borderRadius(10) // 圆角
-            .margin({ left : -100,bottom: 20 }); // 外边距
+            .backgroundColor(this.currentTheme.mask)
+            .borderRadius(10)
+            .margin({ left : -100,bottom: 20 });
 
             // 亮度调节区域
             Column() {
-              Text('亮度调节') // 亮度调节标题
+              Text('亮度调节')
                 .fontSize(20)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
@@ -137,7 +136,7 @@ export struct PersonalizationSettings {
                 this.buildBrightnessSlider(); // 亮度滑块
                 this.buildBrightnessIcon('right'); // 右侧亮度图标
               }
-              .justifyContent(FlexAlign.SpaceEvenly) // 图标和滑块水平均匀分布
+              .justifyContent(FlexAlign.SpaceEvenly)
               .width('90%')
 
               //滑块刻度
@@ -153,18 +152,18 @@ export struct PersonalizationSettings {
                     );
                 })
               }
-              .justifyContent(FlexAlign.SpaceEvenly) // 数字水平均匀分布
-              .width('90%'); // 与滑块宽度一致
+              .justifyContent(FlexAlign.SpaceEvenly)
+              .width('90%');
             }
             .width('80%')
             .padding({ bottom: 15 })
             .justifyContent(FlexAlign.SpaceEvenly)
-            .backgroundColor(this.currentTheme.mask) // 背景颜色随主题切换
-            .margin({left : -100})// 外边距
-            .borderRadius(10); // 圆角
+            .backgroundColor(this.currentTheme.mask)
+            .margin({left : -100})
+            .borderRadius(10);
           }
-          .width('50%') // 左侧区域宽度设置为 50%
-          .padding({ left: 30 }) // 左侧内边距
+          .width('50%')
+          .padding({ left: 30 })
           .height(350)
 
           // 右侧
@@ -191,8 +190,8 @@ export struct PersonalizationSettings {
                     // 按钮设置
                     Toggle({ type: ToggleType.Switch, isOn: item.enabled })
                       .margin({ right: 10 })
-                      .width(30)  // 明确设置宽度
-                      .height(20) // 明确设置高度
+                      .width(30)
+                      .height(20)
                       .onChange((isOn: boolean) => {
                         this.preferenceConfig[index].enabled = isOn;
                       })
@@ -203,16 +202,16 @@ export struct PersonalizationSettings {
                 })
               }
               .width('100%')
-              .height("80%")  // 固定高度确保内容不超出
+              .height("80%")
               .margin({ top: 5, bottom: 5 })
 
             }
             .width('45%')
             .backgroundColor(this.currentTheme.mask) // 背景颜色随主题切换
-            .borderRadius(10) // 圆角
-            .height(360) // 设置固定高度
-            .padding(10) // 右侧内边距
-            .margin({ left: -110, right: -30 }); // 添加左侧间隔
+            .borderRadius(10)
+            .height(360)
+            .padding(10)
+            .margin({ left: -110, right: -30 });
 
             //汽车图片
             Stack(){
@@ -220,9 +219,9 @@ export struct PersonalizationSettings {
               Image($r('app.media.car')).width(480).height(300)
             }
           }
-          .width('50%') // 右侧区域宽度设置为 50%
+          .width('50%')
           .height(330)
-          .padding({ left: 30 }); // 右侧内边距
+          .padding({ left: 30 });
 
         }
         .width('100%')
@@ -280,16 +279,16 @@ export struct PersonalizationSettings {
   @Builder
   buildBrightnessSlider() {
     Slider({
-      value: this.brightnessValue * 100, // 当前亮度值
-      min: 0, // 最小值
-      max: 100, // 最大值
-      step: 10, // 步长
-      style: SliderStyle.InSet // 滑块样式
+      value: this.brightnessValue * 100,
+      min: 0,
+      max: 100,
+      step: 10,
+      style: SliderStyle.InSet
     })
-      .trackThickness(20) // 轨道厚度
-      .showSteps(true) // 显示刻度
-      .showTips(true) // 显示提示
-      .width('90%') // 滑块宽度
+      .trackThickness(20)
+      .showSteps(true)
+      .showTips(true)
+      .width('90%')
       .onChange((value: number) => {
         this.brightnessValue = value / 100; // 更新亮度值
         PreferencesUtil.put('brightnessValue',this.brightnessValue)
@@ -301,13 +300,13 @@ export struct PersonalizationSettings {
   buildPreferenceItem(name: string, enabled: boolean) {
     Row() {
       Column() {
-        Text(name) // 选项名称
+        Text(name)
           .fontSize(14)
           .fontColor(this.currentTheme.textColor)
-          .textAlign(TextAlign.Start) // 文字左对齐
-          .margin({ bottom: 5 }); // 调整间距
+          .textAlign(TextAlign.Start)
+          .margin({ bottom: 5 });
       }
-      .layoutWeight(1) // 左侧文本占满剩余空间
+      .layoutWeight(1)
 
       // Toggle 按钮样式调整
       Toggle({ type: ToggleType.Switch, isOn: enabled })
