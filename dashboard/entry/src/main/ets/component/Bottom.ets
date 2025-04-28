@@ -42,7 +42,7 @@ export struct Bottom {
 
           }
           .width("50%")
-          .height("20%")
+          .height("30%")
           .backgroundColor('#E5E5E5')
           .margin({ right: 10 })
 

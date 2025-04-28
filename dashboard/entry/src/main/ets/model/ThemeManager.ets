@@ -1,4 +1,3 @@
-// theme.ts
 import { ThemeConfig, themeConfig } from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
 
@@ -22,7 +21,6 @@ export class ThemeManager {
   private static instance: ThemeManager;
 
   private constructor() {
-
     const savedTheme = PreferencesUtil.get('userTheme', "");
     this.userSelectedTheme = savedTheme && savedTheme !== "" ? savedTheme as ThemeKey : null;
     this.checkTimeAndUpdateTheme();
