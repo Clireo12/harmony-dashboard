@@ -9,6 +9,7 @@ import { common } from '@kit.AbilityKit';
 
 @Component
 export struct Header {
+  @StorageProp('fontSize') fontSize: number = 16;
   @Link currentTheme: ThemeConfig
   @State date: Date = new Date()
   @State time: string = ''
@@ -65,23 +66,24 @@ export struct Header {
       Row({ space: 40 }){
         Row({ space: 10 }) {
           Text(this.timeState)
-            .fontSize(20)
+            .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
           Text(this.time)
-            .fontSize(20)
+            .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
         }
 
         Row({ space: 10 }) {
           Image($r('app.media.sun_right'))
             .fillColor(this.currentTheme.textColor)
-            .width(22)
+            .width("7%")
+            .height("100%")
           Text(`${this.temperature}℃`)
-            .fontSize(20)
+            .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
         }
       }
-      .width(200)
+      .width("40%")
 
       Row({ space: 10 }){
         Button(){
@@ -92,7 +94,8 @@ export struct Header {
 
         Image($r('app.media.leaf'))
           .fillColor(this.currentTheme.textColor)
-          .width(25)
+          .width("15%")
+          .height("100%")
         Text('ECO')
           .fontColor(this.currentTheme.textColor)
         Button(){
@@ -105,7 +108,7 @@ export struct Header {
         })
 
         Image(this.timeState == '下午' ? $r('app.media.daohang_black'):$r('app.media.daohang_white'))
-          .width(30)
+          .width("20%")
           .offset({ y: -5 })
 
         Text("东南")
@@ -116,19 +119,19 @@ export struct Header {
 
       Row({ space: 10 }){
         Text('总里程')
-          .fontSize(20)
+          .fontSize(this.fontSize)
           .fontColor(this.currentTheme.textColor)
         Text(`${this.TotalMileage} km`)
-          .fontSize(20)
+          .fontSize(this.fontSize)
           .fontColor(this.currentTheme.textColor)
 
       }
-      .width(200)
+      .width("40%")
       .justifyContent(FlexAlign.End)
     }
     .padding({ left: 50, right: 50 })
     .width('100%')
-    .height(60)
+    .height("5%")
     .justifyContent(FlexAlign.SpaceBetween)
     .backgroundColor(this.currentTheme.theme)
   }
