@@ -3,6 +3,7 @@ import { common } from '@kit.AbilityKit';
 
 
 /*
+  !!!!请注意这是一个异步接口,如果出现callback报错,请在方法前面加async!!!!
   第一步
   aboutToAppear() {
     // 初始化时根据里程计算进度
@@ -34,12 +35,12 @@ class PreferencesUtil {
   private applicationContext = this.uiAbilityContext.getApplicationContext(); // 获取应用级上下文
 
   // 加载实例(初始化)
-  Load(){
+  Load(context:common.UIAbilityContext){
     if (this.state) {
       return
     }
     let options:preferences.Options = {name : this.name}
-    this.pref = preferences.getPreferencesSync(this.applicationContext, options)
+    this.pref = preferences.getPreferencesSync(context, options)
     this.state = true
   }
 
