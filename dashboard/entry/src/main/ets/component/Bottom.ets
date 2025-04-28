@@ -87,7 +87,6 @@ export struct Bottom {
       .backgroundColor(Color.Transparent)
       .alignItems(VerticalAlign.Center)
     }
-    .backgroundColor(this.currentTheme.theme)
     .width('100%')
     .height("5%")
   }
