@@ -19,7 +19,6 @@ interface PreferenceItem {
 export struct PersonalizationSettings {
   @StorageProp('fontSize') fontSize: number = 20;
   private themeManager: ThemeManager = ThemeManager.getInstance();
-
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0; // 亮度值
@@ -82,8 +81,7 @@ export struct PersonalizationSettings {
     { name: '语音反馈模式', enabled: false },
   ];
 
-  // 当前主题配置，根据当前主题获取对应的配置
-  @State currentConfig: ThemeConfig = themeConfig[this.currentThemeKey];
+
 
   build() {
     Column(){

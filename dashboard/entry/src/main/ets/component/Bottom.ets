@@ -38,7 +38,7 @@ export struct Bottom {
             Row()
               .width(`${this.progress * 100}%`)
               .height('100%')
-              .backgroundColor('#ff6ef864')
+              .backgroundColor('#ff4ccb44')
 
           }
           .width("50%")
@@ -72,7 +72,7 @@ export struct Bottom {
         .justifyContent(FlexAlign.Center)
 
         Row(){
-          Image($r('app.media.back')).width("8%").height("100%")
+          Image($r('app.media.back')).width("8%").height("100%").fillColor(this.currentTheme.iconColor)
             .onClick(() => {
               // 点击事件：跳转到主页
               router.back({
@@ -80,11 +80,11 @@ export struct Bottom {
                 params: this.currentTheme
               })
             })
-        }.layoutWeight(1)
+        }
+        .layoutWeight(1)
       }
       .width('100%')
       .height('100%')
-      .backgroundColor(Color.Transparent)
       .alignItems(VerticalAlign.Center)
     }
     .width('100%')
@@ -102,8 +102,7 @@ export struct Bottom {
       Text(tabName)
         .fontSize(this.fontSize)
         .fontColor(this.activeTab === tabName
-          ? $r('app.color.clicked')
-          : this.currentTheme.textColor)
+          ? $r('app.color.clicked') : this.currentTheme.iconColor)
         .margin({ bottom: 2 })
 
       if (this.activeTab === tabName) {

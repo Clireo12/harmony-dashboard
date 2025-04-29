@@ -4,7 +4,6 @@ import { ThemeManager } from '../model/ThemeManager';
 export struct ThemeWrapper {
   @BuilderParam content: () => void;
   private themeManager: ThemeManager = ThemeManager.getInstance();
-  @State private refreshFlag: boolean = false;
 
   build() {
     Column() {
