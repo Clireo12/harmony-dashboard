@@ -1,12 +1,9 @@
 import { Header } from '../../component/Header';
 import { Bottom } from '../../component/Bottom';
 import { City } from '../../component/City';
-import { themeConfig, ThemeConfig } from '../../model/ThemeConfig'
+import { themeConfig, ThemeConfig,ThemeKey} from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
 import PreferencesUtil from '../../utils/PreferencesUtil';
-
-// 定义主题键类型，用于标识不同的主题
-type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -35,7 +32,6 @@ export struct PersonalizationSettings {
   }
 
   aboutToAppear(): void {
-
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue',0) as number
 
@@ -132,9 +128,9 @@ export struct PersonalizationSettings {
 
               //滑块和图标
               Row() {
-                this.buildBrightnessIcon('left'); // 左侧亮度图标
-                this.buildBrightnessSlider(); // 亮度滑块
-                this.buildBrightnessIcon('right'); // 右侧亮度图标
+                this.buildBrightnessIcon('left');
+                this.buildBrightnessSlider();
+                this.buildBrightnessIcon('right');
               }
               .justifyContent(FlexAlign.SpaceEvenly)
               .width('90%')
@@ -142,7 +138,7 @@ export struct PersonalizationSettings {
               //滑块刻度
               Row() {
                 ForEach([0, 20, 40, 60, 80, 100], (value: number) => {
-                  Text(value.toString()) // 亮度刻度数字
+                  Text(value.toString())
                     .fontColor(this.currentTheme.textColor)
                     .width('10%')
                     .textAlign(
@@ -209,7 +205,7 @@ export struct PersonalizationSettings {
 
             }
             .width('45%')
-            .backgroundColor(this.currentTheme.mask) // 背景颜色随主题切换
+            .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
             .height("100%")
             .margin({ left: -110, right: -30 });
@@ -234,10 +230,6 @@ export struct PersonalizationSettings {
       Bottom({ currentTheme: this.currentTheme })
 
     }
-    .onAppear(() => {
-      // 确保每次显示时获取最新主题
-      this.currentThemeKey = this.themeManager.getCurrentThemeKey();
-    })
     .backgroundColor(this.currentTheme.theme)
   }
 
@@ -249,10 +241,10 @@ export struct PersonalizationSettings {
         .width(75)
         .height(75)
         .borderRadius(40)
-        .onClick(() => {
-          this.themeManager.changeTheme(theme); // 调用 ThemeManager 的 changeTheme 方法
-          this.currentThemeKey = theme; // 更新当前主题状态
-          this.currentTheme = this.themeManager.getCurrentTheme()
+        .onClick(async () => {
+            await this.themeManager.changeTheme(theme);
+            this.currentThemeKey = theme;
+            this.currentTheme = this.themeManager.getCurrentTheme();
         });
 
       Text(label)
