@@ -1,27 +1,38 @@
-import { ThemeConfig, themeConfig } from '../model/ThemeConfig';
-
-// 主题键类型
-export type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
+import { ThemeConfig, themeConfig,ThemeKey } from '../model/ThemeConfig';
+import PreferencesUtil from '../utils/PreferencesUtil';
 
 @Observed
 export class ThemeManager {
   // 当前主题键
-  currentThemeKey: ThemeKey = 'minimal-white';
-
+  private currentThemeKey: ThemeKey = 'minimal-white';
   // 时间主题（白天/黑夜）
   private timeBasedTheme: ThemeKey = 'minimal-white';
-
-  // 用户选择的主题（null表示使用时间主题）
-  private userSelectedTheme: ThemeKey | null = null;
-
+  // 用户选择的主题（undefined表示使用时间主题）
+  private userSelectedTheme: ThemeKey | undefined = undefined;
   // 时间检查定时器
   private timeCheckTimer: number | null = null;
 
   private static instance: ThemeManager;
 
+  private listeners: Array<() => void> = [];
+
+  // 添加监听器方法
+  public addThemeChangeListener(listener: () => void): void {
+    this.listeners.push(listener);
+  }
+
+  // 移除监听器方法
+  public removeThemeChangeListener(listener: () => void): void {
+    this.listeners = this.listeners.filter(l => l !== listener);
+  }
+
   private constructor() {
     this.checkTimeAndUpdateTheme();
-    this.startTimeChecker();
+    // 从持久化存储中加载用户选择的主题
+    this.loadUserSelectedTheme().then(() => {
+      this.checkTimeAndUpdateTheme();
+      this.startTimeChecker();
+    });
   }
 
   // 获取单例实例
@@ -32,6 +43,15 @@ export class ThemeManager {
     return ThemeManager.instance;
   }
 
+  // 从持久化存储中加载用户选择的主题
+  private async loadUserSelectedTheme(): Promise<void> {
+    const savedTheme = await PreferencesUtil.get('userSelectedTheme', '');
+    if (savedTheme && Object.keys(themeConfig).includes(savedTheme as string)) {
+      this.userSelectedTheme = savedTheme as ThemeKey;
+      this.currentThemeKey = this.userSelectedTheme
+    }
+  }
+
   // 启动时间检查器
   private startTimeChecker() {
     this.timeCheckTimer = setInterval(() => {
@@ -40,14 +60,12 @@ export class ThemeManager {
   }
 
   // 检查当前时间并更新主题
-  private checkTimeAndUpdateTheme() {
+  private checkTimeAndUpdateTheme(): void {
     const hours = new Date().getHours();
     const isDayTime = hours >= 6 && hours < 18; // 6:00-18:00为白天
+    this.timeBasedTheme = isDayTime ? 'classic-blackRed' : 'minimal-white';
 
-    this.timeBasedTheme = isDayTime ?   'classic-blackRed':'minimal-white';
-
-    // 只有用户没有选择主题时才更新时间主题
-    if (this.userSelectedTheme === null) {
+    if (this.userSelectedTheme === undefined) {
       this.currentThemeKey = this.timeBasedTheme;
     }
   }
@@ -63,21 +81,28 @@ export class ThemeManager {
   }
 
   // 更改主题（用户选择）
-  public changeTheme(themeKey: ThemeKey) {
+  public async changeTheme(themeKey: ThemeKey): Promise<void> {
+    await PreferencesUtil.put('userSelectedTheme', themeKey);
     this.userSelectedTheme = themeKey;
     this.currentThemeKey = themeKey;
+    this.notifyListeners();
+  }
+
+  private notifyListeners(): void {
+    this.listeners.forEach(listener => listener());
   }
 
   // 重置为时间主题
-  public resetToTimeBasedTheme() {
-    this.userSelectedTheme = null;
+  public async resetToTimeBasedTheme(): Promise<void> {
+    this.userSelectedTheme = undefined;
     this.currentThemeKey = this.timeBasedTheme;
   }
 
   // 清理资源
-  public cleanup() {
+  public cleanup(): void {
     if (this.timeCheckTimer) {
       clearInterval(this.timeCheckTimer);
+      this.timeCheckTimer = null;
     }
   }
 }
