@@ -2,13 +2,21 @@ import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.Ab
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import PreferencesUtil from '../utils/PreferencesUtil';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 const DOMAIN = 0x0000;
 
+interface BrightnessEventData {
+  brightness: number;
+}
+
 export default class EntryAbility extends UIAbility {
+  private windowClass: window.Window | undefined = undefined;
+
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
+    PreferencesUtil.Load(this.context);
   }
 
   onDestroy(): void {
@@ -26,9 +34,35 @@ export default class EntryAbility extends UIAbility {
       }
       hilog.info(DOMAIN, 'testTag', 'Succeeded in loading the content.');
     });
+
+    windowStage.getMainWindow((err: BusinessError, data) => {
+      if (!err.code && data) {
+        this.windowClass = data;
+        this.updateWindowBrightness();
+      }
+    });
+
+    this.context.eventHub.on('brightnessChange', (data: BrightnessEventData) => {
+      this.updateBrightness(data.brightness);
+    });
   }
 
+  private updateWindowBrightness(): void {
+    const brightness = PreferencesUtil.get('brightnessValue', 0.5) as number;
+    this.updateBrightness(brightness);
+  }
+
+  private updateBrightness(brightness: number): void {
+    this.windowClass?.setWindowBrightness(brightness, (err: BusinessError) => {
+      if (err.code) {
+        hilog.error(DOMAIN, 'testTag', 'Set brightness failed: %{public}d', err.code);
+      }
+    });
+  }
+
+
   onWindowStageDestroy(): void {
+    this.context.eventHub.off('brightnessChange');
     // Main window is destroyed, release UI related resources
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');
   }
@@ -36,6 +70,7 @@ export default class EntryAbility extends UIAbility {
   onForeground(): void {
     // Ability has brought to foreground
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onForeground');
+    this.updateWindowBrightness();
   }
 
   onBackground(): void {
