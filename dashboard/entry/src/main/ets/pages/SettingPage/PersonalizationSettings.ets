@@ -99,7 +99,6 @@ export struct PersonalizationSettings {
     PreferencesUtil.put('preferenceConfig', JSON.stringify(this.preferenceConfig));
   }
 
-
   build() {
     Column(){
       this.content

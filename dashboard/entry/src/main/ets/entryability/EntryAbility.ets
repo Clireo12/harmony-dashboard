@@ -60,7 +60,6 @@ export default class EntryAbility extends UIAbility {
     });
   }
 
-
   onWindowStageDestroy(): void {
     this.context.eventHub.off('brightnessChange');
     // Main window is destroyed, release UI related resources
