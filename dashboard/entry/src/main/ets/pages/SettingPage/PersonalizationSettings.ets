@@ -330,11 +330,11 @@ export struct PersonalizationSettings {
       .height(30)
       .borderRadius(25)
       .backgroundColor("#0E62A9")
-      .justifyContent(FlexAlign.Start) // ✅ 不再居中，改为左对齐
+      .justifyContent(FlexAlign.Start) //
     }
     .width("100%")
     .height(50)
-    .justifyContent(FlexAlign.Start) // ✅ 整行布局左对齐
+    .justifyContent(FlexAlign.Start) //
     .padding({ left: 10, right: 10 })
   }
 
