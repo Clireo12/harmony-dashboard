@@ -227,7 +227,7 @@ export struct PersonalizationSettings {
               }
               .width('100%')
               .height("100%")
-              .margin({ top: 20, bottom: 20 })
+              .margin({ top: 5, bottom: 5 })
 
             }
             .width('50%')
@@ -330,15 +330,13 @@ export struct PersonalizationSettings {
       .height(30)
       .borderRadius(25)
       .backgroundColor("#0E62A9")
-      .justifyContent(FlexAlign.Start) //
+      .justifyContent(FlexAlign.Start)
     }
     .width("100%")
-    .height(50)
-    .justifyContent(FlexAlign.Start) //
+    .height(45)
+    .justifyContent(FlexAlign.Start)
     .padding({ left: 10, right: 10 })
   }
-
-
 
   /**
    * 构建亮度图标
