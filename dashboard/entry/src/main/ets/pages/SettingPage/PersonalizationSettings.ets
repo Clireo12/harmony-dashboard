@@ -22,7 +22,6 @@ export struct PersonalizationSettings {
 
   @State activeIndex: number = -1; // 表示当前被激活的按钮索引，-1 表示无激活
 
-
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
 
@@ -333,7 +332,7 @@ export struct PersonalizationSettings {
       .justifyContent(FlexAlign.Start)
     }
     .width("100%")
-    .height(45)
+    .height(40)
     .justifyContent(FlexAlign.Start)
     .padding({ left: 10, right: 10 })
   }
