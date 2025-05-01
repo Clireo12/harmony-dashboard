@@ -20,7 +20,7 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0; // 亮度值
 
-  @State activeIndex: number = -1; // 表示当前被激活的按钮索引，-1 表示无激活
+  // @State activeIndex: number = -1; // 表示当前被激活的按钮索引，-1 表示无激活
 
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
@@ -62,8 +62,8 @@ export struct PersonalizationSettings {
     }
 
     // 初始化 activeIndex：只保留第一个启用的项作为激活状态
-    const active = this.preferenceConfig.findIndex(item => item.enabled);
-    this.activeIndex = active >= 0 ? active : -1;
+    // const active = this.preferenceConfig.findIndex(item => item.enabled);
+    // this.activeIndex = active >= 0 ? active : -1;
   }
 
   // 默认偏好设置配置
@@ -292,7 +292,7 @@ export struct PersonalizationSettings {
       // 自定义开关按钮区域
       Row() {
         Row() {
-          Text((this.activeIndex === index) ? "开启" : "关闭")
+          Text(this.preferenceConfig[index].enabled ? "开启" : "关闭")
             .fontSize(18)
             .fontColor(this.themeManager.getCurrentTheme().textColor)
             .textAlign(TextAlign.Center)
@@ -300,22 +300,19 @@ export struct PersonalizationSettings {
         .width("60%")
         .height("100%")
         .margin({
-          left: (this.activeIndex === index) ? "40%" : "0%"
+          left: this.preferenceConfig[index].enabled ? "40%" : "0%"
         })
         .backgroundColor("#FF7500")
         .borderRadius(25)
         .justifyContent(FlexAlign.Center)
         .onClick(() => {
-          const newState = this.activeIndex !== index;
+          const newState = !this.preferenceConfig[index].enabled;
 
           this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
             {
               duration: 400,
               event: () => {
-                // 使用 updatePreference 方法统一处理状态更新和持久化
                 this.updatePreference(index, newState);
-                // 更新激活状态
-                this.activeIndex = newState ? index : -1;
               }
             }
           ]);
@@ -326,7 +323,7 @@ export struct PersonalizationSettings {
       .width(100)
       .height(30)
       .borderRadius(25)
-      .backgroundColor("#0E62A9")
+      .backgroundColor(this.preferenceConfig[index].enabled ? "#FFA500" : "#0E62A9") // 可选：点击变色效果
       .justifyContent(FlexAlign.Start)
     }
     .width("100%")
@@ -334,6 +331,7 @@ export struct PersonalizationSettings {
     .justifyContent(FlexAlign.Start)
     .padding({ left: 10, right: 10 })
   }
+
 
   /**
    * 构建亮度图标
