@@ -31,13 +31,26 @@ export struct PersonalizationSettings {
     }
   }
 
+  // 新增：偏好项状态
+  @State preferenceStates: boolean[] = [];
+
   aboutToAppear(): void {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue',0) as number
 
+    // 初始化 preferenceStates 在 preferenceConfig 初始化之后
+    this.preferenceStates = this.preferenceConfig.map(item => item.enabled);
+
     // 加载偏好设置
     const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', ''); // 默认值为空字符串 调用 PreferencesUtil.get 方法，尝试获取 preferenceConfig 对应的值。如果该键不存在，则返回默认值空字符串 ''。
     let savedPreferences: PreferenceItem[] = []; //初始化一个空的 savedPreferences 数组，用于存储解析后的偏好设置数据。
+
+    // 初始化偏好项状态
+    if (savedPreferences.length > 0) {
+      this.preferenceConfig = savedPreferences;
+      this.preferenceStates = savedPreferences.map(item => item.enabled);
+    }
+
 
     if (savedPreferencesRaw && typeof savedPreferencesRaw === 'string') { //确保 savedPreferencesRaw 不为空且是字符串。
       try {
@@ -77,6 +90,13 @@ export struct PersonalizationSettings {
     { name: '语音反馈模式', enabled: false },
   ];
 
+  private updatePreference(index: number, newState: boolean) {
+    this.preferenceStates[index] = newState;
+    this.preferenceConfig[index].enabled = newState;
+
+    // 持久化保存
+    PreferencesUtil.put('preferenceConfig', JSON.stringify(this.preferenceConfig));
+  }
 
 
   build() {
@@ -166,48 +186,69 @@ export struct PersonalizationSettings {
           // 右侧
           Row() {
             //偏好设置
-            Column(){
+            // Column(){
+            //   Text('偏好设置')
+            //     .margin({ top: 5})
+            //     .width('100%')
+            //     .fontSize(this.fontSize)
+            //     .fontColor(this.currentTheme.textColor)
+            //     .textAlign(TextAlign.Center);
+            //
+            //   // 动态渲染所有偏好设置项
+            //
+            //   Column(){
+            //     ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
+            //       Row(){
+            //         Text(item.name)
+            //           .fontSize(this.fontSize-5)
+            //           .fontColor(this.currentTheme.textColor)
+            //           .layoutWeight(1)
+            //           .margin({left : 10});
+            //
+            //         // 按钮设置
+            //         Toggle({ type: ToggleType.Switch, isOn: item.enabled })
+            //           .margin({ right: 10 })
+            //           .width("20%")
+            //           .height("50%")
+            //           .onChange((isOn: boolean) => {
+            //             this.preferenceConfig[index].enabled = isOn;
+            //           })
+            //       }
+            //       .width('100%')
+            //       .height("15%")
+            //       .margin({ bottom: 3 });
+            //     })
+            //   }
+            //   .width('100%')
+            //   .height("80%")
+            //   .margin({ top: 5, bottom: 5 })
+            //
+            // }
+            // .width('45%')
+            // .backgroundColor(this.currentTheme.mask)
+            // .borderRadius(10)
+            // .height("100%")
+            // .margin({ left: -110, right: -30 });
+            Column() {
               Text('偏好设置')
-                .margin({ top: 5})
-                .width('100%')
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
-                .textAlign(TextAlign.Center);
+                .textAlign(TextAlign.Center)
+                .margin({ top: 5 })
 
-              // 动态渲染所有偏好设置项
-
-              Column(){
-                ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
-                  Row(){
-                    Text(item.name)
-                      .fontSize(this.fontSize-5)
-                      .fontColor(this.currentTheme.textColor)
-                      .layoutWeight(1)
-                      .margin({left : 10});
-
-                    // 按钮设置
-                    Toggle({ type: ToggleType.Switch, isOn: item.enabled })
-                      .margin({ right: 10 })
-                      .width("20%")
-                      .height("50%")
-                      .onChange((isOn: boolean) => {
-                        this.preferenceConfig[index].enabled = isOn;
-                      })
-                  }
-                  .width('100%')
-                  .height("15%")
-                  .margin({ bottom: 3 });
+              Column() {
+                ForEach(this.preferenceConfig, (item: PreferenceItem, index: number) => {
+                  this.buildPreferenceItemWithAnimation(item.name, index)
                 })
               }
               .width('100%')
-              .height("80%")
-              .margin({ top: 5, bottom: 5 })
+              .height("100%")
+              .margin({ top: 20, bottom: 20 })
 
             }
-            .width('45%')
+            .width('50%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
-            .height("100%")
             .margin({ left: -110, right: -30 });
 
             //汽车图片
@@ -253,6 +294,59 @@ export struct PersonalizationSettings {
         .margin({ top: 10 });
     }
   }
+
+  //构建偏好设置
+  @Builder
+  buildPreferenceItemWithAnimation(name: string, index: number) {
+    Row() {
+      // 偏好项文字部分：占据剩余空间，避免被挤压
+      Text(name)
+        .fontSize(this.fontSize - 6)
+        .fontColor(this.themeManager.getCurrentTheme().textColor)
+        .layoutWeight(1)
+        .textAlign(TextAlign.Start)
+
+      // 自定义开关按钮区域（模拟 Toggle）
+      Row() {
+        Row() {
+          Text(this.preferenceStates[index] ? "开启" : "关闭")
+            .fontSize(18)
+            .fontColor(this.themeManager.getCurrentTheme().textColor)
+        }
+        .shadow({ radius: 10, color: Color.Gray })
+        .width("60%")       // 内部滑块效果不变
+        .height("100%")
+        .margin({
+          left: this.preferenceStates[index] ? "40%" : "0%"
+        })
+        .backgroundColor("#FF7500")
+        .borderRadius(25)
+        .justifyContent(FlexAlign.Center)
+        .onClick(() => {
+          const state = !this.preferenceStates[index];
+          this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
+            {
+              duration: 400,
+              event: () => {
+                this.preferenceStates[index] = state;
+                this.updatePreference(index, state);
+              }
+            },
+          ]);
+        })
+      }
+      .width(100)     // 设置固定宽度，让按钮适中显示
+      .height(30)     // 设置高度适中
+      .borderRadius(25)
+      .backgroundColor("#0E62A9")
+
+    }
+    .width("100%")
+    .height(50)       // 每一项总高度控制为 40
+    .justifyContent(FlexAlign.Center)
+    .padding({ left: 10, right: 10 })  // 左右留白防止边缘贴边
+  }
+
 
   /**
    * 构建亮度图标
