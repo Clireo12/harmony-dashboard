@@ -325,16 +325,23 @@ export struct PersonalizationSettings {
         .justifyContent(FlexAlign.Center)
         .onClick(() => {
           const state = !this.preferenceStates[index];
+          console.log("Toggling index:", index, "New state:", state);
+
+          // 创建新数组保证响应性
+          const newStates = [...this.preferenceStates];
+          newStates[index] = state;
+
           this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
             {
               duration: 400,
               event: () => {
-                this.preferenceStates[index] = state;
+                this.preferenceStates = newStates; // 完全替换数组，触发 UI 更新
                 this.updatePreference(index, state);
               }
             },
           ]);
         })
+
       }
       .width(100)     // 设置固定宽度，让按钮适中显示
       .height(30)     // 设置高度适中
