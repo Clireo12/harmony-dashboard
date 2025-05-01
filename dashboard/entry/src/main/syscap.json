@@ -1,7 +1,10 @@
 {
   "devices": {
     "general": [
-      "car"
+      "phone",
+      "car",
+      "tablet",
+      "2in1"
     ]
   },
   "development": {
