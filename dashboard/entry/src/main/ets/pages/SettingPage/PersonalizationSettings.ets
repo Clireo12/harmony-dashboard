@@ -312,12 +312,10 @@ export struct PersonalizationSettings {
             {
               duration: 400,
               event: () => {
-                // 更新激活索引
+                // 使用 updatePreference 方法统一处理状态更新和持久化
+                this.updatePreference(index, newState);
+                // 更新激活状态
                 this.activeIndex = newState ? index : -1;
-
-                // 同步到 preferenceConfig
-                this.preferenceConfig[index].enabled = newState;
-                PreferencesUtil.put('preferenceConfig', JSON.stringify(this.preferenceConfig));
               }
             }
           ]);
