@@ -4,6 +4,7 @@ import { City } from '../../component/City';
 import { themeConfig, ThemeConfig,ThemeKey} from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
 import PreferencesUtil from '../../utils/PreferencesUtil';
+import { common } from '@kit.AbilityKit';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -18,7 +19,7 @@ export struct PersonalizationSettings {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
-  @State brightnessValue: number = 0; // 亮度值
+  @State brightnessValue: number = 0.5;
 
 
   // 提供默认的BuilderParam
@@ -34,7 +35,7 @@ export struct PersonalizationSettings {
 
   aboutToAppear(): void {
     // 初始化亮度值
-    this.brightnessValue = PreferencesUtil.get('brightnessValue', 0) as number
+    this.brightnessValue = PreferencesUtil.get('brightnessValue', 0.5) as number;
 
     // 加载偏好设置
     const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', '');
@@ -362,6 +363,10 @@ export struct PersonalizationSettings {
       .onChange((value: number) => {
         this.brightnessValue = value / 100; // 更新亮度值
         PreferencesUtil.put('brightnessValue',this.brightnessValue)
+        const context = getContext(this) as common.UIAbilityContext;
+        context.eventHub.emit('brightnessChange', {
+          brightness: this.brightnessValue
+        });
       });
   }
 
