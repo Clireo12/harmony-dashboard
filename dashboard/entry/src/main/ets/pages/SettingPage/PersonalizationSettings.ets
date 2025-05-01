@@ -20,7 +20,6 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0; // 亮度值
 
-  // @State activeIndex: number = -1; // 表示当前被激活的按钮索引，-1 表示无激活
 
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
@@ -61,13 +60,10 @@ export struct PersonalizationSettings {
       this.preferenceConfig = savedPreferences;
     }
 
-    // 初始化 activeIndex：只保留第一个启用的项作为激活状态
-    // const active = this.preferenceConfig.findIndex(item => item.enabled);
-    // this.activeIndex = active >= 0 ? active : -1;
   }
 
   // 默认偏好设置配置
-  private preferenceConfig: PreferenceItem[] = [
+  @State private preferenceConfig: PreferenceItem[] = [
     { name: '转向灯提示音', enabled: false },
     { name: '驾驶模式切换音效', enabled: false },
     { name: '故障报警语音播报', enabled: false },
@@ -306,12 +302,14 @@ export struct PersonalizationSettings {
         .borderRadius(25)
         .justifyContent(FlexAlign.Center)
         .onClick(() => {
+          console.log("点击了索引为", index, "的项");
           const newState = !this.preferenceConfig[index].enabled;
 
           this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
             {
               duration: 400,
               event: () => {
+                this.preferenceConfig[index].enabled = newState;
                 this.updatePreference(index, newState);
               }
             }
