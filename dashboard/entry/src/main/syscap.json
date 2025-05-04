@@ -1,7 +1,10 @@
 {
   "devices": {
     "general": [
-      "car"
+      "phone",
+      "car",
+      "tablet",
+      "2in1"
     ]
   },
   "development": {
@@ -9,7 +12,9 @@
       "SystemCapability.Communication.NFC.Core",
       "SystemCapability.Communication.NFC.CardEmulation",
       "SystemCapability.Communication.NFC.Tag",
-      "SystemCapability.Weather.Core"
+      "SystemCapability.Weather.Core",
+      "SystemCapability.Location.Location.Geocoder",
+      "SystemCapability.Location.Location.Geocoder"
     ]
   }
 }
