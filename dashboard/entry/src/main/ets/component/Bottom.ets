@@ -31,64 +31,67 @@ export struct Bottom {
    */
   build() {
     // 使用Stack布局实现底部固定定位
-    Stack({ alignContent: Alignment.Bottom }) {
-      Row() {
-        Row({ space: 10 }) {
-          Row() {
-            Row()
-              .width(`${this.progress * 100}%`)
-              .height('100%')
-              .backgroundColor('#ff4ccb44')
-
-          }
-          .width("50%")
-          .height("30%")
-          .backgroundColor('#E5E5E5')
-          .margin({ right: 10 })
-
-          Text(`${this.mileage} km`)
-            .fontSize(this.fontSize)
-            .fontColor(this.currentTheme.textColor)
-            .fontWeight(FontWeight.Bold)
-
-          Image($r("app.media.light_near"))
-            .fillColor('#007AFF')
-            .width("10%")
-            .height("100%")
-            .margin({ left: 50 })
-        }
-        .padding({ left: 70 })
-        .layoutWeight(1)
-        .justifyContent(FlexAlign.Center)
-
+    Column() {
+      Stack({ alignContent: Alignment.Bottom }) {
         Row() {
-          this.buildTab('P')  // 停车模式
-          this.buildTab('D')  // 驾驶模式
-          this.buildTab('R')  // 倒车模式
-          this.buildTab('N')  // 空档模式
-          this.buildTab('S')  // 运动模式
-        }
-        .layoutWeight(1)
-        .justifyContent(FlexAlign.Center)
+          Row({ space: 10 }) {
+            Row() {
+              Row()
+                .width(`${this.progress * 100}%`)
+                .height('100%')
+                .backgroundColor('#ff4ccb44')
 
-        Row(){
-          Image($r('app.media.back')).width("8%").height("100%").fillColor(this.currentTheme.iconColor)
-            .onClick(() => {
-              // 点击事件：跳转到主页
-              router.back({
-                url: 'pages/MainPage',
-                params: this.currentTheme
+            }
+            .width("50%")
+            .height("30%")
+            .backgroundColor('#E5E5E5')
+            .margin({ right: 10 })
+
+            Text(`${this.mileage} km`)
+              .fontSize(this.fontSize)
+              .fontColor(this.currentTheme.textColor)
+              .fontWeight(FontWeight.Bold)
+
+            Image($r("app.media.light_near"))
+              .fillColor('#007AFF')
+              .width('15%')
+              .margin({ left: 50 })
+          }
+          .padding({ left: 70 })
+          .layoutWeight(1)
+          .justifyContent(FlexAlign.Center)
+
+          Row() {
+            this.buildTab('P')  // 停车模式
+            this.buildTab('D')  // 驾驶模式
+            this.buildTab('R')  // 倒车模式
+            this.buildTab('N')  // 空档模式
+            this.buildTab('S')  // 运动模式
+          }
+          .layoutWeight(1)
+          .justifyContent(FlexAlign.Center)
+
+          Row(){
+            Image($r('app.media.back'))
+              .width('10%')
+              .fillColor(this.currentTheme.iconColor)
+              .onClick(() => {
+                // 点击事件：跳转到主页
+                router.back({
+                  url: 'pages/MainPage',
+                  params: this.currentTheme
+                })
               })
-            })
+          }
+          .layoutWeight(1)
         }
-        .layoutWeight(1)
+        .width('100%')
+        .height('100%')
+        .alignItems(VerticalAlign.Center)
       }
-      .width('100%')
-      .height('100%')
-      .alignItems(VerticalAlign.Center)
     }
     .width('100%')
-    .height("5%")
+    .height('8%')
   }
 
   /**

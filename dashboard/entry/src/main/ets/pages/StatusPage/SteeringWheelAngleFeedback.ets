@@ -19,7 +19,7 @@ export struct SteeringWheelAngleFeedback {
         .height("10")
         .fontColor(this.themeManager.getCurrentTheme().textColor)
         .margin({
-          top:5
+          top: 10
         })
       Stack(){
         Image($r("app.media.fang_xiang_pan_jiao_du"))
@@ -33,8 +33,8 @@ export struct SteeringWheelAngleFeedback {
       .width("100%")
       .height("95%")
     }
-    .justifyContent(FlexAlign.Start)
-    .alignItems(HorizontalAlign.Start)
+    .justifyContent(FlexAlign.Center)
+    .alignItems(HorizontalAlign.Center)
     .borderRadius(20)
     .backgroundColor(this.themeManager.getCurrentTheme().mask)
 

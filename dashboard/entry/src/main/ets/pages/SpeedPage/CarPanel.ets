@@ -3,11 +3,13 @@ import { CirclePanel } from './CirclePanel';
 
 @Component
 export struct CarPanel {
+  @Prop speed: number
+  @Prop distance: number
 
   build() {
     Row() {
       CirclePanel({
-        num: 80,
+        num: this.speed,
         unit: 'km/h',
         current: 100
       })
@@ -25,7 +27,7 @@ export struct CarPanel {
       .layoutWeight(1)
 
       CirclePanel({
-        num: 50,
+        num: this.distance,
         unit: 'km',
         current: 100,
         reverse: true

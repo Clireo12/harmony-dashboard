@@ -23,13 +23,13 @@ export struct DrivingMode {
   build() {
     Column(){
       // 油门/刹车状态
-      Column({space:30}){
+      Column({ space:30 }){
         Text("油门/刹车状态")
           .fontSize(15)
           .fontColor(this.themeManager.getCurrentTheme().textColor)
           .backgroundColor(this.themeManager.getCurrentTheme().mask)
           .margin({
-            top:3
+            top:10
           })
         Row(){
           // 状态切换显示按钮
@@ -96,7 +96,7 @@ export struct DrivingMode {
             .fontColor(this.themeManager.getCurrentTheme().textColor)
             .backgroundColor(this.themeManager.getCurrentTheme().mask)
             .margin({
-              top:3
+              top: 10
             })
 
               TextPicker({range:this.DrivingMode, selected:this.selectedMode})
