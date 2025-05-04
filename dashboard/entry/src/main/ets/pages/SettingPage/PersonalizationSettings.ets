@@ -21,6 +21,7 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0.5;
 
+
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
 
@@ -32,70 +33,49 @@ export struct PersonalizationSettings {
     }
   }
 
-  // 新增：偏好项状态
-  @State preferenceStates: boolean[] = [];
-
   aboutToAppear(): void {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue', 0.5) as number;
 
-    // 初始化 preferenceStates 在 preferenceConfig 初始化之后
-    this.preferenceStates = this.preferenceConfig.map(item => item.enabled);
-
     // 加载偏好设置
-    const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', ''); // 默认值为空字符串 调用 PreferencesUtil.get 方法，尝试获取 preferenceConfig 对应的值。如果该键不存在，则返回默认值空字符串 ''。
-    let savedPreferences: PreferenceItem[] = []; //初始化一个空的 savedPreferences 数组，用于存储解析后的偏好设置数据。
+    const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', '');
+    let savedPreferences: PreferenceItem[] = [];
 
-    // 初始化偏好项状态
-    if (savedPreferences.length > 0) {
-      this.preferenceConfig = savedPreferences;
-      this.preferenceStates = savedPreferences.map(item => item.enabled);
-    }
-
-
-    if (savedPreferencesRaw && typeof savedPreferencesRaw === 'string') { //确保 savedPreferencesRaw 不为空且是字符串。
+    if (savedPreferencesRaw && typeof savedPreferencesRaw === 'string') {
       try {
-        // 使用类型断言明确 JSON 解析结果的类型
-        const parsedData: PreferenceItem[] = JSON.parse(savedPreferencesRaw) as PreferenceItem[]; //将 savedPreferencesRaw 解析为 PreferenceItem[] 类型的数组。
-
-        // 验证解析结果是否符合预期格式 验证解析后的数据是否为有效的 PreferenceItem[] 数组。
+        const parsedData: PreferenceItem[] = JSON.parse(savedPreferencesRaw) as PreferenceItem[];
         if (Array.isArray(parsedData) && parsedData.every(item =>
-        typeof item === 'object' &&
-          item !== null && // 确保不是 null
-          typeof item.name === 'string' && // 直接检查 name 是否为字符串
-          typeof item.enabled === 'boolean' // 直接检查 enabled 是否为布尔值
+        typeof item.name === 'string' &&
+          typeof item.enabled === 'boolean'
         )) {
-          savedPreferences = parsedData; //如果验证通过，将解析后的数据赋值给 savedPreferences。
+          savedPreferences = parsedData;
         } else {
-          console.warn("PreferenceConfig format is invalid, using default preferences.");
+          console.warn("Invalid format, using defaults.");
         }
       } catch (error) {
-        console.error("Failed to parse preferenceConfig:", error);
+        console.error("Parse failed:", error);
       }
     }
 
     if (savedPreferences.length > 0) {
-      this.preferenceConfig = savedPreferences; //如果 savedPreferences 数组中有数据，则将其赋值给 this.preferenceConfig。
+      this.preferenceConfig = savedPreferences;
     }
 
   }
 
   // 默认偏好设置配置
-  private preferenceConfig: PreferenceItem[] = [
+  @State private preferenceConfig: PreferenceItem[] = [
     { name: '转向灯提示音', enabled: false },
-    { name: '驾驶模式切换音效', enabled: true },
+    { name: '驾驶模式切换音效', enabled: false },
     { name: '故障报警语音播报', enabled: false },
-    { name: '仪表盘动画速度', enabled: true },
+    { name: '仪表盘动画速度', enabled: false },
     { name: '方言识别模式', enabled: false },
-    { name: '盲区监测提示', enabled: true },
+    { name: '盲区监测提示', enabled: false },
     { name: '语音反馈模式', enabled: false },
   ];
 
   private updatePreference(index: number, newState: boolean) {
-    this.preferenceStates[index] = newState;
     this.preferenceConfig[index].enabled = newState;
-
-    // 持久化保存
     PreferencesUtil.put('preferenceConfig', JSON.stringify(this.preferenceConfig));
   }
 
@@ -243,7 +223,7 @@ export struct PersonalizationSettings {
               }
               .width('100%')
               .height("100%")
-              .margin({ top: 20, bottom: 20 })
+              .margin({ top: 5, bottom: 5 })
 
             }
             .width('50%')
@@ -283,9 +263,9 @@ export struct PersonalizationSettings {
         .height(75)
         .borderRadius(40)
         .onClick(async () => {
-            await this.themeManager.changeTheme(theme);
-            this.currentThemeKey = theme;
-            this.currentTheme = this.themeManager.getCurrentTheme();
+          await this.themeManager.changeTheme(theme);
+          this.currentThemeKey = theme;
+          this.currentTheme = this.themeManager.getCurrentTheme();
         });
 
       Text(label)
@@ -299,59 +279,56 @@ export struct PersonalizationSettings {
   @Builder
   buildPreferenceItemWithAnimation(name: string, index: number) {
     Row() {
-      // 偏好项文字部分：占据剩余空间，避免被挤压
+      // 偏好项文字部分
       Text(name)
         .fontSize(this.fontSize - 6)
         .fontColor(this.themeManager.getCurrentTheme().textColor)
         .layoutWeight(1)
         .textAlign(TextAlign.Start)
 
-      // 自定义开关按钮区域（模拟 Toggle）
+      // 自定义开关按钮区域
       Row() {
         Row() {
-          Text(this.preferenceStates[index] ? "开启" : "关闭")
+          Text(this.preferenceConfig[index].enabled ? "开启" : "关闭")
             .fontSize(18)
             .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .textAlign(TextAlign.Center)
         }
-        .shadow({ radius: 10, color: Color.Gray })
-        .width("60%")       // 内部滑块效果不变
+        .width("60%")
         .height("100%")
         .margin({
-          left: this.preferenceStates[index] ? "40%" : "0%"
+          left: this.preferenceConfig[index].enabled ? "40%" : "0%"
         })
         .backgroundColor("#FF7500")
         .borderRadius(25)
         .justifyContent(FlexAlign.Center)
         .onClick(() => {
-          const state = !this.preferenceStates[index];
-          console.log("Toggling index:", index, "New state:", state);
-
-          // 创建新数组保证响应性
-          const newStates = [...this.preferenceStates];
-          newStates[index] = state;
+          console.log("点击了索引为", index, "的项");
+          const newState = !this.preferenceConfig[index].enabled;
 
           this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
             {
               duration: 400,
               event: () => {
-                this.preferenceStates = newStates; // 完全替换数组，触发 UI 更新
-                this.updatePreference(index, state);
+                this.preferenceConfig[index].enabled = newState;
+                this.updatePreference(index, newState);
               }
-            },
+            }
           ]);
         })
+        .shadow({ radius: 10, color: Color.Gray })
 
       }
-      .width(100)     // 设置固定宽度，让按钮适中显示
-      .height(30)     // 设置高度适中
+      .width(100)
+      .height(30)
       .borderRadius(25)
-      .backgroundColor("#0E62A9")
-
+      .backgroundColor(this.preferenceConfig[index].enabled ? "#FFA500" : "#0E62A9") // 可选：点击变色效果
+      .justifyContent(FlexAlign.Start)
     }
     .width("100%")
-    .height(50)       // 每一项总高度控制为 40
-    .justifyContent(FlexAlign.Center)
-    .padding({ left: 10, right: 10 })  // 左右留白防止边缘贴边
+    .height(40)
+    .justifyContent(FlexAlign.Start)
+    .padding({ left: 10, right: 10 })
   }
 
 
@@ -391,37 +368,6 @@ export struct PersonalizationSettings {
           brightness: this.brightnessValue
         });
       });
-  }
-
-  // 构建单个偏好设置项的方法
-  @Builder
-  buildPreferenceItem(name: string, enabled: boolean) {
-    Row() {
-      Column() {
-        Text(name)
-          .fontSize(this.fontSize-6)
-          .fontColor(this.currentTheme.textColor)
-          .textAlign(TextAlign.Start)
-
-      }
-      .layoutWeight(1)
-
-      // Toggle 按钮样式调整
-      Toggle({ type: ToggleType.Switch, isOn: enabled })
-        .onChange((isOn: boolean) => {
-          // 更新对应选项的状态
-          const index = this.preferenceConfig.findIndex(item => item.name === name);
-          if (index >= 0) {
-            this.preferenceConfig[index].enabled = isOn;
-          }
-        })
-        .selectedColor(Color.Blue)
-    }
-    .width('100%')
-    .height("30%")
-    .padding({ left: 10, right: 10 })
-    .borderRadius(8)
-
   }
 
 }

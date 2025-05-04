@@ -107,7 +107,7 @@ export struct Header {
           right:20
         })
 
-        Image(this.timeState == '下午' ? $r('app.media.daohang_black'):$r('app.media.daohang_white'))
+        Image(this.timeState == '上午' ? $r('app.media.daohang_black') : $r('app.media.daohang_white'))
           .width("20%")
           .offset({ y: -5 })
 
