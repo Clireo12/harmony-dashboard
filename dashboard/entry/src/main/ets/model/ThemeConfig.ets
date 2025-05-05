@@ -6,6 +6,7 @@ export interface ThemeConfig {
   textColor: ResourceColor; // 文字颜色
   iconColor: ResourceColor; // 图标颜色
   buttonIcon: Resource; // 按钮图标资源
+  locationIcon: ResourceStr // 定位图标资源
 }
 
 // 定义主题键类型
@@ -18,27 +19,31 @@ export const themeConfig: Record<ThemeKey, ThemeConfig> = {
     mask: $r('app.color.mask_green'),
     textColor: $r('app.color.text_color_light'),
     iconColor: $r('app.color.text_color_light'),
-    buttonIcon: $r("app.media.fresh_green")
+    buttonIcon: $r("app.media.fresh_green"),
+    locationIcon: $r('app.media.daohang_black')
   },
   'tech-blue': {
     theme: $r('app.color.theme_blue'),
     mask: $r('app.color.mask_blue'),
     textColor: $r('app.color.text_color_light'),
     iconColor: $r('app.color.text_color_light'),
-    buttonIcon: $r('app.media.bg_tech_blue')
+    buttonIcon: $r('app.media.bg_tech_blue'),
+    locationIcon: $r('app.media.daohang_white')
   },
   'minimal-white': {
     theme: $r('app.color.theme_white'),
     mask: $r('app.color.mask_white'),
     textColor: $r('app.color.text_color_light'),
     iconColor: $r('app.color.text_color_light'),
-    buttonIcon: $r('app.media.bg_minimal_white')
+    buttonIcon: $r('app.media.bg_minimal_white'),
+    locationIcon: $r('app.media.daohang_black')
   },
   'classic-blackRed': {
     theme: $r('app.color.theme_black'),
     mask: $r('app.color.mask_black'),
     textColor: $r('app.color.text_color_dark'),
     iconColor: $r('app.color.text_color_dark'),
-    buttonIcon: $r('app.media.bg_classic_blackRed')
+    buttonIcon: $r('app.media.bg_classic_blackRed'),
+    locationIcon: $r('app.media.daohang_white')
   }
 };

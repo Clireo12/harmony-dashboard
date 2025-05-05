@@ -76,8 +76,7 @@ export struct Header {
         Row({ space: 10 }) {
           Image($r('app.media.sun_right'))
             .fillColor(this.currentTheme.textColor)
-            .width("7%")
-            .height("100%")
+            .width('6%')
           Text(`${this.temperature}℃`)
             .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
@@ -95,7 +94,6 @@ export struct Header {
         Image($r('app.media.leaf'))
           .fillColor(this.currentTheme.textColor)
           .width("15%")
-          .height("100%")
         Text('ECO')
           .fontColor(this.currentTheme.textColor)
         Button(){
@@ -107,7 +105,7 @@ export struct Header {
           right:20
         })
 
-        Image(this.timeState == '上午' ? $r('app.media.daohang_black') : $r('app.media.daohang_white'))
+        Image(this.currentTheme.locationIcon)
           .width("20%")
           .offset({ y: -5 })
 
@@ -131,7 +129,7 @@ export struct Header {
     }
     .padding({ left: 50, right: 50 })
     .width('100%')
-    .height("5%")
+    .height('10%')
     .justifyContent(FlexAlign.SpaceBetween)
     .backgroundColor(this.currentTheme.theme)
   }

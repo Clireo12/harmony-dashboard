@@ -19,11 +19,22 @@ struct MainPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
+  // 导航
   @State location: string = '北京市 朝阳区 建国路88号';
   @State distance: string = '3.2公里';
+  // 仪表盘
+  @State speed: number = 80 // 车速
+  @State milometer: number = 50 // 里程
+  @State maxSpeed: number = 125 // 最高时速
+  // 天气
   @State area: string = '深圳市 南山区'
   @State temperature: number = 29
   @State weather: string = '晴天'
+  @State weatherImg: ResourceStr = $r('app.media.sun_left')
+  // 车辆控制
+  @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
+  @State selectedDrivingMode: number = 3;
+  // 车辆状态
   @State vehicleStatus: VehicleStatus = {
     oil: '正常',
     fuel: '充足',
@@ -32,9 +43,6 @@ struct MainPage {
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
-  @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
-  @State selectedDrivingMode: number = 3;
-  @State CirclePanel: string="80km/h"
 
   aboutToAppear(): void {
     this.selectedDrivingMode = PreferencesUtil.get('selectedMode', 0) as number
@@ -126,28 +134,59 @@ struct MainPage {
         ListItem() {
           Column({ space: 20 }) {
 
-            // 可以整几个仪表盘展示数据
-            Row({ space: 20 }) {
+            // 仪表盘数据展示
+            Column({ space: 10 }) {
+              Column({ space: 5 }) {
+                Row({ space: 60 }){
+                  Text('速度')
+                    .fontColor('#63b8fe')
+                    .fontSize(16)
 
-              ForEach([1,2,3], () => {
-                Column({ space: 15 }) {
-                  Image($r('app.media.fuel'))
-                    .width("30%")
-
-                  Text(this.CirclePanel)
+                  Text(`${this.speed} km/h`)
                     .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize)
-                    .fontWeight(FontWeight.Bold)
-                    .textAlign(TextAlign.Center)
+                    .fontSize(24)
+                    .fontWeight(600)
                 }
-              })
+                Line({ width: 230, height: 1 })
+                  .backgroundColor('#63b8fe')
+              }
 
+              Column({ space: 5 }) {
+                Row({ space: 80 }){
+                  Text('里程')
+                    .fontColor('#63b8fe')
+                    .fontSize(16)
+
+                  Text(`${this.milometer} km`)
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(24)
+                    .fontWeight(600)
+                }
+                Line({ width: 230, height: 1 })
+                  .backgroundColor('#63b8fe')
+              }
+
+              Column({ space: 5 }) {
+                Row({ space: 40 }){
+                  Text('最高时速')
+                    .fontColor('#63b8fe')
+                    .fontSize(16)
+
+                  Text(`${this.maxSpeed} km/h`)
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(24)
+                    .fontWeight(600)
+                }
+                Line({ width: 230, height: 1 })
+                  .backgroundColor('#63b8fe')
+              }
             }
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
             .onClick(() => {
               this.navigateToDashboard();
             })
+            .layoutWeight(1)
 
             Column({ space: 15 }) {
               Row() {
@@ -168,7 +207,7 @@ struct MainPage {
                   TextPicker({ range: this.drivingModes, selected: this.selectedDrivingMode })
                   .selectedTextStyle({
                     font: { size: this.fontSize+2, weight: FontWeight.Bold },
-                    color: '#007DFF'
+                    color: '#6abef1'
                   })
                   .textStyle({
                     font: { size: this.fontSize-2 },
@@ -187,7 +226,6 @@ struct MainPage {
               .margin({ bottom: 10 })
             }
             .CardStyle()
-            .layoutWeight(1)
             .clip(true) // 隐藏溢出的元素
             .onClick(() => {
               this.navigateToVehicleStatus();
@@ -216,7 +254,7 @@ struct MainPage {
                 Text(this.weather)
                   .fontColor(this.currentTheme.textColor)
               }
-              Image($r('app.media.sun_left'))
+              Image(this.weatherImg)
                 .fillColor(this.currentTheme.iconColor)
                 .width("35%")
             }
