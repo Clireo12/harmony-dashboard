@@ -165,71 +165,51 @@ export struct PersonalizationSettings {
 
           // 右侧
           Row() {
-            //偏好设置
-            // Column(){
-            //   Text('偏好设置')
-            //     .margin({ top: 5})
-            //     .width('100%')
-            //     .fontSize(this.fontSize)
-            //     .fontColor(this.currentTheme.textColor)
-            //     .textAlign(TextAlign.Center);
-            //
-            //   // 动态渲染所有偏好设置项
-            //
-            //   Column(){
-            //     ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
-            //       Row(){
-            //         Text(item.name)
-            //           .fontSize(this.fontSize-5)
-            //           .fontColor(this.currentTheme.textColor)
-            //           .layoutWeight(1)
-            //           .margin({left : 10});
-            //
-            //         // 按钮设置
-            //         Toggle({ type: ToggleType.Switch, isOn: item.enabled })
-            //           .margin({ right: 10 })
-            //           .width("20%")
-            //           .height("50%")
-            //           .onChange((isOn: boolean) => {
-            //             this.preferenceConfig[index].enabled = isOn;
-            //           })
-            //       }
-            //       .width('100%')
-            //       .height("15%")
-            //       .margin({ bottom: 3 });
-            //     })
-            //   }
-            //   .width('100%')
-            //   .height("80%")
-            //   .margin({ top: 5, bottom: 5 })
-            //
-            // }
-            // .width('45%')
-            // .backgroundColor(this.currentTheme.mask)
-            // .borderRadius(10)
-            // .height("100%")
-            // .margin({ left: -110, right: -30 });
-            Column() {
+            // 偏好设置
+            Column(){
               Text('偏好设置')
+                .margin({ top: 5})
+                .width('100%')
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
-                .textAlign(TextAlign.Center)
-                .margin({ top: 5 })
+                .textAlign(TextAlign.Center);
 
-              Column() {
-                ForEach(this.preferenceConfig, (item: PreferenceItem, index: number) => {
-                  this.buildPreferenceItemWithAnimation(item.name, index)
+              // 动态渲染所有偏好设置项
+
+              Column(){
+                ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
+                  Row(){
+                    Text(item.name)
+                      .fontSize(this.fontSize-5)
+                      .fontColor(this.currentTheme.textColor)
+                      .layoutWeight(1)
+                      .margin({left : 10});
+
+                    // 按钮设置
+                    Toggle({ type: ToggleType.Switch, isOn: item.enabled })
+                      .margin({ right: 10 })
+                      .width("20%")
+                      .height("50%")
+                      .onChange((isOn: boolean) => {
+                        this.preferenceConfig[index].enabled = isOn;
+                      })
+                  }
+                  .width('100%')
+                  .height("15%")
+                  .margin({ bottom: 3 });
                 })
               }
               .width('100%')
-              .height("100%")
+              .height("60%")
               .margin({ top: 5, bottom: 5 })
 
             }
-            .width('50%')
+            .width('45%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
+            .height("100%")
             .margin({ left: -110, right: -30 });
+
 
             //汽车图片
             Stack(){
