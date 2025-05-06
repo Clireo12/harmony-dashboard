@@ -1,5 +1,8 @@
 import { ThemeManager } from '../../model/ThemeManager';
+import PositionTool from '../../utils/PositionTool';
 import PreferencesUtil from '../../utils/PreferencesUtil';
+import hilog from '@ohos.hilog';
+import IotDataTool, { params, paras } from '../../utils/IotDataTool';
 
 // 驾驶状态组件
 @Component
@@ -50,6 +53,13 @@ export struct DrivingMode {
             .justifyContent(FlexAlign.Center)
             .onClick(() => {
               console.log("Clicked")
+
+              try {
+                // PositionTool.getPositionByWLAN()
+              }catch (err) {
+                hilog.error(0, '[Demo]', '[onClick]', 'getPositionByWLAN error: ' + err)
+              }
+
               this.uiContext?.keyframeAnimateTo({ iterations: 1 }, [
                 {
                   // 第一段关键帧动画时长为800ms，left属性做从0到40的动画
@@ -124,6 +134,23 @@ export struct DrivingMode {
                   this.selectedMode = index as number
                   PreferencesUtil.put('selectedMode', this.selectedMode)
                   console.info('selectedMode: ' + this.selectedMode)
+                  // PositionTool.getCity()
+                  IotDataTool.login()
+                  let ml:paras = {
+                    beep_state:"off"
+                  }
+                  let com:params = {
+                    service_id: "test_1",
+                    command_name: "beep",
+                    paras: ml
+                  }
+                  IotDataTool.controlDevice(com)
+                  try {
+                    // PositionTool.getPositionByWLAN()
+
+                  }catch (err) {
+                    hilog.error(0, '[Demo]', '[onClick]', 'getPositionByWLAN error: ' + err)
+                  }
                 })
             .width("100%")
             .height("80%")
