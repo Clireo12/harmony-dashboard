@@ -227,7 +227,7 @@ export struct PersonalizationSettings {
       }
       .layoutWeight(1)
 
-      // 添加 Bottom 组件
+      // 添加 Bottom
       Bottom({ currentTheme: this.currentTheme })
 
     }
