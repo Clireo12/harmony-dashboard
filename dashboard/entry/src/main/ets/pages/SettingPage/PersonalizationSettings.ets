@@ -255,60 +255,35 @@ export struct PersonalizationSettings {
     }
   }
 
-  //构建偏好设置
+  // 构建单个偏好设置项的方法
   @Builder
-  buildPreferenceItemWithAnimation(name: string, index: number) {
+  buildPreferenceItem(name: string, enabled: boolean) {
     Row() {
-      // 偏好项文字部分
-      Text(name)
-        .fontSize(this.fontSize - 6)
-        .fontColor(this.themeManager.getCurrentTheme().textColor)
-        .layoutWeight(1)
-        .textAlign(TextAlign.Start)
-
-      // 自定义开关按钮区域
-      Row() {
-        Row() {
-          Text(this.preferenceConfig[index].enabled ? "开启" : "关闭")
-            .fontSize(18)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
-            .textAlign(TextAlign.Center)
-        }
-        .width("60%")
-        .height("100%")
-        .margin({
-          left: this.preferenceConfig[index].enabled ? "40%" : "0%"
-        })
-        .backgroundColor("#FF7500")
-        .borderRadius(25)
-        .justifyContent(FlexAlign.Center)
-        .onClick(() => {
-          console.log("点击了索引为", index, "的项");
-          const newState = !this.preferenceConfig[index].enabled;
-
-          this.getUIContext()?.keyframeAnimateTo({ iterations: 1 }, [
-            {
-              duration: 400,
-              event: () => {
-                this.preferenceConfig[index].enabled = newState;
-                this.updatePreference(index, newState);
-              }
-            }
-          ]);
-        })
-        .shadow({ radius: 10, color: Color.Gray })
-
+      Column() {
+        Text(name) // 选项名称
+          .fontSize(14)
+          .fontColor(this.currentTheme.textColor)
+          .textAlign(TextAlign.Start) // 文字左对齐
+          .margin({ bottom: 5 }); // 调整间距
       }
-      .width(100)
-      .height(30)
-      .borderRadius(25)
-      .backgroundColor(this.preferenceConfig[index].enabled ? "#FFA500" : "#0E62A9") // 可选：点击变色效果
-      .justifyContent(FlexAlign.Start)
+      .layoutWeight(1) // 左侧文本占满剩余空间
+
+      // Toggle 按钮样式调整
+      Toggle({ type: ToggleType.Switch, isOn: enabled })
+        .onChange((isOn: boolean) => {
+          // 更新对应选项的状态
+          const index = this.preferenceConfig.findIndex(item => item.name === name);
+          if (index >= 0) {
+            this.preferenceConfig[index].enabled = isOn;
+          }
+        })
+        .selectedColor(Color.Blue)
     }
-    .width("100%")
-    .height(40)
-    .justifyContent(FlexAlign.Start)
+    .width('100%')
+    .height(60)
     .padding({ left: 10, right: 10 })
+    .borderRadius(8)
+    .margin({ bottom: 10 });
   }
 
 
