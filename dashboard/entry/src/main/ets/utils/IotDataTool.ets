@@ -38,7 +38,16 @@ export interface properties {
   auto_state: string;
 }
 
+export interface params{
+  service_id: string;
+  command_name: string;
+  paras:paras;
+}
 
+export interface paras{
+  alarm_light_state?:string;   // 报警灯on,off
+  beep_state?:string;          // 蜂鸣器on,off
+}
 
 // 获取数据示例
 // this.responseData?.shadow?.[0]?.reported?.properties?.smoke
@@ -89,7 +98,7 @@ class IotDataTool{
             this.token = data.header['x-subject-token']
             // console.info(TAG, "token=" + this.token)
             CommonConstant.token = this.token
-            // hilog.info(0x00, "test", "拿到token")
+            hilog.info(0x00, "test", "拿到token")
             resolve(this.token)
           } else {
             reject("请求失败")
@@ -105,8 +114,8 @@ class IotDataTool{
     })
   }
 
-  // 获取所有设备最新数据
-  getLatestData(): Promise<string> {
+  // 更新所有设备最新数据
+  setLatestData(): Promise<string> {
     console.log("getLatestData")
     return new Promise<string>((resolve, reject) => {
 
@@ -151,6 +160,42 @@ class IotDataTool{
       })
     })
   }
+
+  controlDevice(params:params):Promise<string> {
+    return new Promise<string>((resolve, reject) => {
+
+      let httpRequest: http.HttpRequest = http.createHttp()
+      let options: http.HttpRequestOptions = {
+        method: http.RequestMethod.POST,
+        header: {
+          'Content-Type': 'application/json',
+          'X-Auth-Token': this.token == "" ? CommonConstant.token : this.token,
+          'Instance-Id': CommonConstant.INSTANCE_ID
+        },
+        expectDataType: http.HttpDataType.OBJECT, //可选，指定返回数据的类型
+        extraData:params
+      }
+      console.log("正在发送命令")
+      httpRequest.request(`https://${CommonConstant.IAM_ENDPOINT}/v5/iot/${CommonConstant.project_id}/devices/${CommonConstant.device_id}/commands`,options)
+        .then((data) => {
+          console.log("HTTP", "data=" + JSON.stringify(data))
+          if(data.responseCode===200&&data.result.toString().includes("command_id")) {
+            console.info(TAG,"控制设备="+"控制成功")
+            resolve("控制成功")
+          }else{
+            reject("操作失败")
+          }
+        })
+        .catch((err: BusinessError) => {
+          console.info(TAG,JSON.stringify(err))
+          reject("网络请求失败")
+        })
+        .finally(() => {
+          httpRequest.destroy()
+        })
+    })
+  }
+
 }
 
 export default new IotDataTool();

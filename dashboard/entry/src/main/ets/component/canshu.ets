@@ -9,6 +9,7 @@ export class CommonConstant{
   static readonly IAM_PASSWORD="Chenjinghan2154"
   static readonly AUTH_TOKEN=CommonConstant.IAM_ENDPOINT+"/v3/auth/tokens"
   static token=""
+  static readonly INSTANCE_ID="571f6ec7-69f2-441e-a3a7-1a008e82f31d"
   //获取设备影子数据，也就是设备上报的数据
   static readonly SHOW_SHADOW=CommonConstant.ENDPOINT+"/v5/iot/"+CommonConstant.project_id+"/devices/"+CommonConstant.device_id+"/shadow"
   //控制设备-同步下发设备命令
