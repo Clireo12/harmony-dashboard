@@ -49,11 +49,11 @@
         ],
       }
     ],
-//    "requestPermissions": [
-//      {"name": "ohos.permission.INTERNET", "reason": "$string:reason_INTERNET", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
-//      {"name": "ohos.permission.GET_NETWORK_INFO", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
-//      {"name": "ohos.permission.APPROXIMATELY_LOCATION", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
-//      {"name": "ohos.permission.LOCATION", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
-//    ]
+    "requestPermissions": [
+      {"name": "ohos.permission.INTERNET", "reason": "$string:reason_INTERNET", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
+      {"name": "ohos.permission.GET_NETWORK_INFO", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
+      {"name": "ohos.permission.APPROXIMATELY_LOCATION", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
+      {"name": "ohos.permission.LOCATION", "reason": "$string:reason_LOCATION", "usedScene": {"abilities": ["EntryAbility","EntryBackupAbility","MainPage"], "when": "always"}},
+    ]
   }
 }
