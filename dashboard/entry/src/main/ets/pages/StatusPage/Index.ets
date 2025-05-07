@@ -5,6 +5,7 @@ import { Bottom } from '../../component/Bottom'
 import { City } from '../../component/City'
 import { ThemeManager } from '../../model/ThemeManager';
 import { ThemeConfig } from '../../model/ThemeConfig'
+import IotDataTool from '../../utils/IotDataTool'
 
 @Entry
 @Component
@@ -13,6 +14,9 @@ struct VehicleStatusPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State Height:number = 380
 
+  aboutToAppear() {
+    IotDataTool.login()
+  }
 
   build() {
     Column(){
@@ -59,3 +63,4 @@ struct VehicleStatusPage {
 
 
 export { VehicleStatusPage }
+

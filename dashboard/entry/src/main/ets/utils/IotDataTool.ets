@@ -36,6 +36,11 @@ export interface properties {
   alarm_light_state: string;      // 报警灯
   beep_state: string;             // 蜂鸣器
   auto_state: string;
+  illumination: string;
+  temperature: string;
+  humidity: string;
+  motorStatus: string;            // 电机
+  lightStatus: string;            // 灯光
 }
 
 export interface params{
@@ -134,11 +139,11 @@ class IotDataTool{
       httpRequest.request(`https://${CommonConstant.IAM_ENDPOINT}/v5/iot/${CommonConstant.project_id}/devices/${CommonConstant.device_id}/shadow`,
         options)
         .then((data) => {
-          // console.log("HTTP", "data=" + JSON.stringify(data))
+          console.log("HTTP", "data=" + JSON.stringify(data))
           if (data.responseCode === 200) {
 
-            // let result = JSON.stringify(data.result)
-            // console.log("HTTP", "data=" + result)
+            let result = JSON.stringify(data.result)
+            console.log("HTTP", "data=" + result)
             // console.log("正在解析中")
 
             this.responseData = data.result as notify_data // 直接类型断言
@@ -161,6 +166,7 @@ class IotDataTool{
     })
   }
 
+  // 控制设备
   controlDevice(params:params):Promise<string> {
     return new Promise<string>((resolve, reject) => {
 

@@ -9,11 +9,13 @@ import IotDataTool, { params, paras } from '../../utils/IotDataTool';
 export struct DrivingMode {
   private themeManager: ThemeManager = ThemeManager.getInstance();
 
-  @State leftState:number = 1;
+  @State leftState:string = "OFF";        // 1表示加速,0表示减速
   @State left:string = "40%";
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['经济模式','运动模式','雪地模式','城市模式']
   private selectedMode:number|number[] = 1
+
+  private intervalId: number = 0
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
     // 初始化pref
@@ -21,6 +23,31 @@ export struct DrivingMode {
     // 读取当前选中的模式
     this.selectedMode = PreferencesUtil.get('selectedMode', 0) as number
     console.log("selectedMode: " + this.selectedMode.toString())
+
+    this.intervalId = setInterval(() => {
+      IotDataTool.setLatestData() // 询问设备当前状态
+      if (this.leftState != IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus) {
+        this.uiContext?.keyframeAnimateTo({ iterations: 1 }, [
+          {
+            // 第一段关键帧动画时长为800ms，left属性做从0到40的动画
+            duration: 400,
+            event: () => {
+              // 根据状态切换
+              if (this.leftState == "ON") {
+                this.left = "0%"
+              }else {
+                this.left = "40%"
+              }
+              // console.log(this.left)
+            }
+          },
+        ])
+        this.leftState = IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus
+      }
+    }, 3000)
+  }
+  aboutToDisappear(): void {
+    clearInterval(this.intervalId)
   }
 
   build() {
@@ -38,7 +65,7 @@ export struct DrivingMode {
           // 状态切换显示按钮
           Row(){
             Row(){
-              Text(this.leftState == 1 ? "刹车":"油门")
+              Text(this.leftState == "1" ? "刹车":"油门")
                 .fontSize(18)
                 .fontColor(this.themeManager.getCurrentTheme().textColor)
             }
@@ -52,29 +79,11 @@ export struct DrivingMode {
             .borderRadius(25)
             .justifyContent(FlexAlign.Center)
             .onClick(() => {
-              console.log("Clicked")
 
-              try {
-                // PositionTool.getPositionByWLAN()
-              }catch (err) {
-                hilog.error(0, '[Demo]', '[onClick]', 'getPositionByWLAN error: ' + err)
-              }
 
-              this.uiContext?.keyframeAnimateTo({ iterations: 1 }, [
-                {
-                  // 第一段关键帧动画时长为800ms，left属性做从0到40的动画
-                  duration: 400,
-                  event: () => {
-                    if (this.leftState == 1) {
-                      this.left = "0%"
-                    }else {
-                      this.left = "40%"
-                    }
-                    // console.log(this.left)
-                  }
-                },
-              ]);
-              this.leftState ^= 1
+
+
+
             })
 
           }
@@ -114,7 +123,7 @@ export struct DrivingMode {
                 .selectedTextStyle({
                   color: "#007CE6",
                   font: {
-                    size: '28vp',
+                    size: '16vp',
                     weight: FontWeight.Regular
                   }
                 })
@@ -122,7 +131,7 @@ export struct DrivingMode {
                 .textStyle({
                   color: "#0E62AA",
                   font: {
-                    size: '18vp',
+                    size: '12vp',
                     weight: FontWeight.Regular
                   }
                 })
@@ -136,6 +145,7 @@ export struct DrivingMode {
                   console.info('selectedMode: ' + this.selectedMode)
                   // PositionTool.getCity()
                   IotDataTool.login()
+                  IotDataTool.setLatestData()
                   let ml:paras = {
                     beep_state:"off"
                   }
