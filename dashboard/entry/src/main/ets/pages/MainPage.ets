@@ -21,11 +21,11 @@ struct MainPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   // 导航
-  @State location: string = '北京市 朝阳区 建国路88号';
+  @State location: string = '深圳市 南山区 沙河西路';
   @State distance: string = '3.2公里';
   // 仪表盘
-  @State speed: number = 80 // 车速
-  @State milometer: number = 50 // 里程
+  @State speed: number = 0 // 车速
+  @Prop milometer: number // 里程
   @State maxSpeed: number = 125 // 最高时速
   // 天气
   @State area: string = '深圳市 南山区'
@@ -47,6 +47,8 @@ struct MainPage {
   @State throttleBrakeStatus: string = '减速中...';
 
   aboutToAppear(): void {
+    const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
+    this.milometer = totalMileage
     this.selectedDrivingMode = PreferencesUtil.get('selectedMode', 0) as number
     IotDataTool.login()
     IotDataTool.setLatestData()
