@@ -4,6 +4,7 @@ import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
+import IotDataTool from '../utils/IotDataTool';
 
 interface VehicleStatus {
   oil: string;
@@ -20,11 +21,11 @@ struct MainPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   // 导航
-  @State location: string = '北京市 朝阳区 建国路88号';
+  @State location: string = '深圳市 南山区 沙河西路';
   @State distance: string = '3.2公里';
   // 仪表盘
-  @State speed: number = 80 // 车速
-  @State milometer: number = 50 // 里程
+  @State speed: number = 0 // 车速
+  @Prop milometer: number // 里程
   @State maxSpeed: number = 125 // 最高时速
   // 天气
   @State area: string = '深圳市 南山区'
@@ -34,18 +35,24 @@ struct MainPage {
   // 车辆控制
   @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
   @State selectedDrivingMode: number = 3;
+  @State temp:string=''
   // 车辆状态
   @State vehicleStatus: VehicleStatus = {
     oil: '正常',
     fuel: '充足',
     batteryVoltage: '12.6V',
-    coolantTemp: '90°C'
+    coolantTemp: `${this.temp}°C`
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
 
   aboutToAppear(): void {
+    const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
+    this.milometer = totalMileage
     this.selectedDrivingMode = PreferencesUtil.get('selectedMode', 0) as number
+    IotDataTool.login()
+    IotDataTool.setLatestData()
+    this.temp=IotDataTool.responseData?.shadow?.[0]?.reported?.properties?.temp
 
     const savedTheme = PreferencesUtil.get('userSelectedTheme', '') as ThemeKey;
     if (savedTheme && Object.keys(themeConfig).includes(savedTheme)) {
@@ -129,6 +136,9 @@ struct MainPage {
           .width("30%")
           .height('90%')
           .margin({ left:15 })
+          .onClick(() => {
+            this.navigateToDashboard();
+          })
         }
 
         ListItem() {
@@ -183,9 +193,6 @@ struct MainPage {
             }
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
-            .onClick(() => {
-              this.navigateToDashboard();
-            })
             .layoutWeight(1)
 
             Column({ space: 15 }) {
@@ -321,7 +328,7 @@ struct MainPage {
               .width('100%')
 
               Row() {
-                Text('冷却液温度')
+                Text('电池温度')
                   .fontColor(this.currentTheme.textColor)
                   .fontSize(this.fontSize-2)
                   .layoutWeight(1)

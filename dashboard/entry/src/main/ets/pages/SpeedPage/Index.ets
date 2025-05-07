@@ -6,6 +6,7 @@ import { SidePanel } from './SidePanel';
 import { ThemeManager } from '../../model/ThemeManager';
 import { SignalLight } from './SignalLight';
 import { ThemeConfig } from '../../model/ThemeConfig';
+import PreferencesUtil from '../../utils/PreferencesUtil';
 
 @Entry
 @Component
@@ -13,8 +14,8 @@ export struct DashboardPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
 
-  @State speed: number = 80 // 车速
-  @State distance: number = 50 // 里程数
+  @Prop speed: number // 车速
+  @Prop distance: number  // 里程数
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), text: '', active: true },
     { img: $r('app.media.charge'), text: '', active: true },
@@ -25,6 +26,31 @@ export struct DashboardPage {
     { img: $r('app.media.fan'), text: ``, active: true },
     { img: null, text: `${20}`, active: true }
   ]
+  @State activeTab: string = 'P'
+
+  aboutToAppear() {
+    this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
+    this.updateSpeedAndDistance()
+  }
+
+  updateSpeedAndDistance() {
+    const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
+    this.distance = totalMileage
+
+    switch (this.activeTab) {
+      case 'P': //停车模式
+      case 'N': //空档模式
+        this.speed = 0
+        break
+      case 'R': //倒车模式
+        this.speed = 20
+        break
+      case 'D': //驾驶模式
+      case 'S': //运动模式
+        this.speed = 80
+        break
+    }
+  }
 
   build() {
     Column() {

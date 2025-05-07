@@ -15,7 +15,6 @@ interface ReverseGeoCodeRequest {
 }
 
 
-
 class PositionTool{
 
   // 经度
@@ -24,7 +23,6 @@ class PositionTool{
   public latitude:number = 39.0;
   // 所在地城市
   public city:string = "北京";
-
 
   // 获取系统当前所在经纬度
   public setPositionByWLAN(){
@@ -62,8 +60,6 @@ class PositionTool{
     this.setPositionByWLAN();
     return [this.longitude,this.latitude];
   }
-
-
 
   getCity():string{
     hilog.info(0x0000, "PositionTool", `getCity start`)
@@ -103,8 +99,5 @@ class PositionTool{
     return "";
   }
 
-
-
-  
 }
 export default new PositionTool();

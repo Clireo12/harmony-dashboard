@@ -1,7 +1,6 @@
 import { preferences, ValueType } from '@kit.ArkData';
 import { common } from '@kit.AbilityKit';
 
-
 /*
   !!!!请注意这是一个异步接口,如果出现callback报错,请在方法前面加async!!!!
   第一步
@@ -30,7 +29,6 @@ class PreferencesUtil {
 
   private uiAbilityContext: common.UIAbilityContext = getContext(this) as common.UIAbilityContext;
 
-
   // 加载实例(初始化)
   Load(context:common.UIAbilityContext){
     if (this.state) {
@@ -40,7 +38,6 @@ class PreferencesUtil {
     this.pref = preferences.getPreferencesSync(context, options)
     this.state = true
   }
-
 
   // 修改键值对,若键不存在则创建
   put(key:string,value:ValueType){

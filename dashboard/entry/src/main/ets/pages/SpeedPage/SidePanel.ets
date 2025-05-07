@@ -11,6 +11,7 @@ export struct SidePanel {
       ForEach(this.menu, (item: MenuItem) => {
         if (item.img) {
           Image(item.img)
+            .fillColor(Color.Gray)
             .width(35)
         } else {
           Column() {
