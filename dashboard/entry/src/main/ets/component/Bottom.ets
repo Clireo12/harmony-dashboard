@@ -4,7 +4,7 @@ import PreferencesUtil from "../utils/PreferencesUtil";
 
 @Component
 export struct Bottom {
-  @StorageProp('fontSize') fontSize: number = 16;
+  @StorageProp('fontSize') fontSize: number = 20;
   @Link currentTheme: ThemeConfig
   @Prop mileage: number = 212
   @Prop activeTab: string = 'D'
@@ -110,13 +110,13 @@ export struct Bottom {
 
       if (this.activeTab === tabName) {
         Row()
-          .width("5%")
-          .height("10%")
+          .width("8%")
+          .height("8%")
           .backgroundColor('#007AFF')
           .margin({ top: 2 })
       }
     }
-    .margin({ left: 15 })
+    .margin({ left: 18 })
     .onClick(() => {
       this.activeTab = tabName
       PreferencesUtil.put('drivingMode', tabName)
