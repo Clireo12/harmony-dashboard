@@ -4,6 +4,7 @@ import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
+import IotDataTool from '../utils/IotDataTool';
 
 interface VehicleStatus {
   oil: string;
@@ -34,18 +35,22 @@ struct MainPage {
   // 车辆控制
   @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
   @State selectedDrivingMode: number = 3;
+  @State temp:string=''
   // 车辆状态
   @State vehicleStatus: VehicleStatus = {
     oil: '正常',
     fuel: '充足',
     batteryVoltage: '12.6V',
-    coolantTemp: '90°C'
+    coolantTemp: `${this.temp}°C`
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
 
   aboutToAppear(): void {
     this.selectedDrivingMode = PreferencesUtil.get('selectedMode', 0) as number
+    IotDataTool.login()
+    IotDataTool.setLatestData()
+    this.temp=IotDataTool.responseData?.shadow?.[0]?.reported?.properties?.temp
 
     const savedTheme = PreferencesUtil.get('userSelectedTheme', '') as ThemeKey;
     if (savedTheme && Object.keys(themeConfig).includes(savedTheme)) {
@@ -321,7 +326,7 @@ struct MainPage {
               .width('100%')
 
               Row() {
-                Text('冷却液温度')
+                Text('电池温度')
                   .fontColor(this.currentTheme.textColor)
                   .fontSize(this.fontSize-2)
                   .layoutWeight(1)
