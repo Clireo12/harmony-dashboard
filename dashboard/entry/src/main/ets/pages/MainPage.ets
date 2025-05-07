@@ -25,7 +25,7 @@ struct MainPage {
   @State distance: string = '3.2公里';
   // 仪表盘
   @State speed: number = 0 // 车速
-  @Prop milometer: number // 里程
+  @State milometer: number =212 // 里程
   @State maxSpeed: number = 125 // 最高时速
   // 天气
   @State area: string = '深圳市 南山区'

@@ -14,8 +14,8 @@ export struct DashboardPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
 
-  @Prop speed: number // 车速
-  @Prop distance: number  // 里程数
+  @State speed: number = 30 // 车速
+  @State distance: number =212 // 里程数
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), text: '', active: true },
     { img: $r('app.media.charge'), text: '', active: true },
