@@ -27,6 +27,25 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
     PreferencesUtil.Load(this.context)
+    let names = []
+    try {
+      windowStage.getMainWindowSync().setWindowLayoutFullScreen(true,(err)=>{
+        if (err.code) {
+          console.error('Failed to enable the full-screen mode. Cause: ' + JSON.stringify(err));
+          return;
+        }
+        console.info('Succeeded in enabling the full-screen mode.');
+      })
+      windowStage.getMainWindowSync().setWindowSystemBarEnable(names, (err) => {
+        if (err.code) {
+          console.error('Failed to set the system bar to be invisible. Cause:' + JSON.stringify(err));
+          return;
+        }
+        console.info('Succeeded in setting the system bar to be invisible.');
+      });
+    } catch (exception) {
+      console.error('Failed to set the system bar to be invisible. Cause:' + JSON.stringify(exception));
+    }
     windowStage.loadContent('pages/MainPage', (err) => {
       if (err.code) {
         hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
