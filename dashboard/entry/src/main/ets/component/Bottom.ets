@@ -6,8 +6,8 @@ import PreferencesUtil from "../utils/PreferencesUtil";
 export struct Bottom {
   @StorageProp('fontSize') fontSize: number = 20;
   @Link currentTheme: ThemeConfig
-  @Prop mileage: number = 212
-  @Prop activeTab: string = 'D'
+  @Prop mileage: number
+  @Prop activeTab: string
   @State progress: number = 0.7
   @State textColor:Resource = $r("app.color.text_color")
   /**
@@ -22,7 +22,9 @@ export struct Bottom {
    * 组件生命周期 - 即将出现时调用
    */
   aboutToAppear() {
-    this.activeTab = PreferencesUtil.get('drivingMode', 'D') as string
+    this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
+    const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
+    this.mileage = totalMileage
     this.progress = this.getMileageProgress()
   }
 
@@ -106,18 +108,20 @@ export struct Bottom {
         .fontSize(this.fontSize)
         .fontColor(this.activeTab === tabName
           ? $r('app.color.clicked') : this.currentTheme.iconColor)
-        .margin({ bottom: 2 })
+        .margin({ bottom: 1 })
 
       if (this.activeTab === tabName) {
         Row()
           .width("8%")
           .height("8%")
           .backgroundColor('#007AFF')
-          .margin({ top: 2 })
+          .margin({ top: 1 })
       }
     }
     .margin({ left: 18 })
     .onClick(() => {
+      if (this.activeTab === tabName) return
+      console.log('点击模式:', tabName)
       this.activeTab = tabName
       PreferencesUtil.put('drivingMode', tabName)
     })

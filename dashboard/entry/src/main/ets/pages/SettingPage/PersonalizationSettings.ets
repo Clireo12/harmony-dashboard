@@ -204,12 +204,11 @@ export struct PersonalizationSettings {
               .margin({ top: 5, bottom: 5 })
 
             }
-            .width('45%')
+            .width('50%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
             .height("100%")
             .margin({ left: -110, right: -30 });
-
 
             //汽车图片
             Stack(){
@@ -261,7 +260,7 @@ export struct PersonalizationSettings {
     Row() {
       Column() {
         Text(name) // 选项名称
-          .fontSize(14)
+          .fontSize(this.fontSize-6)
           .fontColor(this.currentTheme.textColor)
           .textAlign(TextAlign.Start) // 文字左对齐
           .margin({ bottom: 5 }); // 调整间距

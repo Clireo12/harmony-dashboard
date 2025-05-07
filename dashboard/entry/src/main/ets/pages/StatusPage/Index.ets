@@ -21,14 +21,14 @@ struct VehicleStatusPage {
       // 方向盘角度反馈,油门状态反馈,驾驶模式反馈组件
       Row(){
         SteeringWheelAngleFeedback()
-          .width("20%")
+          .width("25%")
           .height("90%")
           .margin({
             right:"3%"
           })
 
         DrivingMode()
-          .width("20%")
+          .width("25%")
           .height("90%")
         // 车辆图标展示
         Stack(){
