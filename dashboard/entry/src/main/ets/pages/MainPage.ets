@@ -134,6 +134,9 @@ struct MainPage {
           .width("30%")
           .height('90%')
           .margin({ left:15 })
+          .onClick(() => {
+            this.navigateToDashboard();
+          })
         }
 
         ListItem() {
@@ -188,9 +191,6 @@ struct MainPage {
             }
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
-            .onClick(() => {
-              this.navigateToDashboard();
-            })
             .layoutWeight(1)
 
             Column({ space: 15 }) {
