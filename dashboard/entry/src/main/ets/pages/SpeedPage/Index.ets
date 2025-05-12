@@ -15,16 +15,17 @@ export struct DashboardPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
 
   @State speed: number = 30 // 车速
-  @State distance: number =212 // 里程数
+  @State distance: number = 212 // 里程数
+  @State trafficLight: number = 0 // 红绿灯
   @State leftMenu: MenuItem[] = [
-    { img: $r('app.media.warning'), text: '', active: true },
-    { img: $r('app.media.charge'), text: '', active: true },
-    { img: $r('app.media.cardoor'), text: '', active: true }
+    { img: $r('app.media.warning'), active: false },
+    { img: $r('app.media.charge'), active: false },
+    { img: $r('app.media.cardoor'), active: false }
   ]
   @State rightMenu: MenuItem[] = [
-    { img: null, text: `${20}`, active: true },
-    { img: $r('app.media.fan'), text: ``, active: true },
-    { img: null, text: `${20}`, active: true }
+    { img: null, active: true },
+    { img: $r('app.media.fan'), active: true },
+    { img: null, active: true }
   ]
   @State activeTab: string = 'P'
 
@@ -58,10 +59,12 @@ export struct DashboardPage {
       Header({ currentTheme: this.currentTheme })
 
       Row({ space: 5 }) {
-        SidePanel({ menu: this.leftMenu })
+        SidePanel({
+          menu: this.leftMenu
+        })
 
         Column() {
-          SignalLight({ activeLight: 0 })
+          SignalLight({ activeLight: this.trafficLight })
 
           CarPanel({
             speed: this.speed,
@@ -70,7 +73,9 @@ export struct DashboardPage {
         }
         .layoutWeight(1)
 
-        SidePanel({ menu: this.rightMenu })
+        SidePanel({
+          menu: this.rightMenu
+        })
       }
       .layoutWeight(1)
       .justifyContent(FlexAlign.SpaceBetween)
