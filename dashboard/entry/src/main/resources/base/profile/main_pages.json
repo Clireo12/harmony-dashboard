@@ -4,7 +4,8 @@
     "pages/SpeedPage/Index",
     "pages/SettingPage/PersonalizationSettings",
     "pages/ControlPage/Index",
-    "pages/StatusPage/Index"
+    "pages/StatusPage/Index",
+    "pages/StartupAnimation"
   ]
 }
 

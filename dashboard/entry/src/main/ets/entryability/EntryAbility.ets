@@ -46,7 +46,7 @@ export default class EntryAbility extends UIAbility {
     } catch (exception) {
       console.error('Failed to set the system bar to be invisible. Cause:' + JSON.stringify(exception));
     }
-    windowStage.loadContent('pages/MainPage', (err) => {
+    windowStage.loadContent('pages/StartupAnimation', (err) => {
       if (err.code) {
         hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
         return;
