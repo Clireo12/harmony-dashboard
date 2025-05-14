@@ -5,6 +5,7 @@ import { themeConfig, ThemeConfig,ThemeKey} from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import { common } from '@kit.AbilityKit';
+import { PreferenceModel } from './PreferenceModel';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -36,30 +37,6 @@ export struct PersonalizationSettings {
   aboutToAppear(): void {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue', 0.5) as number;
-
-    // 加载偏好设置
-    const savedPreferencesRaw = PreferencesUtil.get('preferenceConfig', '');
-    let savedPreferences: PreferenceItem[] = [];
-
-    if (savedPreferencesRaw && typeof savedPreferencesRaw === 'string') {
-      try {
-        const parsedData: PreferenceItem[] = JSON.parse(savedPreferencesRaw) as PreferenceItem[];
-        if (Array.isArray(parsedData) && parsedData.every(item =>
-        typeof item.name === 'string' &&
-          typeof item.enabled === 'boolean'
-        )) {
-          savedPreferences = parsedData;
-        } else {
-          console.warn("Invalid format, using defaults.");
-        }
-      } catch (error) {
-        console.error("Parse failed:", error);
-      }
-    }
-
-    if (savedPreferences.length > 0) {
-      this.preferenceConfig = savedPreferences;
-    }
 
   }
 
@@ -167,48 +144,14 @@ export struct PersonalizationSettings {
           Row() {
             // 偏好设置
             Column(){
-              Text('偏好设置')
-                .margin({ top: 5})
-                .width('100%')
-                .fontSize(this.fontSize)
-                .fontColor(this.currentTheme.textColor)
-                .textAlign(TextAlign.Center);
-
-              // 动态渲染所有偏好设置项
-
-              Column(){
-                ForEach(this.preferenceConfig, (item: PreferenceItem, index) => {
-                  Row(){
-                    Text(item.name)
-                      .fontSize(this.fontSize-5)
-                      .fontColor(this.currentTheme.textColor)
-                      .layoutWeight(1)
-                      .margin({left : 10});
-
-                    // 按钮设置
-                    Toggle({ type: ToggleType.Switch, isOn: item.enabled })
-                      .margin({ right: 10 })
-                      .width("20%")
-                      .height("50%")
-                      .onChange((isOn: boolean) => {
-                        this.preferenceConfig[index].enabled = isOn;
-                      })
-                  }
-                  .width('100%')
-                  .height("15%")
-                  .margin({ bottom: 3 });
-                })
-              }
-              .width('100%')
-              .height("60%")
-              .margin({ top: 5, bottom: 5 })
-
+              PreferenceModel()
             }
             .width('50%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(10)
-            .height("100%")
+            .height("80%")
             .margin({ left: -110, right: -30 });
+
 
             //汽车图片
             Stack(){
