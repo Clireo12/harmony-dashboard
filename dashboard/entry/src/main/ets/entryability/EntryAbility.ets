@@ -29,6 +29,7 @@ export default class EntryAbility extends UIAbility {
     PreferencesUtil.Load(this.context)
     let names = []
     try {
+      //设置全屏和隐藏系统栏
       windowStage.getMainWindowSync().setWindowLayoutFullScreen(true,(err)=>{
         if (err.code) {
           console.error('Failed to enable the full-screen mode. Cause: ' + JSON.stringify(err));
@@ -46,6 +47,7 @@ export default class EntryAbility extends UIAbility {
     } catch (exception) {
       console.error('Failed to set the system bar to be invisible. Cause:' + JSON.stringify(exception));
     }
+
     windowStage.loadContent('pages/StartupAnimation', (err) => {
       if (err.code) {
         hilog.error(DOMAIN, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err));
