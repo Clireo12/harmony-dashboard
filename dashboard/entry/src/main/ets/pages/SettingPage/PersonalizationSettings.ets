@@ -63,20 +63,19 @@ export struct PersonalizationSettings {
 
       Stack() {
 
-        // 控制面板，包含主题切换和亮度调节区域
         Row() {
-          // 左侧：主题切换和亮度调节区域
+          //左侧：主题切换和亮度调节区域
           Column() {
-            // 主题切换区域
+
             Column() {
-              // 主题切换标题
+
               Text('主题切换')
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ top: 10, bottom: 10 });
 
-              // 主题切换按钮
+              //主题切换按钮
               Row() {
                 this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
                 this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
@@ -94,7 +93,7 @@ export struct PersonalizationSettings {
             .borderRadius(10)
             .margin({ left : -100,bottom: 20 });
 
-            // 亮度调节区域
+            //亮度调节区域
             Column() {
               Text('亮度调节')
                 .fontSize(this.fontSize)
@@ -151,7 +150,6 @@ export struct PersonalizationSettings {
             .height("80%")
             .margin({ left: -110, right: -30 });
 
-
             //汽车图片
             Stack(){
               City()
@@ -161,7 +159,6 @@ export struct PersonalizationSettings {
           .width('50%')
           .height("85%")
           .padding({ left: 30 });
-
         }
         .width('100%')
         .height('100%');

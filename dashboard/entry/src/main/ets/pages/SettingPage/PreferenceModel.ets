@@ -9,6 +9,7 @@ import { ThemeConfig } from '../../model/ThemeConfig';
 export struct PreferenceModel {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
+
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['转向灯提示音','驾驶模式切换音效','故障报警语音播报','仪表盘动画速度','方言识别模式','盲区监测提示','语音反馈模式']
   private selectedMode:number|number[] = 1
@@ -17,7 +18,7 @@ export struct PreferenceModel {
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
 
-    // 读取当前选中的模式
+    //读取当前选中的模式
     this.selectedMode = PreferencesUtil.get('selectedMode', 0) as number
     console.log("selectedMode: " + this.selectedMode.toString())
   }
