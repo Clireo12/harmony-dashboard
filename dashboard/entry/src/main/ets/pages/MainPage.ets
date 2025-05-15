@@ -433,6 +433,6 @@ struct MainPage {
     .width('100%')
     .padding(15)
     .backgroundColor(this.currentTheme.mask)
-    .borderRadius(10)
+    .borderRadius(25)
   }
 }
