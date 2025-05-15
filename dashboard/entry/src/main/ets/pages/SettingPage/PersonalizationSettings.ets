@@ -36,7 +36,6 @@ export struct PersonalizationSettings {
   aboutToAppear(): void {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue', 0.5) as number;
-
   }
 
   // 默认偏好设置配置
