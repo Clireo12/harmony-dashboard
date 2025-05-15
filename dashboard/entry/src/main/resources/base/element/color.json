@@ -2,7 +2,7 @@
   "color": [
     {
       "name": "start_window_background",
-      "value": "#E9F4F9"
+      "value": "#000"
     },
     {
       "name": "Component_Color",
@@ -94,7 +94,7 @@
     },
     {
       "name": "text_color_light",
-      "value": "#F000"
+      "value": "#000"
     },
     {
       "name": "text_color_dark",
