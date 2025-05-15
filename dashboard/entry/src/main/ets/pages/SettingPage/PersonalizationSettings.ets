@@ -22,7 +22,6 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0.5;
 
-
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
 
@@ -59,7 +58,7 @@ export struct PersonalizationSettings {
   build() {
     Column(){
       this.content
-      // 添加 Header 组件
+      //添加 Header 组件
       Header({ currentTheme: this.currentTheme })
 
       Stack() {
@@ -169,14 +168,14 @@ export struct PersonalizationSettings {
       }
       .layoutWeight(1)
 
-      // 添加 Bottom
+      //添加 Bottom
       Bottom({ currentTheme: this.currentTheme })
 
     }
     .backgroundColor(this.currentTheme.theme)
   }
 
-  // 构建主题切换按钮
+  //主题切换按钮
   @Builder
   buildThemeButton(theme: ThemeKey, label: string) {
     Column() {
@@ -229,10 +228,7 @@ export struct PersonalizationSettings {
   }
 
 
-  /**
-   * 构建亮度图标
-   * @param position 图标位置，'left' 或 'right'
-   */
+  //亮度图标
   @Builder
   buildBrightnessIcon(position: 'left' | 'right') {
     Image(position === 'left' ? $r('app.media.sun_left') : $r('app.media.sun_right')) // 亮度图标
@@ -241,9 +237,7 @@ export struct PersonalizationSettings {
       .fillColor(this.currentTheme.iconColor);
   }
 
-  /**
-   * 构建亮度调节滑块
-   */
+  //构建亮度调节滑块
   @Builder
   buildBrightnessSlider() {
     Slider({

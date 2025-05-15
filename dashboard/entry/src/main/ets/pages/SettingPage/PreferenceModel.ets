@@ -2,11 +2,13 @@ import { ThemeManager } from '../../model/ThemeManager';
 import IotDataTool, { params, paras } from '../../utils/IotDataTool';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import { hilog } from '@kit.PerformanceAnalysisKit';
+import { ThemeConfig } from '../../model/ThemeConfig';
 
 // 偏好设置组件
 @Component
 export struct PreferenceModel {
   private themeManager: ThemeManager = ThemeManager.getInstance();
+  @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['转向灯提示音','驾驶模式切换音效','故障报警语音播报','仪表盘动画速度','方言识别模式','盲区监测提示','语音反馈模式']
   private selectedMode:number|number[] = 1
@@ -29,8 +31,7 @@ export struct PreferenceModel {
         Text('偏好设置')
           .margin({ top: 20})
           .fontSize(20)
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
-          .backgroundColor(this.themeManager.getCurrentTheme().mask)
+          .fontColor(this.currentTheme.textColor)
           .textAlign(TextAlign.Center)
 
         Row(){
@@ -82,13 +83,9 @@ export struct PreferenceModel {
           })
           .width("100%")
           .height("auto")
-
       }
-      .backgroundColor(this.themeManager.getCurrentTheme().mask)
     }
     .width("100%")
     .height("45%")
-
   }
-
 }
