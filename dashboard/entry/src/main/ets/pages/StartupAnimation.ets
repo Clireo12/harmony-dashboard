@@ -23,18 +23,21 @@ export struct StartupAnimation {
   build() {
     Stack({ alignContent: Alignment.Center}) {
 
-      //背景（逐渐透明）
+      //背景
       Column()
         .width('100%')
         .height('100%')
         .backgroundColor(Color.Black)
-
 
       Column() {
         Image($r('app.media.car'))
           .width(500)
           .height(280)
           .translate({ x: this.carOffsetX, y: 0 })
+          .animation({
+            duration: 1500,
+            curve: Curve.EaseOut
+          })
 
         Text("鸿蒙智能座舱")
           .fontSize(45)
@@ -45,6 +48,12 @@ export struct StartupAnimation {
           .letterSpacing(5)
           .textAlign(TextAlign.Center)
           .width('100%')
+          .animation({
+            duration: 1500,
+            delay: 700,
+            curve: Curve.EaseOut
+          })
+
 
         Column({ space: 10 }) {
           Text("启动中...")
@@ -64,72 +73,50 @@ export struct StartupAnimation {
               .height(4)
               .backgroundColor(Color.White)
               .borderRadius(2)
+              .animation({
+                duration: 1500,
+                curve: Curve.Linear
+              })
           }
           .width(200)
           .height(4)
+          .animation({
+            duration: 500,
+            curve: Curve.EaseOut
+          })
         }
         .opacity(this.loadingOpacity)
       }
       .opacity(this.contentOpacity)
+      .animation({
+        duration: 500
+      })
     }
     .width('100%')
     .height('100%')
     .onAppear(() => {
-      this.startAnimation();
-    })
-  }
-
-  private startAnimation() {
-    //车辆入场动画
-    animateTo({
-      duration: 1500,
-      curve: Curve.EaseOut
-    }, () => {
       this.carOffsetX = 0;
-    });
+      this.textOpacity = 1; //文字淡入
+      this.textScale = 1.0; //文字放大
 
-    //标题显示
-    setTimeout(() => {
-      animateTo({
-        duration: 1500,
-        curve: Curve.EaseOut
-      }, () => {
-        this.textOpacity = 1;  //文字完全显示
-        this.textScale = 1.0;  //文字恢复到原始大小
-      });
-    }, 700);
+      setTimeout(() => {
+        this.loadingOpacity = 1; //显示加载状态
+        this.loadingProgress = 1; //进度条填充
+      }, 1500);
 
-    //显示加载状态
-    setTimeout(() => {
-      animateTo({
-        duration: 500,
-        curve: Curve.EaseOut
-      }, () => {
-        this.loadingOpacity = 1;
-      });
-
-      //进度条动画
-      animateTo({
-        duration: 1500,
-        curve: Curve.Linear
-      }, () => {
-        this.loadingProgress = 1;
-      });
-    }, 1500);
-
-    setTimeout(() => {
-      animateTo({ duration: 500 }, () => {
+      //跳转到主页
+      setTimeout(() => {
         this.textOpacity = 0;
         this.loadingOpacity = 0;
         this.contentOpacity = 0;
-      });
 
-    //跳转到主页面
-      setTimeout(() => {
-        router.replace({
-          url: 'pages/MainPage',
-       });
-      }, 500);
-    }, 3000);
+        setTimeout(() => {
+          router.replace({
+            url: 'pages/MainPage',
+          });
+        }, 500);
+      }, 3000);
+    })
   }
+
 }
