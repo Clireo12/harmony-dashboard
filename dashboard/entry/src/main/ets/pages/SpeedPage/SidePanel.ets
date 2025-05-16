@@ -43,6 +43,5 @@ export struct SidePanel {
     .justifyContent(FlexAlign.Center)
     .width(80)
     .height('100%')
-    .backgroundColor(this.themeManager.getCurrentTheme().theme)
   }
 }

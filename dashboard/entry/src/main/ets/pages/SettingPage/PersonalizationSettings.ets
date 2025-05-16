@@ -22,7 +22,6 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0.5;
 
-
   // 提供默认的BuilderParam
   @BuilderParam content: () => void = this.defaultContent;
 
@@ -37,7 +36,6 @@ export struct PersonalizationSettings {
   aboutToAppear(): void {
     // 初始化亮度值
     this.brightnessValue = PreferencesUtil.get('brightnessValue', 0.5) as number;
-
   }
 
   // 默认偏好设置配置
@@ -59,27 +57,26 @@ export struct PersonalizationSettings {
   build() {
     Column(){
       this.content
-      // 添加 Header 组件
+      //添加 Header 组件
       Header({ currentTheme: this.currentTheme })
 
       Stack() {
 
-        // 控制面板，包含主题切换和亮度调节区域
         Row() {
-          // 左侧：主题切换和亮度调节区域
+          //左侧：主题切换和亮度调节区域
           Column() {
-            // 主题切换区域
+
             Column() {
-              // 主题切换标题
+
               Text('主题切换')
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ top: 10, bottom: 10 });
 
-              // 主题切换按钮
+              //主题切换按钮
               Row() {
-                this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
+                this.buildThemeButton('classic-blackRed', '经典暗黑'); // 经典暗黑主题按钮
                 this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
                 this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
                 this.buildThemeButton('fresh-green', '清新绿'); // 清新绿主题按钮
@@ -92,10 +89,10 @@ export struct PersonalizationSettings {
             .width('80%')
             .height('60%')
             .backgroundColor(this.currentTheme.mask)
-            .borderRadius(10)
+            .borderRadius(25)
             .margin({ left : -100,bottom: 20 });
 
-            // 亮度调节区域
+            //亮度调节区域
             Column() {
               Text('亮度调节')
                 .fontSize(this.fontSize)
@@ -134,11 +131,12 @@ export struct PersonalizationSettings {
             .justifyContent(FlexAlign.SpaceEvenly)
             .backgroundColor(this.currentTheme.mask)
             .margin({left : -100})
-            .borderRadius(10);
+            .borderRadius(25)
           }
           .width('50%')
           .padding({ left: 30 })
           .height("85%")
+
 
           // 右侧
           Row() {
@@ -148,10 +146,9 @@ export struct PersonalizationSettings {
             }
             .width('50%')
             .backgroundColor(this.currentTheme.mask)
-            .borderRadius(10)
+            .borderRadius(25)
             .height("80%")
             .margin({ left: -110, right: -30 });
-
 
             //汽车图片
             Stack(){
@@ -162,21 +159,21 @@ export struct PersonalizationSettings {
           .width('50%')
           .height("85%")
           .padding({ left: 30 });
-
         }
         .width('100%')
-        .height('100%');
+        .height('100%')
       }
       .layoutWeight(1)
 
-      // 添加 Bottom
+
+      //添加 Bottom
       Bottom({ currentTheme: this.currentTheme })
 
     }
     .backgroundColor(this.currentTheme.theme)
   }
 
-  // 构建主题切换按钮
+  //主题切换按钮
   @Builder
   buildThemeButton(theme: ThemeKey, label: string) {
     Column() {
@@ -229,10 +226,7 @@ export struct PersonalizationSettings {
   }
 
 
-  /**
-   * 构建亮度图标
-   * @param position 图标位置，'left' 或 'right'
-   */
+  //亮度图标
   @Builder
   buildBrightnessIcon(position: 'left' | 'right') {
     Image(position === 'left' ? $r('app.media.sun_left') : $r('app.media.sun_right')) // 亮度图标
@@ -241,9 +235,7 @@ export struct PersonalizationSettings {
       .fillColor(this.currentTheme.iconColor);
   }
 
-  /**
-   * 构建亮度调节滑块
-   */
+  //构建亮度调节滑块
   @Builder
   buildBrightnessSlider() {
     Slider({

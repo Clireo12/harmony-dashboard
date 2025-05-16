@@ -5,14 +5,13 @@ import { MenuItem } from '../../model/MenuItem';
 import { SidePanel } from './SidePanel';
 import { ThemeManager } from '../../model/ThemeManager';
 import { SignalLight } from './SignalLight';
-import { ThemeConfig } from '../../model/ThemeConfig';
+import { themeConfig, ThemeConfig } from '../../model/ThemeConfig';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 
 @Entry
 @Component
 export struct DashboardPage {
-  private themeManager: ThemeManager = ThemeManager.getInstance();
-  @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
+  @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
 
   @State speed: number = 30 // 车速
   @State distance: number = 212 // 里程数
@@ -28,10 +27,25 @@ export struct DashboardPage {
     { img: null, active: true }
   ]
   @State activeTab: string = 'P'
+  private timeCheckTimer: number | null = null;//时间检查定时器
 
   aboutToAppear() {
     this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
     this.updateSpeedAndDistance()
+  }
+
+  //根据时间获取主题
+  private getTimeBasedTheme(): ThemeConfig {
+    const hours = new Date().getHours();
+    const isDayTime = hours >= 6 && hours < 18; //6:00-18:00为白天
+    return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
+  }
+
+  //启动时间检查器
+  private startTimeChecker() {
+    this.timeCheckTimer = setInterval(() => {
+      this.currentTheme = this.getTimeBasedTheme();
+    }, 60000); //每分钟检查一次
   }
 
   updateSpeedAndDistance() {

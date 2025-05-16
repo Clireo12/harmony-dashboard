@@ -1,5 +1,4 @@
-
-// 主题配置接口，定义了每个主题的配置项
+//主题配置接口，定义了每个主题的配置项
 export interface ThemeConfig {
   theme: ResourceColor; // 背景颜色
   mask: ResourceColor; // 蒙版颜色
@@ -9,10 +8,9 @@ export interface ThemeConfig {
   locationIcon: ResourceStr // 定位图标资源
 }
 
-// 定义主题键类型
+//定义主题键类型
 export type ThemeKey = 'fresh-green' | 'tech-blue' | 'minimal-white' | 'classic-blackRed';
-// 主题配置，定义了每个主题的具体配置
-
+//主题配置，定义了每个主题的具体配置
 export const themeConfig: Record<ThemeKey, ThemeConfig> = {
   'fresh-green': {
     theme: $r('app.color.theme_green'),

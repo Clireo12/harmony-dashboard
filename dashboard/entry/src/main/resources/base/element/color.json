@@ -49,7 +49,7 @@
       "value": "#6b6b6b"
     },
     {
-      "name": "clicked",
+      "name": "selected",
       "value": "#007AFF"
     },
     {
@@ -58,7 +58,7 @@
     },
     {
       "name": "theme_black",
-      "value": "#FF2F2424"
+      "value": "#121212"
     },
     {
       "name": "theme_white",
@@ -74,11 +74,11 @@
     },
     {
       "name": "mask_white",
-      "value": "#FFF3ECEC"
+      "value": "#EEE"
     },
     {
       "name": "mask_black",
-      "value": "#FF777272"
+      "value": "#444"
     },
     {
       "name": "mask_green",
@@ -87,10 +87,6 @@
     {
       "name": "mask_blue",
       "value": "#CCFFFF"
-    },
-    {
-      "name": "mask_red",
-      "value": "#FFEBEE"
     },
     {
       "name": "text_color_light",

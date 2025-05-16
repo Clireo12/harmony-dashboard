@@ -53,78 +53,78 @@ export struct DrivingMode {
 
   build() {
     Column(){
-      // 油门/刹车状态
-      Column({ space:30 }){
-        Text("油门/刹车状态")
-          .fontSize(15)
-          .fontColor(this.themeManager.getCurrentTheme().textColor)
-          .backgroundColor(this.themeManager.getCurrentTheme().mask)
-          .margin({
-            top:10
-          })
-        Row(){
-          // 状态切换显示按钮
-          Row(){
-            Row(){
-              Text(this.leftState == "1" ? "刹车":"油门")
-                .fontSize(18)
-                .fontColor(this.themeManager.getCurrentTheme().textColor)
-            }
-            .shadow({ radius: 10, color: Color.Gray })
-            .width("60%")
-            .height("100%")
-            .margin({
-              left:this.left
-            })
-            .backgroundColor("#FF7500")
-            .borderRadius(25)
-            .justifyContent(FlexAlign.Center)
-            .onClick(() => {
+      // // 油门/刹车状态
+      // Column({ space:30 }){
+      //   Text("油门/刹车状态")
+      //     .fontSize(15)
+      //     .fontColor(this.themeManager.getCurrentTheme().textColor)
+      //     .backgroundColor(this.themeManager.getCurrentTheme().mask)
+      //     .margin({
+      //       top:10
+      //     })
+      //   Row(){
+      //     // 状态切换显示按钮
+      //     Row(){
+      //       Row(){
+      //         Text(this.leftState == "1" ? "刹车":"油门")
+      //           .fontSize(18)
+      //           .fontColor(this.themeManager.getCurrentTheme().textColor)
+      //       }
+      //       .shadow({ radius: 10, color: Color.Gray })
+      //       .width("60%")
+      //       .height("100%")
+      //       .margin({
+      //         left:this.left
+      //       })
+      //       .backgroundColor("#FF7500")
+      //       .borderRadius(25)
+      //       .justifyContent(FlexAlign.Center)
+      //       .onClick(() => {
+      //
+      //
+      //
+      //
+      //
+      //       })
+      //
+      //     }
+      //     .width("84%")
+      //     .height("100%")
+      //     .borderRadius(25)
+      //     .backgroundColor("#0E62A9")
+      //   }
+      //   .justifyContent(FlexAlign.Center)
+      //   .width("100%")
+      //   .height("33%")
+      // }
+      // .width("100%")
+      // .height("45%")
+      // .borderRadius(15)
+      // .backgroundColor(this.themeManager.getCurrentTheme().mask)
 
-
-
-
-
-            })
-
-          }
-          .width("84%")
-          .height("100%")
-          .borderRadius(25)
-          .backgroundColor("#0E62A9")
-        }
-        .justifyContent(FlexAlign.Center)
-        .width("100%")
-        .height("33%")
-      }
-      .width("100%")
-      .height("45%")
-      .borderRadius(15)
-      .backgroundColor(this.themeManager.getCurrentTheme().mask)
-
-      Row(){
-
-      }
-      .width("100%")
-      .height("10%")
+      // Row(){
+      //
+      // }
+      // .width("100%")
+      // .height("10%")
 
       // 驾驶模式
       Row(){
         Column(){
-          Text("驾驶模式切换")
-            .fontSize(15)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
-            .backgroundColor(this.themeManager.getCurrentTheme().mask)
-            .margin({
-              top: 10
-            })
+          // Text("驾驶模式切换")
+          //   .fontSize(16)
+          //   .fontColor(this.themeManager.getCurrentTheme().textColor)
+          //   .backgroundColor(this.themeManager.getCurrentTheme().mask)
+          //   .margin({
+          //     top: 10
+          //   })
 
               TextPicker({range:this.DrivingMode, selected:this.selectedMode})
                 // 选中的选项的字体样式
                 .selectedTextStyle({
                   color: "#007CE6",
                   font: {
-                    size: '16vp',
+                    size: '40vp',
                     weight: FontWeight.Regular
                   }
                 })
@@ -169,11 +169,11 @@ export struct DrivingMode {
         }
         .width("100%")
         .height("100%")
-        .borderRadius(15)
+        .borderRadius(25)
         .backgroundColor(this.themeManager.getCurrentTheme().mask)
       }
       .width("100%")
-      .height("45%")
+      .height("100%")
       .justifyContent(FlexAlign.Center)
     }
     .justifyContent(FlexAlign.SpaceBetween)
