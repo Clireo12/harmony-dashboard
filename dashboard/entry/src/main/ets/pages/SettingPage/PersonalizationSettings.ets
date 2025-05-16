@@ -76,7 +76,7 @@ export struct PersonalizationSettings {
 
               //主题切换按钮
               Row() {
-                this.buildThemeButton('classic-blackRed', '经典红黑'); // 经典红黑主题按钮
+                this.buildThemeButton('classic-blackRed', '经典暗黑'); // 经典暗黑主题按钮
                 this.buildThemeButton('tech-blue', '科技蓝'); // 科技蓝主题按钮
                 this.buildThemeButton('minimal-white', '极简白'); // 极简白主题按钮
                 this.buildThemeButton('fresh-green', '清新绿'); // 清新绿主题按钮
@@ -89,7 +89,7 @@ export struct PersonalizationSettings {
             .width('80%')
             .height('60%')
             .backgroundColor(this.currentTheme.mask)
-            .borderRadius(10)
+            .borderRadius(25)
             .margin({ left : -100,bottom: 20 });
 
             //亮度调节区域
@@ -131,11 +131,12 @@ export struct PersonalizationSettings {
             .justifyContent(FlexAlign.SpaceEvenly)
             .backgroundColor(this.currentTheme.mask)
             .margin({left : -100})
-            .borderRadius(10);
+            .borderRadius(25)
           }
           .width('50%')
           .padding({ left: 30 })
           .height("85%")
+
 
           // 右侧
           Row() {
@@ -145,7 +146,7 @@ export struct PersonalizationSettings {
             }
             .width('50%')
             .backgroundColor(this.currentTheme.mask)
-            .borderRadius(10)
+            .borderRadius(25)
             .height("80%")
             .margin({ left: -110, right: -30 });
 
@@ -160,9 +161,10 @@ export struct PersonalizationSettings {
           .padding({ left: 30 });
         }
         .width('100%')
-        .height('100%');
+        .height('100%')
       }
       .layoutWeight(1)
+
 
       //添加 Bottom
       Bottom({ currentTheme: this.currentTheme })

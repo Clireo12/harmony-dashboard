@@ -1,8 +1,9 @@
+import { themeConfig, ThemeConfig } from '../../model/ThemeConfig';
 import { ThemeManager } from '../../model/ThemeManager';
 
 @Component
 export struct CirclePanel {
-  private themeManager: ThemeManager = ThemeManager.getInstance();
+  @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
 
   @Prop num: number // 数值
   @Prop unit: string // 单位
@@ -13,6 +14,22 @@ export struct CirclePanel {
     { color: $r('app.color.speed_mid'), offset: 0.6 },
     { color: this.reverse ? $r('app.color.speed_low') : $r('app.color.speed_high'), offset: 1.0 }
   ])
+
+  private timeCheckTimer: number | null = null;//时间检查定时器
+
+  //根据时间获取主题
+  private getTimeBasedTheme(): ThemeConfig {
+    const hours = new Date().getHours();
+    const isDayTime = hours >= 6 && hours < 18; //6:00-18:00为白天
+    return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
+  }
+
+  //启动时间检查器
+  private startTimeChecker() {
+    this.timeCheckTimer = setInterval(() => {
+      this.currentTheme = this.getTimeBasedTheme();
+    }, 60000); //每分钟检查一次
+  }
 
   build() {
     Row() {
@@ -45,17 +62,17 @@ export struct CirclePanel {
         Circle()
           .width(80)
           .height(80)
-          .fill(this.themeManager.getCurrentTheme().mask)
+          .fill(this.currentTheme.theme)
 
         Column() {
           Text(this.num.toString())
             .fontSize(36)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
             .fontWeight(600)
           Text(this.unit)
             .fontSize(20)
             .fontWeight(600)
-            .fontColor(this.themeManager.getCurrentTheme().textColor)
+            .fontColor(this.currentTheme.textColor)
             .offset({
               y: -5
             })
