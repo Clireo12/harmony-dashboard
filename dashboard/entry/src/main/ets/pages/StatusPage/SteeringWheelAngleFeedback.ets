@@ -1,7 +1,5 @@
 import { ThemeManager } from '../../model/ThemeManager';
 
-
-
 // 方向盘角度反馈组件
 @Component
 export struct SteeringWheelAngleFeedback {
@@ -75,16 +73,16 @@ export struct SteeringWheelAngleFeedback {
   }
 
   build() {
-    Column({space:15}){
-      Text("方向盘角度反馈")
-        .textAlign(TextAlign.Center)
-        .fontSize(15)
-        .width("100%")
-        .height("10")
-        .fontColor(this.themeManager.getCurrentTheme().textColor)
-        .margin({
-          top: 10
-        })
+    Column(){
+      // Text("方向盘角度反馈")
+      //   .textAlign(TextAlign.Center)
+      //   .fontSize(16)
+      //   .width("100%")
+      //   .height("10")
+      //   .fontColor(this.themeManager.getCurrentTheme().textColor)
+      //   .margin({
+      //     top: 10
+      //   })
       Stack(){
         Image($r("app.media.fang_xiang_pan_jiao_du"))
           .width("88%")
@@ -98,12 +96,11 @@ export struct SteeringWheelAngleFeedback {
           .fontColor(this.angleColor)
       }
       .width("100%")
-      .height("95%")
+      .height("100%")
     }
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Center)
-    .borderRadius(20)
+    .borderRadius(25)
     .backgroundColor(this.themeManager.getCurrentTheme().mask)
-
   }
 }
