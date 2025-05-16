@@ -33,7 +33,7 @@ struct MainPage {
   @State weather: string = '晴天'
   @State weatherImg: ResourceStr = $r('app.media.sun_left')
   // 车辆控制
-  @State drivingModes: string[] = ['经济模式','运动模式','雪地模式','城市模式'];
+  @State DrivingMode: string[] = ['标准模式','经济模式','运动模式','雪地模式']
   @State selectedDrivingMode: number = 3;
   @State temp:string=''
   // 车辆状态
@@ -211,7 +211,7 @@ struct MainPage {
 
               Column() {
 
-                  TextPicker({ range: this.drivingModes, selected: this.selectedDrivingMode })
+                  TextPicker({ range: this.DrivingMode, selected: this.selectedDrivingMode })
                   .selectedTextStyle({
                     font: { size: this.fontSize+2, weight: FontWeight.Bold },
                     color: '#6abef1'

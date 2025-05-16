@@ -12,11 +12,14 @@ export struct DrivingMode {
   @State leftState:string = "OFF";        // 1表示加速,0表示减速
   @State left:string = "40%";
   uiContext: UIContext | undefined = undefined;
-  @State DrivingMode: string[] = ['经济模式','运动模式','雪地模式','城市模式']
+  @State DrivingMode: string[] = ['标准模式','经济模式','运动模式','雪地模式']
   @State motorStatus:string = IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus
   private selectedMode:number|number[] = 1
 
   private intervalId: number = 0
+
+  private onModeChange?: (modeIndex: number) => void
+
   aboutToAppear() {
     this.uiContext = this.getUIContext?.();
     // 初始化pref
@@ -145,6 +148,12 @@ export struct DrivingMode {
                   PreferencesUtil.put('selectedMode', this.selectedMode)
                   console.info('selectedMode: ' + this.selectedMode)
                   // PositionTool.getCity()
+
+                  //触发模式变更回调
+                  if (this.onModeChange) {
+                    this.onModeChange(this.selectedMode as number);
+                  }
+
                   IotDataTool.login()
                   IotDataTool.setLatestData()
                   let ml:paras = {
