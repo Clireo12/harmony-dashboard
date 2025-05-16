@@ -13,6 +13,7 @@ export struct DrivingMode {
   @State left:string = "40%";
   uiContext: UIContext | undefined = undefined;
   @State DrivingMode: string[] = ['经济模式','运动模式','雪地模式','城市模式']
+  @State motorStatus:string = IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus
   private selectedMode:number|number[] = 1
 
   private intervalId: number = 0
@@ -25,15 +26,15 @@ export struct DrivingMode {
     console.log("selectedMode: " + this.selectedMode.toString())
 
     this.intervalId = setInterval(() => {
-      IotDataTool.setLatestData() // 询问设备当前状态
-      if (this.leftState != IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus) {
+      // IotDataTool.setLatestData() // 询问设备当前状态
+      if (true) {
         this.uiContext?.keyframeAnimateTo({ iterations: 1 }, [
           {
             // 第一段关键帧动画时长为800ms，left属性做从0到40的动画
             duration: 400,
             event: () => {
               // 根据状态切换
-              if (this.leftState == "ON") {
+              if (this.motorStatus == "OFF") {
                 this.left = "0%"
               }else {
                 this.left = "40%"
@@ -42,9 +43,9 @@ export struct DrivingMode {
             }
           },
         ])
-        this.leftState = IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus
+        // this.leftState = IotDataTool.responseData.shadow?.[0]?.reported?.properties?.motorStatus
       }
-    }, 3000)
+    }, 5)
   }
   aboutToDisappear(): void {
     clearInterval(this.intervalId)

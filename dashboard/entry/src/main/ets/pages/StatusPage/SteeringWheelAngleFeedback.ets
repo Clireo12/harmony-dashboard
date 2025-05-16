@@ -1,5 +1,5 @@
 import { ThemeManager } from '../../model/ThemeManager';
-
+import IotDataTool from '../../utils/IotDataTool'
 
 
 // 方向盘角度反馈组件
@@ -9,18 +9,20 @@ export struct SteeringWheelAngleFeedback {
 
   @State bgkColor: Color | string = "#2B323A"
   @State currentAngle: number = 0  // 动画当前角度
-  private targetAngle: number = -270  // 目标角度可能为负数
+  private targetAngle: number = parseFloat(IotDataTool.responseData.shadow?.[0]?.reported?.properties?.mpu_1)  // 目标角度可能为负数
   @State angleColor: Color | string = Color.Red
   private timerId: number = -1; // 定时器ID
 
 
   aboutToAppear() {
     this.startAngleAnimation(); // 页面加载时开始计时器
+
   }
 
   aboutToDisappear() {
     this.stopAngleAnimation(); // 页面销毁时停止计时器
   }
+
 
   // 启动角度动画
   startAngleAnimation() {

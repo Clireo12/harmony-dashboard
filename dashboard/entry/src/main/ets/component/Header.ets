@@ -5,7 +5,7 @@ import { ThemeConfig } from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
 import { preferences } from '@kit.ArkData';
 import { common } from '@kit.AbilityKit';
-
+import IotDataTool, { params, paras } from '../utils/IotDataTool';
 
 @Component
 export struct Header {
@@ -14,7 +14,7 @@ export struct Header {
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
-  @Prop temperature: number = 23.5
+  @Prop temperature: number = parseFloat(IotDataTool.responseData.shadow?.[0]?.reported?.properties?.temperature)
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
   @State textColor:Resource = $r("app.color.text_color")

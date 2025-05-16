@@ -3,6 +3,9 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
 import PreferencesUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
+import IotDataTool from '../utils/IotDataTool'
+
+
 
 const DOMAIN = 0x0000;
 
@@ -13,14 +16,20 @@ interface BrightnessEventData {
 export default class EntryAbility extends UIAbility {
   private windowClass: window.Window | undefined = undefined;
 
+
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET);
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
     PreferencesUtil.Load(this.context);
+    IotDataTool.login() // 获取token
+    IotDataTool.startPolling()  // 开启轮询
   }
+
+
 
   onDestroy(): void {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onDestroy');
+    IotDataTool.stopPolling() // 停止轮询
   }
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
@@ -91,10 +100,14 @@ export default class EntryAbility extends UIAbility {
     // Ability has brought to foreground
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onForeground');
     this.updateWindowBrightness();
+    IotDataTool.login() // 获取token
+    IotDataTool.startPolling()  // 开启轮询
+
   }
 
   onBackground(): void {
     // Ability has back to background
+    IotDataTool.stopPolling() // 停止轮询
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onBackground');
   }
 }

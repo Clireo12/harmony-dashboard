@@ -41,6 +41,10 @@ export interface properties {
   humidity: string;
   motorStatus: string;            // 电机
   lightStatus: string;            // 灯光
+  keyStatus:string;
+  mpu_1:string;
+  mpu_2:string;
+  mpu_3:string;
 }
 
 export interface params{
@@ -62,6 +66,8 @@ export interface paras{
 class IotDataTool{
   public token:string = ""
   public responseData:notify_data = {} as notify_data
+  private timerId: number = -1; // 定时器ID
+  public pollingInterval:number = 1500; // 轮询间隔，单位为毫秒
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -200,6 +206,29 @@ class IotDataTool{
           httpRequest.destroy()
         })
     })
+  }
+
+
+  // 启动轮询
+  public startPolling(): void {
+    // 若轮询已启动，则先停止它
+    this.stopPolling();
+    this.timerId = setInterval(() => {
+      if (this.token == "") {
+        this.login()
+      }else {
+        this.setLatestData()
+      }
+    },this.pollingInterval)
+
+  }
+
+  // 停止轮询
+  public stopPolling(): void {
+    if (this.timerId !== -1) {
+      clearInterval(this.timerId);
+      this.timerId = -1;
+    }
   }
 
 }
