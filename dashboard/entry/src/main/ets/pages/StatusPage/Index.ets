@@ -3,9 +3,10 @@ import { Header } from '../../component/Header'
 import { SteeringWheelAngleFeedback } from './SteeringWheelAngleFeedback'
 import { Bottom } from '../../component/Bottom'
 import { City } from '../../component/City'
-import { ThemeManager } from '../../model/ThemeManager';
+import { ThemeManager } from '../../model/ThemeManager'
 import { ThemeConfig } from '../../model/ThemeConfig'
 import IotDataTool from '../../utils/IotDataTool'
+import { Snow } from './Snow'
 
 @Entry
 @Component
@@ -15,6 +16,7 @@ struct VehicleStatusPage {
   @State Height:number = 380
   @State selectedIndex: number = 0 //0:方向盘角度, 1:驾驶模式
   private tabs: string[] = ['方向盘角度', '驾驶模式']
+  @State isSnowMode: boolean = false
 
   aboutToAppear() {
     IotDataTool.login()
@@ -23,6 +25,21 @@ struct VehicleStatusPage {
   build() {
     Column(){
       Header({ currentTheme: this.currentTheme })
+
+      if (this.isSnowMode) {
+        Stack() {
+          ForEach(Array.from({length: 30}), (item: undefined, index: number) => {
+            Snow()
+              .position({
+                x: Math.random() * 100 + '%',
+                y: Math.random() * 100 + '%'
+              })
+          })
+        }
+        .width('100%')
+        .height('100%')
+        .position({ x: 0, y: 0 })
+      }
 
       Row(){
 
@@ -59,7 +76,11 @@ struct VehicleStatusPage {
                 SteeringWheelAngleFeedback() //方向盘角度
                   .height("85%")
               } else {
-                DrivingMode() //驾驶模式
+                DrivingMode({
+                  onModeChange: (modeIndex: number) => {
+                    this.isSnowMode = modeIndex === 3; //雪地模式
+                  }
+                })
                   .height("85%")
               }
             }
@@ -77,12 +98,15 @@ struct VehicleStatusPage {
         .margin({left:15})
         .justifyContent(FlexAlign.Center)
 
-        //车辆图标展示
-        Stack(){
+        Stack() {
           City()
-          Image($r("app.media.car"))
-            .width("80%")
-            .offset({ y : 50})
+
+          Stack() {
+            Image($r("app.media.car"))
+              .width("80%")
+              .offset({ y: 50 })
+
+          }
         }
         .width("55%")
         .height("80%")
@@ -104,42 +128,42 @@ struct VehicleStatusPage {
     .width("100%")
     .height("100%")
 
-  //   // 方向盘角度反馈,油门状态反馈,驾驶模式反馈组件
-  //   Row(){
-  //     SteeringWheelAngleFeedback()
-  //       .width("25%")
-  //       .height("90%")
-  //       .margin({
-  //         right:"3%"
-  //       })
-  //
-  //     DrivingMode()
-  //       .width("25%")
-  //       .height("90%")
-  //     // 车辆图标展示
-  //     Stack(){
-  //       City()
-  //       Image($r("app.media.car"))
-  //         .width("45%")
-  //         .offset({ y : 50})
-  //     }
-  //   }
-  //   .width("100%")
-  //   .height("100%")
-  //   .justifyContent(FlexAlign.Start)
-  //   .alignItems(VerticalAlign.Top)
-  //   .margin({
-  //     left:"5%"
-  //   })
-  //   .layoutWeight(1)
-  //
-  //   Bottom({ currentTheme: this.currentTheme })
-  // }
-  // .backgroundColor(this.currentTheme.theme)
-  // .justifyContent(FlexAlign.SpaceBetween)
-  // .alignItems(HorizontalAlign.Start)
-  // .width("100%")
-  // .height("100%")
+    //   // 方向盘角度反馈,油门状态反馈,驾驶模式反馈组件
+    //   Row(){
+    //     SteeringWheelAngleFeedback()
+    //       .width("25%")
+    //       .height("90%")
+    //       .margin({
+    //         right:"3%"
+    //       })
+    //
+    //     DrivingMode()
+    //       .width("25%")
+    //       .height("90%")
+    //     // 车辆图标展示
+    //     Stack(){
+    //       City()
+    //       Image($r("app.media.car"))
+    //         .width("45%")
+    //         .offset({ y : 50})
+    //     }
+    //   }
+    //   .width("100%")
+    //   .height("100%")
+    //   .justifyContent(FlexAlign.Start)
+    //   .alignItems(VerticalAlign.Top)
+    //   .margin({
+    //     left:"5%"
+    //   })
+    //   .layoutWeight(1)
+    //
+    //   Bottom({ currentTheme: this.currentTheme })
+    // }
+    // .backgroundColor(this.currentTheme.theme)
+    // .justifyContent(FlexAlign.SpaceBetween)
+    // .alignItems(HorizontalAlign.Start)
+    // .width("100%")
+    // .height("100%")
   }
 }
 
