@@ -61,14 +61,14 @@ export struct Bottom {
       Text(tabName)
         .fontSize(24)
         .fontColor(this.activeTab === tabName
-          ? $r('app.color.clicked') : this.currentTheme.iconColor)
+          ? $r('app.color.selected') : this.currentTheme.iconColor)
         .margin({ bottom: 1 })
 
       if (this.activeTab === tabName) {
         Row()
           .width("12%")
           .height("10%")
-          .backgroundColor('#007AFF')
+          .backgroundColor($r('app.color.selected'))
           .margin({ top: 1 })
       }
     }

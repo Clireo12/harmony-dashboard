@@ -9,20 +9,9 @@ import { ThemeConfig } from '../../model/ThemeConfig';
 export struct VehicleControlPage {
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
-  // 提供默认的BuilderParam
-  @BuilderParam content: () => void = this.defaultContent;
-
-  // 默认内容构建器
-  @Builder
-  defaultContent() {
-    Column() {
-      // 可以留空或添加默认占位内容
-    }
-  }
 
   build() {
     Column(){
-      this.content
       Header({ currentTheme: this.currentTheme })
       Row() {
         MainPanel()

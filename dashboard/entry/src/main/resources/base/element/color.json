@@ -49,7 +49,7 @@
       "value": "#6b6b6b"
     },
     {
-      "name": "clicked",
+      "name": "selected",
       "value": "#007AFF"
     },
     {
@@ -87,10 +87,6 @@
     {
       "name": "mask_blue",
       "value": "#CCFFFF"
-    },
-    {
-      "name": "mask_red",
-      "value": "#FFEBEE"
     },
     {
       "name": "text_color_light",
