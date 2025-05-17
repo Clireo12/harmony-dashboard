@@ -22,26 +22,12 @@ struct VehicleStatusPage {
     IotDataTool.login()
   }
 
+
   build() {
     Column(){
       Header({ currentTheme: this.currentTheme })
 
-      if (this.isSnowMode) {
-        Stack() {
-          ForEach(Array.from({length: 30}), (item: undefined, index: number) => {
-            Snow()
-              .position({
-                x: Math.random() * 100 + '%',
-                y: Math.random() * 100 + '%'
-              })
-          })
-        }
-        .width('100%')
-        .height('100%')
-        .position({ x: 0, y: 0 })
-      }
-
-      Row(){
+      Row({space: 30}){
 
         Column(){
           Column(){
@@ -95,38 +81,55 @@ struct VehicleStatusPage {
         }
         .width("32%")
         .height("100%")
-        .margin({left:15})
+        .margin({left:15,right:15})
         .justifyContent(FlexAlign.Center)
 
-        Stack() {
-          City()
+        Column(){
+            Stack() {
 
-          Stack() {
-            Image($r("app.media.car"))
-              .width("80%")
-              .offset({ y: 50 })
+              City().offset({ y: -55 })
 
+              Image($r("app.media.car"))
+                .width("80%")
+                .offset({ y: 50 })
+
+              if (this.isSnowMode) {
+                Stack() {
+                  ForEach(Array.from({length: 30}), (item: undefined, index: number) => {
+                    Snow()
+                      .position({
+                        x: Math.random() * 100 + '%',
+                        y: Math.random() * 100 + '%'
+                      })
+                  })
+                }
+                .width('90%')
+                .height('90%')
+                .position({ x: 0, y: 20 })
+              }
+            }
+            .width('100%')
+            .height('100%')
+            .position({ x: 0, y: 0 })
           }
-        }
         .width("55%")
-        .height("80%")
+        .height("85%")
+        .borderRadius(25)
+        .backgroundColor(Color.White)
       }
       .width("100%")
       .height("100%")
-      .justifyContent(FlexAlign.SpaceBetween)
-      .alignItems(VerticalAlign.Top)
       .margin({
-        left:"5%"
+        left:"5%",
       })
       .layoutWeight(1)
 
       Bottom({ currentTheme: this.currentTheme })
     }
     .backgroundColor(this.currentTheme.theme)
-    .justifyContent(FlexAlign.SpaceBetween)
-    .alignItems(HorizontalAlign.Start)
     .width("100%")
     .height("100%")
+    .margin({right:15})
 
     //   // 方向盘角度反馈,油门状态反馈,驾驶模式反馈组件
     //   Row(){
