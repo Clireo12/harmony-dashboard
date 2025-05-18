@@ -1,6 +1,18 @@
 {
   "string": [
     {
+      "name": "page_show",
+      "value": "page from npm package"
+    },
+    {
+      "name": "song_name",
+      "value": "I don't know"
+    },
+    {
+      "name": "singer",
+      "value": "Hello suki"
+    },
+    {
       "name": "module_desc",
       "value": "module description"
     },
