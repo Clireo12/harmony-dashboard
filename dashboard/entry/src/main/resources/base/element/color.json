@@ -62,7 +62,7 @@
     },
     {
       "name": "theme_white",
-      "value": "#FFFFFF"
+      "value": "#f3f4f6"
     },
     {
       "name": "theme_blue",
@@ -74,7 +74,7 @@
     },
     {
       "name": "mask_white",
-      "value": "#EEE"
+      "value": "#fefefe"
     },
     {
       "name": "mask_black",
