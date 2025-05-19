@@ -37,7 +37,7 @@ export struct Snow {
         .opacity(this.snowopacity)
         .rotate({ angle: this.snowrotation })
         .position({ x: this.xPos + '%', y: this.yPos + '%' })
-
+        .fillColor('#ccebff')
     }
   }
 }

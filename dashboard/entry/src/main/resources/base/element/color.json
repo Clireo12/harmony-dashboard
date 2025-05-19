@@ -66,11 +66,11 @@
     },
     {
       "name": "theme_blue",
-      "value": "#66CCFF"
+      "value": "#ffe0e9f1"
     },
     {
       "name": "theme_green",
-      "value": "#CCFFCC"
+      "value": "#FFD9FCD9"
     },
     {
       "name": "mask_white",
@@ -86,7 +86,7 @@
     },
     {
       "name": "mask_blue",
-      "value": "#CCFFFF"
+      "value": "#FFBBD2E7"
     },
     {
       "name": "text_color_light",
