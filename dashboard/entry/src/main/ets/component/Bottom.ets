@@ -5,7 +5,7 @@ import PreferencesUtil from "../utils/PreferencesUtil";
 @Component
 export struct Bottom {
   @Link currentTheme: ThemeConfig
-  @Prop mileage: number
+  @State mileage: number = 0
   @Prop activeTab: string
   @State progress: number = 0.7
   @State textColor:Resource = $r("app.color.text_color")

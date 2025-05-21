@@ -3,8 +3,10 @@ import { CirclePanel } from './CirclePanel';
 
 @Component
 export struct CarPanel {
-  @Prop speed: number
-  @Prop distance: number
+  @Link speed: number
+  @Link distance: number
+  @Link activeLight: number
+  @State carMove: number = 3
 
   build() {
     Row() {
@@ -20,9 +22,21 @@ export struct CarPanel {
           .scale({ x: 0.8 })
           .offset({ x: -13, y: -65 })
 
-        Image($r('app.media.car2'))
-          .width(200)
-          .offset({ y: 50 })
+        if (this.activeLight === 0) {
+          Image($r('app.media.car2'))
+            .width(200)
+            .offset({ x: -10, y: 50 })
+            .rotate({ angle: -15 })
+        } else if (this.activeLight === 2) {
+          Image($r('app.media.car2'))
+            .width(200)
+            .offset({ x: 10, y: 50 })
+            .rotate({ angle: 15 })
+        } else {
+          Image($r('app.media.car2'))
+            .width(200)
+            .offset({ y: 50 })
+        }
       }
       .layoutWeight(1)
 

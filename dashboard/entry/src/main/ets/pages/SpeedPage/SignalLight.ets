@@ -1,7 +1,7 @@
 @Component
 export struct SignalLight {
   @State light: number[] = [0.3, 0.3, 0.3]
-  @Prop activeLight: number  // 0红 1黄 2绿
+  @Link activeLight: number  // 0红 1黄 2绿
   private timer: number = 0
 
   aboutToAppear(): void {

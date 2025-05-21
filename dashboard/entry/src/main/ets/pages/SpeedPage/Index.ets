@@ -15,7 +15,7 @@ export struct DashboardPage {
 
   @State speed: number = 30 // 车速
   @State distance: number = 212 // 里程数
-  @State trafficLight: number = 0 // 红绿灯
+  @State trafficLight: number = 0 // 0红1绿2黄灯  转向灯0左2右
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), active: false },
     { img: $r('app.media.charge'), active: false },
@@ -26,15 +26,32 @@ export struct DashboardPage {
     { img: $r('app.media.fan'), active: true },
     { img: null, active: true }
   ]
-  @State activeTab: string = 'P'
-  private timeCheckTimer: number | null = null;//时间检查定时器
+  @State @Watch('updateSpeedAndDistance') activeTab: string = 'P'
+  private timeCheckTimer: number | null = null; // 时间检查定时器
 
   aboutToAppear() {
     this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
     this.updateSpeedAndDistance()
+    let speedTimer = setInterval(() => {
+      if (this.speed < 45) {
+        this.speed++
+      } else {
+        clearInterval(speedTimer)
+        speedTimer = setInterval(() => {
+          this.speed += Math.floor(Math.random() * 5 - 2)
+        }, 250)
+      }
+    }, 30)
+    const distanceTimer = setInterval(() => {
+      if (this.distance < 20) {
+        this.distance++
+      } else {
+        clearInterval(distanceTimer)
+      }
+    }, 8000)
   }
 
-  //根据时间获取主题
+  // 根据时间获取主题
   private getTimeBasedTheme(): ThemeConfig {
     const hours = new Date().getHours();
     const isDayTime = hours >= 6 && hours < 18; //6:00-18:00为白天
@@ -82,7 +99,8 @@ export struct DashboardPage {
 
           CarPanel({
             speed: this.speed,
-            distance: this.distance
+            distance: this.distance,
+            activeLight: this.trafficLight
           })
         }
         .layoutWeight(1)
@@ -95,7 +113,10 @@ export struct DashboardPage {
       .justifyContent(FlexAlign.SpaceBetween)
       .width('100%')
 
-      Bottom({ currentTheme: this.currentTheme })
+      Bottom({
+        currentTheme: this.currentTheme,
+        activeTab: this.activeTab
+      })
     }
     .height('100%')
     .width('100%')

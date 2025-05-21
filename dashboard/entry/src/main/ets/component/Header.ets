@@ -14,7 +14,7 @@ export struct Header {
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
-  @Prop temperature: number = parseFloat(IotDataTool.responseData.shadow?.[0]?.reported?.properties?.temperature)
+  @Prop temperature: number = parseFloat(IotDataTool.responseData.shadow?.[0]?.reported?.properties?.temperature) || 24
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
   @State textColor:Resource = $r("app.color.text_color")
