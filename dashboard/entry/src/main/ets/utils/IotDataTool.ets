@@ -45,6 +45,8 @@ export interface properties {
   mpu_1:string;
   mpu_2:string;
   mpu_3:string;
+  gear_state:string;              // 挡位
+  color_theme_state:string;
 }
 
 export interface params{
@@ -63,11 +65,18 @@ export interface paras{
 // this.responseData?.shadow?.[0]?.reported?.properties?这段是固定的
 
 
+@Observed
 class IotDataTool{
   public token:string = ""
   public responseData:notify_data = {} as notify_data
   private timerId: number = -1; // 定时器ID
   public pollingInterval:number = 1500; // 轮询间隔，单位为毫秒
+
+  // 设备数据
+  public motorStatus:string  = "";  // 电机
+  public lightStatus:string  = "";  // 灯光
+  public mpu_1:string = "";
+  public gear_state:string = "";    // 挡位
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -153,6 +162,11 @@ class IotDataTool{
             // console.log("正在解析中")
 
             this.responseData = data.result as notify_data // 直接类型断言
+            this.motorStatus = this.responseData?.shadow?.[0]?.reported?.properties?.motorStatus
+            this.lightStatus = this.responseData?.shadow?.[0]?.reported?.properties?.lightStatus
+            this.mpu_1 = this.responseData?.shadow?.[0]?.reported?.properties?.mpu_1
+            this.gear_state = this.responseData?.shadow?.[0]?.reported?.properties?.gear_state
+            hilog.info(0x00, "DATA", `${this.mpu_1}`)
 
             // console.log("smoke = " + this.responseData?.shadow?.[0]?.reported?.properties?.smoke)
             //
