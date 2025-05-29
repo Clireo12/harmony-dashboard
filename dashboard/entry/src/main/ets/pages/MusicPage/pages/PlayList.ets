@@ -1,6 +1,6 @@
 import { songList } from '../pages/SongListData'; // 导入歌曲列表数据
 import { SongDataSource } from '../pages/SongDataSource'; // 导入歌曲数据源类
-import { CommentItem, LyricLine, SongItem } from '../pages/SongData'; // 导入歌曲项的数据结构
+import { CommentItem, SongItem } from '../pages/SongData'; // 导入歌曲项的数据结构 LyricLine,
 import common from '@ohos.app.ability.common'; // 导入应用上下文模块
 import window from '@ohos.window'; // 导入窗口管理模块
 import storage from '@ohos.data.storage'; // 导入本地存储模块（未使用）

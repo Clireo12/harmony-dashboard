@@ -4,7 +4,7 @@ import { window } from '@kit.ArkUI';
 import PreferencesUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
 import IotDataTool from '../utils/IotDataTool'
-
+import { playerManager } from '../pages/MusicPage/PlayerManager';
 
 
 const DOMAIN = 0x0000;
@@ -34,6 +34,7 @@ export default class EntryAbility extends UIAbility {
 
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
+    playerManager.init() // 音乐
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
     PreferencesUtil.Load(this.context)
     let names = []
@@ -91,6 +92,7 @@ export default class EntryAbility extends UIAbility {
   }
 
   onWindowStageDestroy(): void {
+    playerManager.destroy() // 音乐
     this.context.eventHub.off('brightnessChange');
     // Main window is destroyed, release UI related resources
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onWindowStageDestroy');

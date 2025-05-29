@@ -1,3 +1,5 @@
+import { playerManager } from '../PlayerManager'
+
 @Entry
 @Component
 export default struct Player {
@@ -11,17 +13,22 @@ export default struct Player {
   //显示评论的状态，从StorageProp获取默认值为false
   @StorageProp('showComments') showComments: boolean = false;
 
+  // 时间转换
+  number2time(number: number) {
+    return number > 60 * 1000 ? Math.floor(number/1000/60).toString().padStart(2, '0') + ':' + Math.floor(number/1000%60).toString().padStart(2, '0') : '00:' + Math.floor(number/1000%60).toString().padStart(2, '0')
+  }
+
   build() {
     Row() {
 
       Column() {
         Row({space:4}) {
-          Text('歌曲名字')
+          Text(playerManager.currentSong.song.title)
             .fontSize(this.fontSize)
             .fontWeight(FontWeight.Bold);
           Text('-')
             .fontSize(this.fontSize);
-          Text('歌手名字')
+          Text(playerManager.currentSong.song.singer)
             .fontSize(this.fontSize);
           Image($r('app.media.ic_vip'))
             .width(20)
@@ -57,27 +64,44 @@ export default struct Player {
           Row({space: 30}){
             Image($r('app.media.ic_prev'))
               .width(36)
-              .height(36);
+              .height(36)
+              .onClick(() => {
+                playerManager.next()
+              })
 
             Image(this.isPlaying ? $r('app.media.ic_pause') : $r('app.media.ic_play'))
               .width(36)
               .height(36)
-              .onClick(() => { this.isPlaying = !this.isPlaying; });
+              .onClick(() => {
+                if (this.isPlaying) {
+                  playerManager.play()
+                } else {
+                  playerManager.paused()
+                }
+                this.isPlaying = !this.isPlaying;
+              });
 
             Image($r('app.media.ic_next'))
               .width(36)
               .height(36)
-
+              .onClick(() => {
+                playerManager.prev()
+              })
           }
+
+          Blank()
+
+          Text(`${this.number2time(playerManager.currentSong.time)} / ${this.number2time(playerManager.currentSong.duration)}`)
         }
+        .padding({ left: 210, right: 50 })
         .width('100%')
         .justifyContent(FlexAlign.Center)
         .margin({ bottom: 10 });
 
         Slider({
-          value: this.progress * 100,
+          value: playerManager.currentSong.time,
           min: 0,
-          max: 100,
+          max: playerManager.currentSong.duration,
           style: SliderStyle.OutSet
         })
           .blockColor('#ff1948')

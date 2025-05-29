@@ -3,20 +3,8 @@ import App from '../pages/PlayList';
 import { Album } from './Album';
 import { CommentPanel } from '../pages/CommentPanel';
 import PlayList from '../pages/PlayList';
-
-//定义歌词行接口
-interface LyricLine {
-  id: number;
-  text: string;
-}
-
-//定义评论项接口
-interface CommentItem {
-  id: number;
-  username: string;
-  content: string;
-  time: string;
-}
+import { playerManager } from '../PlayerManager';
+import { CommentItem, LyricLine } from './SongData';
 
 //初始化歌词行数据
 const initialLyricLines: LyricLine[] = [
@@ -28,7 +16,6 @@ const initialLyricLines: LyricLine[] = [
 const initialComments: CommentItem[] = [
   { id: 1, username: "User 1", content: "This is comment number 1", time: "10:00" }
 ];
-
 
 @Entry
 @Component
@@ -80,7 +67,7 @@ export default struct Content {
         .justifyContent(FlexAlign.Center)
 
         Column() {
-          Text('歌曲名字')
+          Text(playerManager.currentSong.song.title)
             .fontSize(22)
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 8 });
@@ -90,7 +77,7 @@ export default struct Content {
               .height(16)
               .width(16)
               .margin({ right: 5 });
-            Text('歌手名字')
+            Text(playerManager.currentSong.song.singer)
               .fontSize(16);
           }
           .margin({ bottom: 12 });

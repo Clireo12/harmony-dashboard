@@ -57,3 +57,17 @@ export class SongItem {
    */
   lyric: string = '';
 }
+
+//评论接口
+export interface CommentItem {
+  id: number
+  username: string
+  content: string
+  time: string
+}
+
+//定义歌词行接口
+export interface LyricLine {
+  id: number;
+  text: string;
+}

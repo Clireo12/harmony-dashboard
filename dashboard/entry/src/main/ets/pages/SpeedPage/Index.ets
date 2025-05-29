@@ -39,7 +39,7 @@ export struct DashboardPage {
         clearInterval(speedTimer)
         speedTimer = setInterval(() => {
           this.speed += Math.floor(Math.random() * 5 - 2)
-        }, 250)
+        }, 800)
       }
     }, 30)
     const distanceTimer = setInterval(() => {
