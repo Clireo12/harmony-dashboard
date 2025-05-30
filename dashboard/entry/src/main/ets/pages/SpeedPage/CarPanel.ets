@@ -1,12 +1,17 @@
 import { City } from "../../component/City"
 import { CirclePanel } from './CirclePanel';
+import { router } from "@kit.ArkUI";
 
 @Component
 export struct CarPanel {
-  @Link speed: number
-  @Link distance: number
+  @Link speed: number //车速
+  @Link distance: number  //里程数
   @Link activeLight: number
-  @State carMove: number = 3
+  @State carMove: number = 3  //控制车辆移动
+
+  navigateToVehicleStatus() {
+    router.pushUrl({ url: 'pages/StatusPage/Index' });
+  }
 
   build() {
     Row() {
@@ -16,27 +21,32 @@ export struct CarPanel {
         current: 100
       })
 
-      // 路况
+      //路况
       Stack() {
         City()
           .scale({ x: 0.8 })
-          .offset({ x: -13, y: -65 })
+          .offset({ x: -10, y: -65 })
 
-        if (this.activeLight === 0) {
-          Image($r('app.media.car2'))
-            .width(200)
-            .offset({ x: -10, y: 50 })
-            .rotate({ angle: -15 })
-        } else if (this.activeLight === 2) {
-          Image($r('app.media.car2'))
-            .width(200)
-            .offset({ x: 10, y: 50 })
-            .rotate({ angle: 15 })
-        } else {
-          Image($r('app.media.car2'))
-            .width(200)
-            .offset({ y: 50 })
-        }
+        Stack(){
+          //车辆图像
+          if (this.activeLight === 0) { //左
+            Image($r('app.media.car2'))
+              .width(240)
+              .offset({ x: -10, y: 50 })
+
+          } else if (this.activeLight === 2) {  //右
+            Image($r('app.media.car2'))
+              .width(240)
+              .offset({ x: 10, y: 50 })
+
+          } else {    //直行
+            Image($r('app.media.car2'))
+              .width(240)
+              .offset({ y: 50 })
+          }
+        }.onClick(() => {
+          this.navigateToVehicleStatus();
+        })
       }
       .layoutWeight(1)
 
@@ -47,7 +57,5 @@ export struct CarPanel {
         reverse: true
       })
     }
-    .layoutWeight(1)
-    .height('100%')
   }
 }
