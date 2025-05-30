@@ -24,24 +24,24 @@ export struct CarPanel {
       //路况
       Stack() {
         City()
-          .scale({ x: 0.8 })
-          .offset({ x: -10, y: -65 })
+          .scale({ x: 0.85 })
+          .offset({ x: -40, y: -65 })
 
         Stack(){
           //车辆图像
           if (this.activeLight === 0) { //左
             Image($r('app.media.car2'))
-              .width(240)
-              .offset({ x: -10, y: 50 })
+              .width(250)
+              .offset({  y: 50 })
 
           } else if (this.activeLight === 2) {  //右
             Image($r('app.media.car2'))
-              .width(240)
-              .offset({ x: 10, y: 50 })
+              .width(250)
+              .offset({ x: 5, y: 50 })
 
           } else {    //直行
             Image($r('app.media.car2'))
-              .width(240)
+              .width(250)
               .offset({ y: 50 })
           }
         }.onClick(() => {

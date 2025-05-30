@@ -20,7 +20,7 @@ export struct SidePanel {
 
     if (this.isLeftPanel) {
       //左侧面板，垂直排列
-      Column({ space: 80 }) {
+      Column({ space: 70 }) {
         Image($r("app.media.back"))
           .width(40)
           .fillColor(this.currentTheme.iconColor)
@@ -41,7 +41,7 @@ export struct SidePanel {
       .padding(10)
     } else {
       //下面空调，水平排列
-      Row({ space: 450 }) {
+      Row({ space: 400 }) {
         ForEach(this.menu, (item: MenuItem) => {
           this.buildMenuItem(item)
         })

@@ -138,15 +138,15 @@ export struct SteeringWheelAngleFeedback {
 
   build() {
     Column({space:15}){
-      Text("方向盘角度反馈")
-        .textAlign(TextAlign.Center)
-        .fontSize(15)
-        .width("100%")
-        .height("10")
-        .fontColor(this.themeManager.getCurrentTheme().textColor)
-        .margin({
-          top: 10
-        })
+      // Text("方向盘角度反馈")
+      //   .textAlign(TextAlign.Center)
+      //   .fontSize(15)
+      //   .width("100%")
+      //   .height("10")
+      //   .fontColor(this.themeManager.getCurrentTheme().textColor)
+      //   .margin({
+      //     top: 10
+      //   })
       Stack(){
         Image($r("app.media.fang_xiang_pan_jiao_du"))
           .width("88%")
