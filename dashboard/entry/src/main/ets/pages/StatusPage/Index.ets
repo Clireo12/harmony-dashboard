@@ -7,6 +7,7 @@ import { ThemeManager } from '../../model/ThemeManager'
 import { ThemeConfig } from '../../model/ThemeConfig'
 import IotDataTool from '../../utils/IotDataTool'
 import { Snow } from './Snow'
+import { router } from '@kit.ArkUI'
 
 @Entry
 @Component
@@ -22,69 +23,86 @@ struct VehicleStatusPage {
     IotDataTool.login()
   }
 
+  navigateToDashboard() {
+    router.pushUrl({ url: 'pages/SpeedPage/Index' });
+  }
 
   build() {
     Column(){
       Header({ currentTheme: this.currentTheme })
 
-      Row({space: 30}){
-
-        Column(){
-          Column(){
-            Row() {
-              ForEach(this.tabs, (item: string, index: number) => {
-                Column() {
-                  Text(item)
-                    .fontSize(this.selectedIndex === index ?22 : 18)
-                    .fontColor(this.currentTheme.textColor)
-                    .margin({ bottom: 5 })
-
-                  Divider()
-                    .color(this.selectedIndex === index ?
-                    this.currentTheme.textColor: Color.Transparent)
-                    .strokeWidth(2)
-                    .width('80%')
-                }
-                .width('50%')
-                .height(40)
-                .justifyContent(FlexAlign.Center)
-                .onClick(() => {
-                  this.selectedIndex = index
-                })
-              })
-            }
-            .width('100%')
-            .height(50)
-            .margin({ bottom: 10 })
-
-            Column(){
-              if (this.selectedIndex === 0) {
-                SteeringWheelAngleFeedback() //方向盘角度
-                  .height("85%")
-              } else {
-                DrivingMode({
-                  onModeChange: (modeIndex: number) => {
-                    this.isSnowMode = modeIndex === 3; //雪地模式
-                  }
-                })
-                  .height("85%")
-              }
-            }
-            .width('100%')
-          }
-          .width('100%')
-          .height('85%')
-          .borderRadius(25)
-          .justifyContent(FlexAlign.Center)
-          .backgroundColor(this.currentTheme.mask)
-          .padding(10)
+      Column(){
+        Row() {
+          Image($r("app.media.back"))
+            .width(40)
+            .fillColor(this.currentTheme.iconColor)
+            .onClick(() => {
+              this.navigateToDashboard()
+            })
+            .margin({ left: 32 })
         }
-        .width("32%")
-        .height("100%")
-        .margin({left:15,right:15})
-        .justifyContent(FlexAlign.Center)
+        .width('100%')
+        .height(30)
+        .justifyContent(FlexAlign.Start)
 
-        Column(){
+        Row({space: 30}){
+
+          Column(){
+            Column(){
+              Row() {
+                ForEach(this.tabs, (item: string, index: number) => {
+                  Column() {
+                    Text(item)
+                      .fontSize(this.selectedIndex === index ?22 : 18)
+                      .fontColor(this.currentTheme.textColor)
+                      .margin({ bottom: 5 })
+
+                    Divider()
+                      .color(this.selectedIndex === index ?
+                      this.currentTheme.textColor: Color.Transparent)
+                      .strokeWidth(2)
+                      .width('80%')
+                  }
+                  .width('50%')
+                  .height(40)
+                  .justifyContent(FlexAlign.Center)
+                  .onClick(() => {
+                    this.selectedIndex = index
+                  })
+                })
+              }
+              .width('100%')
+              .height(50)
+              .margin({ bottom: 10 })
+
+              Column(){
+                if (this.selectedIndex === 0) {
+                  SteeringWheelAngleFeedback() //方向盘角度
+                    .height("85%")
+                } else {
+                  DrivingMode({
+                    onModeChange: (modeIndex: number) => {
+                      this.isSnowMode = modeIndex === 3; //雪地模式
+                    }
+                  })
+                    .height("85%")
+                }
+              }
+              .width('100%')
+            }
+            .width('100%')
+            .height('85%')
+            .borderRadius(25)
+            .justifyContent(FlexAlign.Center)
+            .backgroundColor(this.currentTheme.mask)
+            .padding(10)
+          }
+          .width("32%")
+          .height("100%")
+          .margin({left:15,right:15})
+          .justifyContent(FlexAlign.Center)
+
+          Column(){
             Stack() {
 
               City().offset({ y: -55 })
@@ -112,19 +130,18 @@ struct VehicleStatusPage {
             .height('100%')
             .position({ x: 0, y: 0 })
           }
-        .width("55%")
+          .width("55%")
+          .height("85%")
+          .borderRadius(25)
+          .backgroundColor(Color.White)
+        }
+        .width("100%")
         .height("85%")
-        .borderRadius(25)
-        .backgroundColor(Color.White)
+        .margin({
+          left:"5%",
+        })
       }
-      .width("100%")
-      .height("100%")
-      .margin({
-        left:"5%",
-      })
-      .layoutWeight(1)
-
-      Bottom({ currentTheme: this.currentTheme })
+      // Bottom({ currentTheme: this.currentTheme })
     }
     .backgroundColor(this.currentTheme.theme)
     .width("100%")

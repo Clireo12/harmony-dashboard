@@ -76,7 +76,7 @@ struct MainPage {
   }
 
   navigateToVehicleControl() {
-    router.pushUrl({ url: 'pages/ControlPage/Index' });
+    router.pushUrl({ url: 'pages/MusicPage/pages/Index' });
   }
 
   navigateToSettings() {
@@ -421,7 +421,7 @@ struct MainPage {
       .height('100%')
       .padding(5)
 
-      Bottom({ currentTheme: this.currentTheme })
+      // Bottom({ currentTheme: this.currentTheme })
     }
     .width('100%')
     .height('100%')

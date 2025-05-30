@@ -39,7 +39,7 @@ export struct Bottom {
           .justifyContent(FlexAlign.SpaceBetween)
 
           Row(){
-            Image($r('app.media.back'))
+            Image($r("app.media.back"))
               .width('10%')
               .fillColor(this.currentTheme.iconColor)
               .onClick(() => {

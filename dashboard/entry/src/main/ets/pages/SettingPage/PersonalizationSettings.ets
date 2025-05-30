@@ -6,6 +6,7 @@ import { ThemeManager } from '../../model/ThemeManager';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import { common } from '@kit.AbilityKit';
 import { PreferenceModel } from './PreferenceModel';
+import { router } from '@kit.ArkUI';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -22,16 +23,6 @@ export struct PersonalizationSettings {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State brightnessValue: number = 0.5;
 
-  // 提供默认的BuilderParam
-  @BuilderParam content: () => void = this.defaultContent;
-
-  // 默认内容构建器
-  @Builder
-  defaultContent() {
-    Column() {
-      // 可以留空或添加默认占位内容
-    }
-  }
 
   aboutToAppear(): void {
     // 初始化亮度值
@@ -56,9 +47,24 @@ export struct PersonalizationSettings {
 
   build() {
     Column(){
-      this.content
+
       //添加 Header 组件
       Header({ currentTheme: this.currentTheme })
+
+      Row() {
+        Image($r("app.media.back"))
+          .width(40)
+          .fillColor(this.currentTheme.iconColor)
+          .onClick(() => {
+            router.back({
+              url: 'pages/MainPage'
+            })
+          })
+          .margin({ left: 32 })
+      }
+      .width('100%')
+      .height(30)
+      .justifyContent(FlexAlign.Start)
 
       Stack() {
 
@@ -166,8 +172,8 @@ export struct PersonalizationSettings {
       .layoutWeight(1)
 
 
-      //添加 Bottom
-      Bottom({ currentTheme: this.currentTheme })
+      // //添加 Bottom
+      // Bottom({ currentTheme: this.currentTheme })
 
     }
     .backgroundColor(this.currentTheme.theme)

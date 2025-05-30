@@ -116,12 +116,12 @@ export struct Header {
       .justifyContent(FlexAlign.Center)
 
       Row({ space: 10 }){
-        Text('总里程')
-          .fontSize(this.fontSize)
-          .fontColor(this.currentTheme.textColor)
-        Text(`${this.TotalMileage} km`)
-          .fontSize(this.fontSize)
-          .fontColor(this.currentTheme.textColor)
+        // Text('总里程')
+        //   .fontSize(this.fontSize)
+        //   .fontColor(this.currentTheme.textColor)
+        // Text(`${this.TotalMileage} km`)
+        //   .fontSize(this.fontSize)
+        //   .fontColor(this.currentTheme.textColor)
 
       }
       .width("40%")
