@@ -6,7 +6,7 @@ import { City } from '../../component/City'
 import { ThemeManager } from '../../model/ThemeManager'
 import { ThemeConfig } from '../../model/ThemeConfig'
 import IotDataTool from '../../utils/IotDataTool'
-import { Snow } from './Snow'
+import { Snow } from '../WeatherDisplay/Snow';
 import { router } from '@kit.ArkUI'
 
 @Entry

@@ -5,6 +5,8 @@ import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
 import IotDataTool from '../utils/IotDataTool';
+import { Snow } from './WeatherDisplay/Snow';
+import { Rain } from './WeatherDisplay/Rain';
 
 interface VehicleStatus {
   oil: string;
@@ -17,6 +19,7 @@ interface VehicleStatus {
 @Component
 struct MainPage {
   @StorageProp('fontSize') fontSize: number = 18;
+  //主题管理
   private themeManager: ThemeManager = ThemeManager.getInstance();
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
@@ -30,18 +33,17 @@ struct MainPage {
   // 天气
   @State area: string = '深圳市 南山区'
   @State temperature: number = 29
-  @State weather: string = '晴天'
-  @State weatherImg: ResourceStr = $r('app.media.sun_left')
+  @State weather: string = '大雪'   //需要获取
   // 车辆控制
   @State DrivingMode: string[] = ['标准模式','经济模式','运动模式','雪地模式']
   @State selectedDrivingMode: number = 3;
   @State temp:string=''
   // 车辆状态
   @State vehicleStatus: VehicleStatus = {
-    oil: '正常',
-    fuel: '充足',
-    batteryVoltage: '12.6V',
-    coolantTemp: `${this.temp}°C`
+    oil: '正常', // 机油状态
+    fuel: '充足', // 燃油状态
+    batteryVoltage: '12.6V', // 电池电压
+    coolantTemp: `${this.temp}°C` // 冷却液温度
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
@@ -66,7 +68,6 @@ struct MainPage {
     });
   }
 
-
   navigateToDashboard() {
     router.pushUrl({ url: 'pages/SpeedPage/Index' });
   }
@@ -83,6 +84,21 @@ struct MainPage {
     router.pushUrl({ url: 'pages/SettingPage/PersonalizationSettings' });
   }
 
+  private getWeatherIcon(): ResourceStr {
+    //根据天气类型返回不同的图标
+    if (this.weather.includes('雪')) {
+      return $r('app.media.snow');
+    } else if (this.weather.includes('晴')) {
+      return $r('app.media.sunny');
+    } else if (this.weather.includes('阴')) {
+      return $r('app.media.overcast');
+    } else if (this.weather.includes('多云')) {
+      return $r('app.media.cloudy');
+    } else if (this.weather.includes('雨')) {
+      return $r('app.media.rainy');
+    }
+    return $r('app.media.weather'); //默认天气图标
+  }
   build() {
     Column() {
       Header({currentTheme: this.currentTheme})
@@ -253,25 +269,57 @@ struct MainPage {
               .height('50%')
               .offset({ y: 15 })
 
-            Row({ space: 15 }) {
-              Column({ space: 8 }) {
-                Text(this.area)
-                  .fontColor(this.currentTheme.textColor)
-                Text(`${this.temperature}℃`)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize+15)
-                  .fontWeight(FontWeight.Bold)
-                Text(this.weather)
-                  .fontColor(this.currentTheme.textColor)
+            //天气信息
+            Column() {
+              Stack() {
+
+                if (this.weather.includes('雪')) {
+                  //循环创建30个雪花
+                  ForEach(Array.from({length: 30}), (item: undefined, index: number) => {
+                    Snow()
+                      .position({
+                        x: Math.random() * 100 + '%', //水平随机位置（容器宽度的0%-100%）
+                        y: Math.random() * 100 + '%'   //垂直随机位置（容器高度的0%-100%
+                      })
+                  })
+                } else if (this.weather.includes('雨')) {
+                  //循环创建50个雨滴
+                  ForEach(Array.from({length: 50}), (item: undefined, index: number) => {
+                    Rain()
+                      .position({
+                        x: Math.random() * 100 + '%',
+                        y: Math.random() * 100 + '%'
+                      })
+                  })
+                }
+
+                Row({ space: 8 }) {
+                  Column({ space: 8 }) {
+                    Text(this.area)
+                      .fontColor(this.currentTheme.textColor)
+                      .fontSize(this.fontSize+2)
+                    Text(`${this.temperature}℃`)
+                      .fontColor(this.currentTheme.textColor)
+                      .fontSize(this.fontSize+12)
+                      .fontWeight(FontWeight.Bold)
+                    Text(this.weather)
+                      .fontColor(this.currentTheme.textColor)
+                      .fontSize(this.fontSize+2)
+                  }
+                  Image(this.getWeatherIcon())
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("40%")
+                }
+                .width('100%')
+                .height('100%')
               }
-              Image(this.weatherImg)
-                .fillColor(this.currentTheme.iconColor)
-                .width("35%")
+              .width('100%')
+              .height('100%')
             }
             .CardStyle()
             .justifyContent(FlexAlign.SpaceAround)
             .layoutWeight(1)
-
+            .clip(true)
           }
           .width("28%")
           .height('90%')
