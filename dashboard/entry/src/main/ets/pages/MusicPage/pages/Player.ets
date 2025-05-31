@@ -1,17 +1,19 @@
+import { SongInfo } from '../../../model/SongModel';
 import { playerManager } from '../PlayerManager'
 
 @Entry
 @Component
 export default struct Player {
-  @StorageProp('fontSize') fontSize: number = 18;
-  @State isPlaying: boolean = false;  //播放状态
+  @StorageLink('fontSize') fontSize: number = 18;
+  @StorageLink('isPlay') isPlaying: boolean = false;  //播放状态
+  @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
   @State progress: number = 0.3;  //播放进度
   @State isLiked: boolean = false;
 
   //显示播放列表的状态，从StorageProp获取默认值为false
-  @StorageProp('showPlaylist') showPlaylist: boolean = false;
+  @StorageLink('showPlaylist') showPlaylist: boolean = false;
   //显示评论的状态，从StorageProp获取默认值为false
-  @StorageProp('showComments') showComments: boolean = false;
+  @StorageLink('showComments') showComments: boolean = false;
 
   // 时间转换
   number2time(number: number) {
@@ -23,12 +25,12 @@ export default struct Player {
 
       Column() {
         Row({space:4}) {
-          Text(playerManager.currentSong.song.title)
+          Text(this.currentSong.title)
             .fontSize(this.fontSize)
             .fontWeight(FontWeight.Bold);
           Text('-')
             .fontSize(this.fontSize);
-          Text(playerManager.currentSong.song.singer)
+          Text(this.currentSong.singer)
             .fontSize(this.fontSize);
           Image($r('app.media.ic_vip'))
             .width(20)
@@ -69,16 +71,16 @@ export default struct Player {
                 playerManager.next()
               })
 
-            Image(this.isPlaying ? $r('app.media.ic_pause') : $r('app.media.ic_play'))
+            Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
               .width(36)
               .height(36)
               .onClick(() => {
+                this.isPlaying = !this.isPlaying;
                 if (this.isPlaying) {
                   playerManager.play()
                 } else {
                   playerManager.paused()
                 }
-                this.isPlaying = !this.isPlaying;
               });
 
             Image($r('app.media.ic_next'))
@@ -91,7 +93,7 @@ export default struct Player {
 
           Blank()
 
-          Text(`${this.number2time(playerManager.currentSong.time)} / ${this.number2time(playerManager.currentSong.duration)}`)
+          Text(`${this.number2time(this.currentSong.time)} / ${this.number2time(this.currentSong.duration)}`)
         }
         .padding({ left: 210, right: 50 })
         .width('100%')
@@ -99,15 +101,18 @@ export default struct Player {
         .margin({ bottom: 10 });
 
         Slider({
-          value: playerManager.currentSong.time,
+          value: this.currentSong.time,
           min: 0,
-          max: playerManager.currentSong.duration,
+          max: this.currentSong.duration,
           style: SliderStyle.OutSet
         })
           .blockColor('#ff1948')
           .selectedColor('#ff1948')
           .trackThickness(4)
-          .width('90%');
+          .width('90%')
+          .onChange((value) => {
+            playerManager.skip(value)
+          })
       }
       .width('65%')
       .height('100%')

@@ -17,6 +17,11 @@
 import { SongItem } from '../pages/SongData';
 
 const songList: SongItem[] = [
+  {
+    id: 1, title: '同桌的你', singer: '匿名', mark: $r('app.media.ic_vip'),
+    label: $r('app.media.ic_dream'), src: 'https://joy127.jstools.net/uploads/mp3/202505/30/1123683924a864458960177.mp3',
+    index:0, lyric: ''
+  },
   { id: 1, title: 'Dream It Possible', singer: 'Delacey', mark: $r('app.media.ic_vip'),
     label: $r('app.media.ic_dream'), src: 'Delacey - Dream It Possible.flac', index:0,
     lyric: 'lrcfiles/DreamItPossible.lrc' },

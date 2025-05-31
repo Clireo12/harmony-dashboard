@@ -3,6 +3,7 @@ import { SongInfo } from '../../model/SongModel'
 import { SongItem } from './pages/SongData'
 import { songList } from './pages/SongListData'
 
+@Observed
 class PlayerManager {
   player: media.AVPlayer | null = null // 播放器
   isPlay: boolean = false // 播放、暂停
@@ -21,7 +22,8 @@ class PlayerManager {
       switch (state) {
         case 'initialized':
           this.player?.prepare()
-          this.currentSong.song = this.playList[0]
+          this.setCurrentSong(this.playList[0])
+          this.player!.url = this.currentSong.src
           break
         case 'prepared':
           this.player?.play()
@@ -43,6 +45,9 @@ class PlayerManager {
     this.player.on('timeUpdate', (time) => {
       this.currentSong.time = time
     })
+
+    AppStorage.setOrCreate('isPlay', this.isPlay);
+    AppStorage.setOrCreate('currentSong', this.currentSong);
   }
 
   // 销毁播放器
@@ -50,10 +55,20 @@ class PlayerManager {
     await this.player?.release()
   }
 
+  setCurrentSong(song: SongItem) {
+    this.currentSong.id = song.id
+    this.currentSong.title = song.title
+    this.currentSong.singer = song.singer
+    this.currentSong.mark = song.mark
+    this.currentSong.label = song.label
+    this.currentSong.src = song.src
+    this.currentSong.lyric = song.lyric
+  }
+
   // 播放歌曲
   play(song: SongItem = this.playList[0]) {
     // 正在播放
-    if (this.currentSong.song === song) {
+    if (this.currentSong.src === song.src) {
       this.player?.play()
       this.isPlay = true
       return
@@ -71,7 +86,7 @@ class PlayerManager {
     const song = this.playList[this.playIndex]
     this.currentSong.time = 0
     this.currentSong.duration = 0
-    this.currentSong.song = song
+    this.setCurrentSong(song)
     this.player!.url = song.src
   }
 

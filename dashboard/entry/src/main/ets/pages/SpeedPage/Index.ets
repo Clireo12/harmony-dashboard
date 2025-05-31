@@ -15,7 +15,7 @@ export struct DashboardPage {
 
   @State speed: number = 30 // 车速
   @State distance: number = 212 // 里程数
-  @State trafficLight: number = 0 // 0红1绿2黄灯  转向灯0左2右
+  @State trafficLight: number = 0 // 0红1绿2黄灯  转向灯0左2右1复原
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), active: false },
     { img: $r('app.media.charge'), active: false },
@@ -30,6 +30,7 @@ export struct DashboardPage {
   aboutToAppear() {
     this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
     this.updateSpeedAndDistance()
+    // 时速变化
     let speedTimer = setInterval(() => {
       if (this.speed < 45) {
         this.speed++
@@ -40,6 +41,7 @@ export struct DashboardPage {
         }, 800)
       }
     }, 30)
+    // 里程变化
     const distanceTimer = setInterval(() => {
       if (this.distance < 20) {
         this.distance++

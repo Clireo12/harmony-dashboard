@@ -67,7 +67,7 @@ export default struct Content {
         .justifyContent(FlexAlign.Center)
 
         Column() {
-          Text(playerManager.currentSong.song.title)
+          Text(playerManager.currentSong.title)
             .fontSize(22)
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 8 });
@@ -77,7 +77,7 @@ export default struct Content {
               .height(16)
               .width(16)
               .margin({ right: 5 });
-            Text(playerManager.currentSong.song.singer)
+            Text(playerManager.currentSong.singer)
               .fontSize(16);
           }
           .margin({ bottom: 12 });

@@ -5,7 +5,8 @@
     "pages/SettingPage/PersonalizationSettings",
     "pages/ControlPage/Index",
     "pages/StatusPage/Index",
-    "pages/StartupAnimation"
+    "pages/StartupAnimation",
+    "pages/MusicPage/pages/Index"
   ]
 }
 

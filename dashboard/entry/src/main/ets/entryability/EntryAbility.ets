@@ -25,8 +25,6 @@ export default class EntryAbility extends UIAbility {
     IotDataTool.startPolling()  // 开启轮询
   }
 
-
-
   onDestroy(): void {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onDestroy');
     IotDataTool.stopPolling() // 停止轮询

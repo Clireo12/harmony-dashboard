@@ -3,7 +3,7 @@ import { themeConfig, ThemeConfig } from "../../model/ThemeConfig"
 @Component
 export struct SignalLight {
   @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
-  @State light: number[] = [0.3, 0.3, 0.3]
+  // @State light: number[] = [0.3, 0.3, 0.3]
   @Link activeLight: number  // 0-左转，2-右转，1-直行
   private timer: number = 0
   @State speed: number = 30 // 车速
@@ -16,9 +16,9 @@ export struct SignalLight {
     return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
   }
 
-  aboutToAppear(): void {
-    this.light[this.activeLight] = 1
-  }
+  // aboutToAppear(): void {
+  //   this.light[this.activeLight] = 1
+  // }
 
   aboutToDisappear(): void {
     clearInterval(this.timer)
@@ -36,6 +36,7 @@ export struct SignalLight {
             .width(50)
             .rotate({ angle: 180 })
         }
+
         Text("S")   //档位显示，需要根据实际时速动态判断档位
           .fontSize(50)
           .fontColor(this.currentTheme.textColor)

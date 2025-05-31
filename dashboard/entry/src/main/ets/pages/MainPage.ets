@@ -194,6 +194,9 @@ struct MainPage {
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
             .layoutWeight(1)
+            .onClick(() => {
+              router.pushUrl({ url: 'pages/MusicPage/pages/Index' })
+            })
 
             Column({ space: 15 }) {
               Row() {

@@ -8,6 +8,7 @@ export struct CirclePanel {
   @Prop unit: string //单位
   @Prop reverse: boolean = false //反向
   @Prop current: number //当前数值百分比
+  maxSpeed: number = 100 // 最大显示时速
 
   private gradientColor: LinearGradient = new LinearGradient([
     { color: this.reverse ? $r('app.color.speed_high') : $r('app.color.speed_low'), offset: 0.3 },
@@ -25,7 +26,7 @@ export struct CirclePanel {
   build() {
     Row() {
       Stack() {
-        Progress({ value: this.current / 2, total: 100, type: ProgressType.Ring })
+        Progress({ value: this.current / 2, total: this.maxSpeed, type: ProgressType.Ring })
           .width(300)
           .color(this.gradientColor)
           .backgroundColor(Color.Transparent)
@@ -33,7 +34,8 @@ export struct CirclePanel {
             strokeWidth: 10,
             shadow: true
           })
-          .rotate({ angle: this.reverse ? 30 : 150 })
+          // .rotate({ angle: this.reverse ? 180 : 150 })
+          .rotate(this.reverse ? { angle: 30 } : { angle: 150 })
 
         Circle()
           .width(240)
