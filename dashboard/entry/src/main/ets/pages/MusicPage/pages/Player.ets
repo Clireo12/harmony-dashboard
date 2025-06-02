@@ -30,7 +30,7 @@ export default struct Player {
             .fontWeight(FontWeight.Bold);
           Text('-')
             .fontSize(this.fontSize);
-          Text(this.currentSong.singer)
+          Text(this.currentSong.title)
             .fontSize(this.fontSize);
           Image($r('app.media.ic_vip'))
             .width(20)
