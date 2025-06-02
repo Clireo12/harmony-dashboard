@@ -68,7 +68,7 @@ export default struct Player {
               .width(36)
               .height(36)
               .onClick(() => {
-                playerManager.next()
+                playerManager.prev()
               })
 
             Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
@@ -87,7 +87,7 @@ export default struct Player {
               .width(36)
               .height(36)
               .onClick(() => {
-                playerManager.prev()
+                playerManager.next()
               })
           }
 
