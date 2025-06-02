@@ -18,12 +18,12 @@ import { SongItem } from '../pages/SongData';
 
 const songList: SongItem[] = [
   {
-    id: 1, title: '同桌的你', singer: '匿名', mark: $r('app.media.ic_vip'),
+    id: 0, title: '同桌的你', singer: '匿名', mark: $r('app.media.ic_vip'),
     label: $r('app.media.ic_dream'), src: 'https://joy127.jstools.net/uploads/mp3/202505/30/1123683924a864458960177.mp3',
-    index:0, lyric: ''
+    index: 0, lyric: ''
   },
-  { id: 1, title: 'Dream It Possible', singer: 'Delacey', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_dream'), src: 'Delacey - Dream It Possible.flac', index:0,
+  { id: 1, title: 'Nobody', singer: 'Wonder Girls', mark: $r('app.media.ic_vip'),
+    label: $r('app.media.ic_dream'), src: 'https://er-sycdn.kuwo.cn/388bae3290f5dbbbcf745d4d58f042c8/683d4c3e/resource/30106/trackmedia/M500002k1gUF2fEpZx.mp3', index:0,
     lyric: 'lrcfiles/DreamItPossible.lrc' },
   { id: 2, title: '不知道', singer: '张三-你好我好都好', mark: $r('app.media.ic_sq'),
     label: $r('app.media.ic_avatar2'), src: 'world.wav', index:1, lyric: '' },
