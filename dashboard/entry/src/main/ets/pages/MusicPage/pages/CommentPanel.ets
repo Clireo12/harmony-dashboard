@@ -4,7 +4,9 @@ import { CommentItem } from "./SongData";
 export struct CommentPanel {
   @State comments: CommentItem[] = [
     {id: 1, username: "用户1", content: "这首歌真好听！", time: "10:30"},
-    {id: 2, username: "用户2", content: "单曲循环中~", time: "11:15"}
+    {id: 2, username: "用户2", content: "单曲循环中~", time: "11:15"},
+    {id: 3, username: "用户3", content: "又刷完一遍回来听听", time: "12:15"},
+    {id: 4, username: "用户4", content: "愿我们都可以实现我们的梦", time: "11:15"}
   ];
 
   build() {

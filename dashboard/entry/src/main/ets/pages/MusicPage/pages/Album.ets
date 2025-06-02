@@ -3,8 +3,7 @@ export struct Album {
   private albums: Resource[] = [];
   private currentIndex: number = 0;
   private onSwipe: (index: number) => void = () => {};
-
-
+  
   build() {
     Swiper() {
       ForEach(this.albums, (album: Resource) => {
