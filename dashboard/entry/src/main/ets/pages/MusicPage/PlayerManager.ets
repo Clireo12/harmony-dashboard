@@ -63,6 +63,8 @@ class PlayerManager {
     this.currentSong.label = song.label
     this.currentSong.src = song.src
     this.currentSong.lyric = song.lyric
+    AppStorage.set('isPlay', this.isPlay);
+    AppStorage.set('currentSong', this.currentSong);
   }
 
   // 播放歌曲
@@ -77,13 +79,12 @@ class PlayerManager {
     else {
       this.playIndex = this.playList.findIndex(item => item.id === song.id)
     }
-    this.changeSong()
+    this.changeSong(song)
   }
 
   // 切换歌曲
-  async changeSong() {
+  async changeSong(song: SongItem) {
     await this.player?.reset()
-    const song = this.playList[this.playIndex]
     this.currentSong.time = 0
     this.currentSong.duration = 0
     this.setCurrentSong(song)
