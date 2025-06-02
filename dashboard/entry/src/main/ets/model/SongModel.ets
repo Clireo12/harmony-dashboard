@@ -1,16 +1,24 @@
-import { SongItem } from "../pages/MusicPage/pages/SongData"
-
 @Observed
 export class SongInfo {
-  id: number = 0
-  title: string = '歌曲名称'
-  singer: string = '歌手'
-  mark: Resource = $r('app.string.page_show')
-  label: Resource = $r('app.string.page_show')
-  src: string = ''
-  lyric: string = ''
+  id: number
+  title: string
+  singer: string
+  mark: Resource
+  label: Resource
+  src: string
+  lyric: string
   time: number = 0  // 播放时间
   duration: number = 0  // 音乐总时长
+
+  constructor(id: number= 0, title: string= '歌曲名称', singer: string= '歌手', mark: Resource= $r('app.string.page_show'), label: Resource= $r('app.string.page_show'), src: string= '', lyric: string= '') {
+    this.id = id
+    this.title = title
+    this.singer = singer
+    this.mark = mark
+    this.label = label
+    this.src = src
+    this.lyric = lyric
+  }
 
   // 重置数据
   reset() {

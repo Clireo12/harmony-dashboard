@@ -30,7 +30,7 @@ export default struct Player {
             .fontWeight(FontWeight.Bold);
           Text('-')
             .fontSize(this.fontSize);
-          Text(this.currentSong.singer)
+          Text(this.currentSong.title)
             .fontSize(this.fontSize);
           Image($r('app.media.ic_vip'))
             .width(20)
@@ -68,7 +68,7 @@ export default struct Player {
               .width(36)
               .height(36)
               .onClick(() => {
-                playerManager.next()
+                playerManager.prev()
               })
 
             Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
@@ -87,7 +87,7 @@ export default struct Player {
               .width(36)
               .height(36)
               .onClick(() => {
-                playerManager.prev()
+                playerManager.next()
               })
           }
 

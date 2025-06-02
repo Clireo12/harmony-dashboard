@@ -5,6 +5,7 @@ import { CommentPanel } from '../pages/CommentPanel';
 import PlayList from '../pages/PlayList';
 import { playerManager } from '../PlayerManager';
 import { CommentItem, LyricLine } from './SongData';
+import { SongInfo } from '../../../model/SongModel';
 
 //初始化歌词行数据
 const initialLyricLines: LyricLine[] = [
@@ -24,6 +25,7 @@ export default struct Content {
   @StorageLink('showPlaylist') showPlaylist: boolean = false;
   //显示评论面板状态
   @StorageLink('showComments') showComments: boolean = false;
+  @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
 
   @State lyricLines: LyricLine[] = initialLyricLines;
   @State comments: CommentItem[] = initialComments;
@@ -67,7 +69,7 @@ export default struct Content {
         .justifyContent(FlexAlign.Center)
 
         Column() {
-          Text(playerManager.currentSong.title)
+          Text(this.currentSong.title)
             .fontSize(22)
             .fontWeight(FontWeight.Bold)
             .margin({ bottom: 8 });
@@ -77,7 +79,7 @@ export default struct Content {
               .height(16)
               .width(16)
               .margin({ right: 5 });
-            Text(playerManager.currentSong.singer)
+            Text(this.currentSong.singer)
               .fontSize(16);
           }
           .margin({ bottom: 12 });

@@ -7,12 +7,13 @@ import { songList } from './pages/SongListData'
 class PlayerManager {
   player: media.AVPlayer | null = null // 播放器
   isPlay: boolean = false // 播放、暂停
-  currentSong: SongInfo = new SongInfo() // 当前播放歌曲
+  currentSong: SongInfo = new SongInfo(-1) // 当前播放歌曲
   playIndex: number = 0 // 当前播放索引
   playList: SongItem[] = songList || [] // 播放列表
 
   // 创建播放器
   async init() {
+
     if (!this.player) {
       this.player = await media.createAVPlayer()
     }
@@ -22,7 +23,9 @@ class PlayerManager {
       switch (state) {
         case 'initialized':
           this.player?.prepare()
-          this.setCurrentSong(this.playList[0])
+          if (this.currentSong.id == -1) {
+            this.setCurrentSong(this.playList[0])
+          }
           this.player!.url = this.currentSong.src
           break
         case 'prepared':
@@ -66,7 +69,7 @@ class PlayerManager {
   }
 
   // 播放歌曲
-  play(song: SongItem = this.playList[0]) {
+  play(song: SongItem = this.playList[this.playIndex]) {
     // 正在播放
     if (this.currentSong.src === song.src) {
       this.player?.play()
@@ -77,13 +80,12 @@ class PlayerManager {
     else {
       this.playIndex = this.playList.findIndex(item => item.id === song.id)
     }
-    this.changeSong()
+    this.changeSong(song)
   }
 
   // 切换歌曲
-  async changeSong() {
+  async changeSong(song: SongItem) {
     await this.player?.reset()
-    const song = this.playList[this.playIndex]
     this.currentSong.time = 0
     this.currentSong.duration = 0
     this.setCurrentSong(song)
