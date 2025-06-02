@@ -122,7 +122,7 @@ struct MainPage {
             Column({ space: 10 }){
               Text('导航')
                 .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize)
+                .fontSize(this.fontSize+2)
                 .fontWeight(FontWeight.Bold)
                 .align(Alignment.Start)
                 .width('100%')
@@ -231,7 +231,7 @@ struct MainPage {
             Column({ space: 10 }) {
               Text('仪表盘')
                 .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize)
+                .fontSize(this.fontSize+2)
                 .fontWeight(FontWeight.Bold)
                 .align(Alignment.Start)
                 .width('100%')
@@ -269,7 +269,7 @@ struct MainPage {
 
               Column() {
                 Row({space:20}) {
-                  Row({space: 30}){
+                  Row({space: 22}){
                     Image($r('app.media.ic_prev'))
                       .width(32)
                       .height(32)
