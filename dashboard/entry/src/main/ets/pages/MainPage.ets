@@ -159,68 +159,8 @@ struct MainPage {
             .layoutWeight(1)
             .padding(10)
 
-            Column() {
-              Row({ space: 10 }) {
-                Column(){
-                  Image($r('app.media.theme'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("主题")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }
-                .borderRadius(10)
-                .layoutWeight(1)
-                .height("16%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-
-                Column(){
-                  Image($r('app.media.sun_left'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("亮度")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }
-                .layoutWeight(1)
-                .borderRadius(10)
-                .height("16%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-
-
-                Column(){
-                  Image($r('app.media.like'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("偏好")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }.layoutWeight(1)
-                .height("16%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-                .borderRadius(10)
-              }
-              .width("100%")
-              .justifyContent(FlexAlign.SpaceBetween)
-
-            }
-            .CardStyle()
-            .padding(10)
-            .onClick(() => {
-              this.navigateToSettings();
-            })
-
           }
-          .width("32%")
+          .width("31%")
           .height('90%')
           .margin({ left:15 })
         }
@@ -258,86 +198,75 @@ struct MainPage {
               this.navigateToDashboard();
             })
 
-            Column({ space: 15 }) {
-              Row() {
-                Text('同桌的你')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize+2)
-                  .fontWeight(FontWeight.Bold)
-                  .layoutWeight(1)
-              }.padding({left:40})
-
-              Column() {
-                Row({space:20}) {
-                  Row({space: 22}){
-                    Image($r('app.media.ic_prev'))
-                      .width(32)
-                      .height(32)
-                      .fillColor(this.currentTheme.iconColor)
-                      .onClick(() => {
-                        playerManager.next()
-                      })
-
-                    Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
-                      .width(32)
-                      .height(32)
-                      .onClick(() => {
-                        this.isPlaying = !this.isPlaying;
-                        if (this.isPlaying) {
-                          playerManager.play()
-                        } else {
-                          playerManager.paused()
-                        }
-                      });
-
-                    Image($r('app.media.ic_next'))
-                      .width(32)
-                      .height(32)
-                      .fillColor(this.currentTheme.iconColor)
-                      .onClick(() => {
-                        playerManager.prev()
-                      })
-                  }
-                  Text(`${this.number2time(this.currentSong.time)} / ${this.number2time(this.currentSong.duration)}`)
-                  .fontColor(this.currentTheme.textColor)
-                }
-
-                .justifyContent(FlexAlign.Center)
-                .margin({ bottom: 5 });
-
-                Slider({
-                  value: this.currentSong.time,
-                  min: 0,
-                  max: this.currentSong.duration,
-                  style: SliderStyle.OutSet
-                })
-                  .blockColor('#ff1948')
-                  .selectedColor('#ff1948')
-                  .trackThickness(4)
-                  .width('100%')
-                  .onChange((value) => {
-                    playerManager.skip(value)
-                  })
-              }
-              .width('100%')
-              .margin({ bottom: 5 })
-            }
-            .CardStyle()
-            .onClick(() => {
-              this.navigateToMusic();
-            })
 
           }
-          .width("32%")
+          .width("31%")
           .height('90%')
         }
 
         ListItem() {
 
           Column() {
-            Image($r('app.media.travel'))
-              .height('50%')
-              .offset({ y: 15 })
+
+            Column() {
+              Row({ space: 10 }) {
+                Column(){
+                  Image($r('app.media.theme'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("主题")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }
+                .borderRadius(10)
+                .layoutWeight(1)
+                .height("25%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+
+                Column(){
+                  Image($r('app.media.sun_left'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("亮度")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }
+                .layoutWeight(1)
+                .borderRadius(10)
+                .height("16%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+
+
+                Column(){
+                  Image($r('app.media.like'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("偏好")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }.layoutWeight(1)
+                .height("16%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+                .borderRadius(10)
+              }
+              .width("100%")
+              .justifyContent(FlexAlign.SpaceBetween)
+            }
+            .CardStyle()
+            .padding(10)
+            .margin({ bottom: 10 })
+            .onClick(() => {
+              this.navigateToSettings();
+            })
 
             //天气信息
             Column() {
@@ -391,7 +320,7 @@ struct MainPage {
             .layoutWeight(1)
             .clip(true)
           }
-          .width("29%")
+          .width("31%")
           .height('90%')
         }
 
@@ -538,8 +467,168 @@ struct MainPage {
       .layoutWeight(1)
       .alignListItem(ListItemAlign.Center)
       .width('100%')
-      .height('100%')
+      .height('80%')
       .padding(5)
+
+      Row(){
+        // Column({ space: 15 }) {
+        //   Row() {
+        //     Text('同桌的你')
+        //       .fontColor(this.currentTheme.textColor)
+        //       .fontSize(this.fontSize+2)
+        //       .fontWeight(FontWeight.Bold)
+        //       .layoutWeight(1)
+        //   }.padding({left:40})
+        //
+        //   Column() {
+        //     Row({space:20}) {
+        //       Row({space: 22}){
+        //         Image($r('app.media.ic_prev'))
+        //           .width(32)
+        //           .height(32)
+        //           .fillColor(this.currentTheme.iconColor)
+        //           .onClick(() => {
+        //             playerManager.next()
+        //           })
+        //
+        //         Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
+        //           .width(32)
+        //           .height(32)
+        //           .onClick(() => {
+        //             this.isPlaying = !this.isPlaying;
+        //             if (this.isPlaying) {
+        //               playerManager.play()
+        //             } else {
+        //               playerManager.paused()
+        //             }
+        //           });
+        //
+        //         Image($r('app.media.ic_next'))
+        //           .width(32)
+        //           .height(32)
+        //           .fillColor(this.currentTheme.iconColor)
+        //           .onClick(() => {
+        //             playerManager.prev()
+        //           })
+        //       }
+        //       Text(`${this.number2time(this.currentSong.time)} / ${this.number2time(this.currentSong.duration)}`)
+        //         .fontColor(this.currentTheme.textColor)
+        //     }
+        //
+        //     .justifyContent(FlexAlign.Center)
+        //     .margin({ bottom: 5 });
+        //
+        //     Slider({
+        //       value: this.currentSong.time,
+        //       min: 0,
+        //       max: this.currentSong.duration,
+        //       style: SliderStyle.OutSet
+        //     })
+        //       .blockColor('#ff1948')
+        //       .selectedColor('#ff1948')
+        //       .trackThickness(4)
+        //       .width('100%')
+        //       .onChange((value) => {
+        //         playerManager.skip(value)
+        //       })
+        //   }
+        //   .width('100%')
+        //   .margin({ bottom: 5 })
+        // }
+        Row() {
+
+          Column() {
+            Row({space:4}) {
+              Text(this.currentSong.title)
+                .fontSize(this.fontSize)
+                .fontWeight(FontWeight.Bold)
+                .fontColor(this.currentTheme.textColor)
+              Text('-')
+                .fontSize(this.fontSize)
+                .fontColor(this.currentTheme.textColor)
+              Text(this.currentSong.title)
+                .fontSize(this.fontSize)
+                .fontColor(this.currentTheme.textColor)
+            }
+            .width('100%')
+            .height('100%')
+          }
+          .width('20%')
+          .height('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .alignItems( HorizontalAlign.Center)
+
+
+          Column() {
+            Row({space:20}) {
+              Row({space: 30}){
+                Image($r('app.media.ic_prev'))
+                  .width(30)
+                  .height(30)
+                  .fillColor(this.currentTheme.iconColor)
+                  .onClick(() => {
+                    playerManager.prev()
+                  })
+
+                Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
+                  .width(30)
+                  .height(30)
+                  .fillColor(this.currentTheme.iconColor)
+                  .onClick(() => {
+                    this.isPlaying = !this.isPlaying;
+                    if (this.isPlaying) {
+                      playerManager.play()
+                    } else {
+                      playerManager.paused()
+                    }
+                  });
+
+                Image($r('app.media.ic_next'))
+                  .width(30)
+                  .height(30)
+                  .fillColor(this.currentTheme.iconColor)
+                  .onClick(() => {
+                    playerManager.next()
+                  })
+              }
+
+              Blank()
+
+              Text(`${this.number2time(this.currentSong.time)} / ${this.number2time(this.currentSong.duration)}`)
+                .fontColor(this.currentTheme.textColor)
+            }
+            .padding({ left: 210, right: 50 })
+            .width('100%')
+            .justifyContent(FlexAlign.Center)
+
+            Slider({
+              value: this.currentSong.time,
+              min: 0,
+              max: this.currentSong.duration,
+              style: SliderStyle.OutSet
+            })
+              .blockColor('#ff1948')
+              .selectedColor('#ff1948')
+              .trackThickness(4)
+              .width('90%')
+              .onChange((value) => {
+                playerManager.skip(value)
+              })
+          }
+          .width('65%')
+          .height('100%')
+          .justifyContent(FlexAlign.Center);
+
+        }
+        .width('100%')
+        .onClick(() => {
+          this.navigateToMusic();
+        })
+
+      }
+      .width('100%')
+      .height('12%')
+
 
       // Bottom({ currentTheme: this.currentTheme })
     }
