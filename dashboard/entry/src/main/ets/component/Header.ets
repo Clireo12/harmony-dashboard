@@ -65,6 +65,9 @@ export struct Header {
     Row(){
       Row({ space: 40 }){
         Row({ space: 10 }) {
+          Text(`${this.date.getFullYear()}年${this.date.getMonth() + 1}月${this.date.getDate()}日`)
+            .fontSize(this.fontSize)
+            .fontColor(this.currentTheme.textColor)
           Text(this.timeState)
             .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
