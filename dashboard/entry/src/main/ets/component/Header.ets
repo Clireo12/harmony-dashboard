@@ -5,7 +5,8 @@ import { ThemeConfig } from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
 import { preferences } from '@kit.ArkData';
 import { common } from '@kit.AbilityKit';
-import IotDataTool, { params, paras } from '../utils/IotDataTool';
+import IotDataTool from '../utils/IotDataTool';
+import WeatherUtils from '../utils/WeatherUtils';
 
 @Component
 export struct Header {
@@ -14,7 +15,7 @@ export struct Header {
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
-  @Prop temperature: number = parseFloat(IotDataTool.responseData.shadow?.[0]?.reported?.properties?.temperature) || 24
+  @StorageProp("temperature") temperature: string = ""
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
   @State textColor:Resource = $r("app.color.text_color")
@@ -41,14 +42,14 @@ export struct Header {
 
 
     // 初始化经纬度
-    geoLocationManager.getCurrentLocation().then((result) => {
-      console.info('current location latitude: ' + result.latitude);
-      console.info('current location longitude: ' + result.longitude);
-      this.latitude = result.latitude
-      this.longitude = result.longitude
-    }).catch((err: BusinessError ) => {
-      console.error(`getCurrentLocation failed. Code: ${err.code}, message: ${err.message}`);
-    });
+    // geoLocationManager.getCurrentLocation().then((result) => {
+    //   console.info('current location latitude: ' + result.latitude);
+    //   console.info('current location longitude: ' + result.longitude);
+    //   this.latitude = result.latitude
+    //   this.longitude = result.longitude
+    // }).catch((err: BusinessError ) => {
+    //   console.error(`getCurrentLocation failed. Code: ${err.code}, message: ${err.message}`);
+    // });
   }
 
   /**

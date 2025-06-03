@@ -11,6 +11,9 @@ import { ThemeConfig } from '../../model/ThemeConfig'
 import IotDataTool from '../../utils/IotDataTool'
 import { router } from '@kit.ArkUI'
 
+
+
+
 @Entry
 @Component
 export struct VehicleStatusPage {

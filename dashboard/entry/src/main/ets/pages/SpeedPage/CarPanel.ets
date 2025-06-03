@@ -32,19 +32,17 @@ export struct CarPanel {
           if (this.activeLight === 0) { //左
             Image($r('app.media.car2'))
               .width(250)
-              .offset({ x: -15, y: 50 })
-              .rotate({ angle: -10 })
+              .offset({ x: -50, y: 50 })
 
           } else if (this.activeLight === 2) {  //右
             Image($r('app.media.car2'))
               .width(250)
-              .offset({ x: 5, y: 50 })
-              .rotate({ angle: 10 })
+              .offset({ x: 50, y: 50 })
 
           } else {    //直行
             Image($r('app.media.car2'))
               .width(250)
-              .offset({ y: 50 })
+              .offset({ x: -8, y: 50 })
           }
         }.onClick(() => {
           this.navigateToVehicleStatus();

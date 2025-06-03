@@ -1,6 +1,8 @@
 import { router } from "@kit.ArkUI"
 import { ThemeConfig } from "../model/ThemeConfig";
 import PreferencesUtil from "../utils/PreferencesUtil";
+import IotDataTool from '../utils/IotDataTool'
+import { IoTCommon,ServiceId,CommandName,CommandFactory,GearState  } from '../utils/IotDataTool'
 
 @Component
 export struct Bottom {
@@ -14,6 +16,8 @@ export struct Bottom {
     this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
     const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
     this.mileage = totalMileage
+    IotDataTool.gear_state  // 设备挡位
+
   }
 
   build() {
@@ -76,6 +80,10 @@ export struct Bottom {
       if (this.activeTab === tabName) return
       this.activeTab = tabName
       PreferencesUtil.put('drivingMode', tabName)
+      // 控制命令
+      const common = CommandFactory.createGearCommand(tabName as GearState);
+      IotDataTool.controlDevice(common)
+
     })
   }
 }

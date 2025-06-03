@@ -7,15 +7,17 @@ import { SignalLight } from './SignalLight';
 import { themeConfig, ThemeConfig } from '../../model/ThemeConfig';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import { router } from '@kit.ArkUI';
+import IotDataTool from '../../utils/IotDataTool';
 
 @Entry
 @Component
 export struct DashboardPage {
   @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
 
-  @State speed: number = 30 // 车速
+  @State speed: number = 0 // 车速
   @State distance: number = 212 // 里程数
-  @State trafficLight: number = 0 // 0红1绿2黄灯  转向灯0左2右1复原
+  @State trafficLight: number = 1 // 转向灯 0左 2右 1复原
+  @StorageLink("keyStatus") @Watch('updatekeyStatus') keyStatus:string = IotDataTool.keyStatus
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), active: false },
     { img: $r('app.media.charge'), active: false },
@@ -26,29 +28,33 @@ export struct DashboardPage {
     { img: null, active: true }
   ]
   @State @Watch('updateSpeedAndDistance') activeTab: string = 'P'
+  // 定时器
+  speedTimer: number = -1
+  distanceTimer: number = -1
 
   aboutToAppear() {
     this.activeTab = PreferencesUtil.get('drivingMode', 'P') as string
     this.updateSpeedAndDistance()
     // 时速变化
-    let speedTimer = setInterval(() => {
-      if (this.speed < 45) {
-        this.speed++
-      } else {
-        clearInterval(speedTimer)
-        speedTimer = setInterval(() => {
-          this.speed += Math.floor(Math.random() * 5 - 2)
-        }, 800)
+    this.speedTimer = setInterval(() => {
+      let state = IotDataTool.motorStatus
+      if (state == "ON") {
+        this.speed = Math.min(130, this.speed + 1)
+      }else {
+        this.speed = Math.max(0, this.speed - 1)
       }
-    }, 30)
+    }, 500)
     // 里程变化
-    const distanceTimer = setInterval(() => {
+    this.distanceTimer = setInterval(() => {
       if (this.distance < 20) {
         this.distance++
-      } else {
-        clearInterval(distanceTimer)
       }
-    }, 8000)
+    }, 10000)
+  }
+
+  aboutToDisappear(): void {
+    clearInterval(this.speedTimer)
+    clearInterval(this.distanceTimer)
   }
 
   // 根据时间获取主题
@@ -56,6 +62,15 @@ export struct DashboardPage {
     const hours = new Date().getHours();
     const isDayTime = hours >= 6 && hours < 18; //6:00-18:00为白天
     return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
+  }
+  updatekeyStatus(){
+    if (this.keyStatus == "左转") {
+      this.trafficLight = 0
+    }else if ( this.keyStatus == "右转"){
+      this.trafficLight = 2
+    }else {
+      this.trafficLight = 1
+    }
   }
 
   updateSpeedAndDistance() {

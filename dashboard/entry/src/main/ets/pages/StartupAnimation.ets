@@ -1,5 +1,7 @@
 import router from '@ohos.router';
 import display from '@ohos.display';
+import IotDataTool from '../utils/IotDataTool';
+import WeatherUtils from '../utils/WeatherUtils';
 
 /*
   * 启动动画
@@ -9,6 +11,8 @@ import display from '@ohos.display';
   * 4.  3.5秒后：显示"点击进入主页"提示，清除省略号动画定时器
   * 5.  用户点击后：跳转到主页面
  */
+
+
 
 @Entry
 @Component
@@ -29,6 +33,25 @@ export struct StartupAnimation {
   private dotsTimer: number = 0;  //定时器ID，用于更新省略号
   private dotCount: number = 0;   //省略号数量计数器
 
+
+  @StorageLink("longitude")@Watch("ready") longitude: string = IotDataTool.longitude;//经度
+  @StorageLink("latitude")@Watch("ready") latitude: string = IotDataTool.latitude;//纬度
+  @State@Watch("main") isReady: boolean = false;
+  async ready(){
+    // 初始化城市和天气
+    WeatherUtils.longitude = this.longitude;
+    WeatherUtils.latitude = this.latitude;
+
+    await WeatherUtils.getCity()
+    await WeatherUtils.getTemperature()
+    this.isReady = true;
+  }
+  main(){
+    // 数据初始化完成,可以启动
+    router.replace({
+      url: 'pages/MainPage',
+    });
+  }
   aboutToDisappear() {
     if (this.dotsTimer) {
       clearInterval(this.dotsTimer);  //清除省略号动画定时器

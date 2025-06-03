@@ -5,6 +5,7 @@ import PreferencesUtil from '../utils/PreferencesUtil';
 import { BusinessError } from '@kit.BasicServicesKit';
 import IotDataTool from '../utils/IotDataTool'
 import { playerManager } from '../pages/MusicPage/PlayerManager';
+import WeatherUtils from '../utils/WeatherUtils';
 
 
 const DOMAIN = 0x0000;
@@ -22,7 +23,13 @@ export default class EntryAbility extends UIAbility {
     hilog.info(DOMAIN, 'testTag', '%{public}s', 'Ability onCreate');
     PreferencesUtil.Load(this.context);
     IotDataTool.login() // 获取token
+    IotDataTool.getLocation()
     IotDataTool.startPolling()  // 开启轮询
+    setTimeout(() => {
+      WeatherUtils.getCity()
+      WeatherUtils.getTemperature()
+    }, 2000)
+
   }
 
   onDestroy(): void {

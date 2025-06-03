@@ -1,4 +1,5 @@
 import { Header } from '../component/Header';
+import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
@@ -8,6 +9,7 @@ import { Snow } from './WeatherDisplay/Snow';
 import { Rain } from './WeatherDisplay/Rain';
 import { playerManager } from './MusicPage/PlayerManager';
 import { SongInfo } from '../model/SongModel';
+import WeatherUtils from '../utils/WeatherUtils';
 
 interface VehicleStatus {
   oil: string;
@@ -25,15 +27,15 @@ struct MainPage {
   @State currentTheme: ThemeConfig = this.themeManager.getCurrentTheme()
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   // 导航
-  @State location: string = '深圳市 南山区 沙河西路';
+  @State location: string = `${WeatherUtils.city} ${WeatherUtils.district} ${WeatherUtils.township}`;
   @State distance: string = '3.2公里';
   // 仪表盘
   @State speed: number = 0 // 车速
   @State milometer: number =212 // 里程
   @State maxSpeed: number = 125 // 最高时速
   // 天气
-  @State area: string = '深圳市 南山区'
-  @State temperature: number = 29
+  @State area: string = `${WeatherUtils.city}市 ${WeatherUtils.district}`
+  @State temperature: string = WeatherUtils.temperature
   @State weather: string = '多云'   //需要获取
   // 车辆控制
   @State DrivingMode: string[] = ['标准模式','经济模式','运动模式','雪地模式']
@@ -85,7 +87,7 @@ struct MainPage {
     router.pushUrl({ url: 'pages/StatusPage/Index' });
   }
 
-  navigateToMusic() {
+  navigateToVehicleControl() {
     router.pushUrl({ url: 'pages/MusicPage/pages/Index' });
   }
 
@@ -341,7 +343,7 @@ struct MainPage {
               Text('-')
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
-              Text(this.currentSong.title)
+              Text(this.currentSong.singer)
                 .fontSize(this.fontSize)
                 .fontColor(this.currentTheme.textColor)
             }
@@ -352,9 +354,9 @@ struct MainPage {
           .height('100%')
           .justifyContent(FlexAlign.SpaceBetween)
           .alignItems( HorizontalAlign.Center)
-          .onClick(() => {
-            this.navigateToMusic();
-          })
+          // .onClick(() => {
+          //   this.navigateToMusic();
+          // })
 
           Column() {
             Row({space:20}) {

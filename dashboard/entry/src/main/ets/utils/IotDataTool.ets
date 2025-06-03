@@ -3,6 +3,7 @@ import { CommonConstant } from "../component/canshu"
 import { hilog } from "@kit.PerformanceAnalysisKit"
 import { BusinessError } from "@kit.BasicServicesKit"
 import WeatherUtils from "./WeatherUtils"
+import { playerManager } from "../pages/MusicPage/PlayerManager"
 
 const TAG = "HTTP"
 
@@ -97,7 +98,7 @@ class IotDataTool{
   public latitude:string = "";      // 经度
   public longitude:string = "";     // 纬度
   public song_state = "暂停"         // 语音模块控制音乐
-
+  public keyStatus:string = "停止";
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -188,8 +189,28 @@ class IotDataTool{
             this.latitude  = this.responseData?.shadow?.[0]?.reported?.properties?.latitude.split("°")[0]
             this.longitude = this.responseData?.shadow?.[0]?.reported?.properties?.longitude.split("°")[0]
             this.song_state = this.responseData?.shadow?.[0]?.reported?.properties?.song_state
-            AppStorage.setOrCreate("song_state", this.song_state)
+            this.keyStatus = this.responseData?.shadow?.[0]?.reported?.properties?.keyStatus ||  "停止"
+            AppStorage.setOrCreate("motorStatus", this.motorStatus)
+            AppStorage.setOrCreate("keyStatus", this.keyStatus)
+            AppStorage.setOrCreate("latitude",this.latitude)
+            AppStorage.setOrCreate("longitude",this.longitude)
 
+            switch (this.song_state) {
+              case '暂停':
+                playerManager.paused()
+                break;
+              case '播放':
+                playerManager.play()
+                break;
+              case '上一首':
+                playerManager.prev()
+                break;
+              case '下一首':
+                playerManager.next()
+                break;
+              default:
+                break;
+            }
 
             // AppStorage.setOrCreate("latitude",this.responseData?.shadow?.[0]?.reported?.properties?.latitude)
             // AppStorage.setOrCreate("longitude",this.responseData?.shadow?.[0]?.reported?.properties?.longitude)

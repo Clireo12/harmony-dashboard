@@ -2,7 +2,8 @@ import { ThemeManager } from '../../model/ThemeManager';
 import PositionTool from '../../utils/PositionTool';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import hilog from '@ohos.hilog';
-import IotDataTool, { params, paras } from '../../utils/IotDataTool';
+import IotDataTool from '../../utils/IotDataTool';
+import WeatherUtils from '../../utils/WeatherUtils';
 
 // 驾驶状态组件
 @Component
@@ -148,23 +149,24 @@ export struct DrivingMode {
                   PreferencesUtil.put('selectedMode', this.selectedMode)
                   console.info('selectedMode: ' + this.selectedMode)
                   // PositionTool.getCity()
-
+                  // WeatherUtils.getCity()
+                  WeatherUtils.getTemperature()
                   //触发模式变更回调
                   if (this.onModeChange) {
                     this.onModeChange(this.selectedMode as number);
                   }
 
-                  IotDataTool.login()
-                  IotDataTool.setLatestData()
-                  let ml:paras = {
-                    beep_state:"off"
-                  }
-                  let com:params = {
-                    service_id: "test_1",
-                    command_name: "beep",
-                    paras: ml
-                  }
-                  IotDataTool.controlDevice(com)
+                  // IotDataTool.login()
+                  // IotDataTool.setLatestData()
+                  // let ml:paras = {
+                  //   beep_state:"off"
+                  // }
+                  // let com:params = {
+                  //   service_id: "test_1",
+                  //   command_name: "beep",
+                  //   paras: ml
+                  // }
+                  // IotDataTool.controlDevice(com)
                   try {
                     // PositionTool.getPositionByWLAN()
 

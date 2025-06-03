@@ -4,10 +4,13 @@ import { themeConfig, ThemeConfig } from "../../model/ThemeConfig"
 export struct SignalLight {
   @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
   // @State light: number[] = [0.3, 0.3, 0.3]
-  @Link activeLight: number  // 0-左转，2-右转，1-直行
   private timer: number = 0
   @State speed: number = 30 // 车速
   @State distance: number = 212 // 里程数
+
+  @Link activeLight: number  // 0-左转，2-右转，1-直行
+  @State flash: boolean = false
+  flashTimer: number = -1
 
   // 根据时间获取主题
   private getTimeBasedTheme(): ThemeConfig {
@@ -16,9 +19,16 @@ export struct SignalLight {
     return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
   }
 
-  // aboutToAppear(): void {
-  //   this.light[this.activeLight] = 1
-  // }
+  aboutToAppear(): void {
+    // this.light[this.activeLight] = 1
+    this.flashTimer = setInterval(() => {
+      if (this.activeLight === 1) {
+        clearInterval(this.flashTimer)
+      } else {
+        this.flash = !this.flash
+      }
+    }, 600)
+  }
 
   aboutToDisappear(): void {
     clearInterval(this.timer)
@@ -28,7 +38,7 @@ export struct SignalLight {
     Column() {
       // 指示灯
       Row() {
-        if (this.activeLight === 0) {
+        if (this.activeLight === 0 && this.flash) {
           Image($r('app.media.active_arrow'))
             .width(50)
         } else {
@@ -67,7 +77,7 @@ export struct SignalLight {
         // .backgroundColor($r('app.color.traffic_light_bg'))
         // .borderRadius(10)
 
-        if (this.activeLight === 2) {
+        if (this.activeLight === 2 && this.flash) {
           Image($r('app.media.active_arrow'))
             .width(50)
             .rotate({ angle: 180 })

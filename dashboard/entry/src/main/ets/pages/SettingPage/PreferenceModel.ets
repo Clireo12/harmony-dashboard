@@ -1,5 +1,5 @@
 import { ThemeManager } from '../../model/ThemeManager';
-import IotDataTool, { params, paras } from '../../utils/IotDataTool';
+// import IotDataTool, { params, paras } from '../../utils/IotDataTool';
 import PreferencesUtil from '../../utils/PreferencesUtil';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { ThemeConfig } from '../../model/ThemeConfig';
@@ -65,17 +65,17 @@ export struct PreferenceModel {
             this.selectedMode = index as number
             PreferencesUtil.put('selectedMode', this.selectedMode)
             console.info('selectedMode: ' + this.selectedMode)
-            IotDataTool.login()
-            IotDataTool.setLatestData()
-            let ml:paras = {
-              beep_state:"off"
-            }
-            let com:params = {
-              service_id: "test_1",
-              command_name: "beep",
-              paras: ml
-            }
-            IotDataTool.controlDevice(com)
+            // IotDataTool.login()
+            // IotDataTool.setLatestData()
+            // let ml:paras = {
+            //   beep_state:"off"
+            // }
+            // let com:params = {
+            //   service_id: "test_1",
+            //   command_name: "beep",
+            //   paras: ml
+            // }
+            // IotDataTool.controlDevice(com)
             try {
             }catch (err) {
               hilog.error(0, '[Demo]', '[onClick]', 'getPositionByWLAN error: ' + err)
