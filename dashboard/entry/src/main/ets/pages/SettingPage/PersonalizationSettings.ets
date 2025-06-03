@@ -1,5 +1,4 @@
 import { Header } from '../../component/Header';
-import { Bottom } from '../../component/Bottom';
 import { City } from '../../component/City';
 import { themeConfig, ThemeConfig,ThemeKey} from '../../model/ThemeConfig'
 import { ThemeManager } from '../../model/ThemeManager';
@@ -150,10 +149,10 @@ export struct PersonalizationSettings {
             Column(){
               PreferenceModel()
             }
-            .width('50%')
+            .width('56%')
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(25)
-            .height("80%")
+            .height("100%")
             .margin({ left: -110, right: -30 });
 
             //汽车图片

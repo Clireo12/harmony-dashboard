@@ -1,5 +1,4 @@
 import { Header } from '../component/Header';
-import { Bottom } from '../component/Bottom';
 import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
@@ -7,6 +6,8 @@ import PreferencesUtil from '../utils/PreferencesUtil';
 import IotDataTool from '../utils/IotDataTool';
 import { Snow } from './WeatherDisplay/Snow';
 import { Rain } from './WeatherDisplay/Rain';
+import { playerManager } from './MusicPage/PlayerManager';
+import { SongInfo } from '../model/SongModel';
 
 interface VehicleStatus {
   oil: string;
@@ -33,7 +34,7 @@ struct MainPage {
   // 天气
   @State area: string = '深圳市 南山区'
   @State temperature: number = 29
-  @State weather: string = '大雪'   //需要获取
+  @State weather: string = '多云'   //需要获取
   // 车辆控制
   @State DrivingMode: string[] = ['标准模式','经济模式','运动模式','雪地模式']
   @State selectedDrivingMode: number = 3;
@@ -47,6 +48,14 @@ struct MainPage {
   };
   @State steeringWheelAngle: string = '-270°';
   @State throttleBrakeStatus: string = '减速中...';
+  //音乐播放
+  @StorageLink('isPlay') isPlaying: boolean = false;  //播放状态
+  @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
+
+  //时间转换
+  number2time(number: number) {
+    return number > 60 * 1000 ? Math.floor(number/1000/60).toString().padStart(2, '0') + ':' + Math.floor(number/1000%60).toString().padStart(2, '0') : '00:' + Math.floor(number/1000%60).toString().padStart(2, '0')
+  }
 
   aboutToAppear(): void {
     const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
@@ -76,7 +85,7 @@ struct MainPage {
     router.pushUrl({ url: 'pages/StatusPage/Index' });
   }
 
-  navigateToVehicleControl() {
+  navigateToMusic() {
     router.pushUrl({ url: 'pages/MusicPage/pages/Index' });
   }
 
@@ -104,170 +113,157 @@ struct MainPage {
       Header({currentTheme: this.currentTheme})
 
       List({ space: 20 }) {
-        ListItem() {
-          Column() {
-            Text('当前位置')
-              .fontColor(this.currentTheme.textColor)
-              .fontSize(this.fontSize)
-              .fontWeight(FontWeight.Bold)
-              .align(Alignment.Start)
-              .width('100%')
-              .margin({ top: 8 })
-
-            Stack() {
-              Image($r('app.media.road'))
-                .width("100%")
-
-              Image($r('app.media.car2'))
-                .width("50%")
-            }
-            .width('90%')
-            .height("50%")
-            .borderRadius(10)
-
-            Column({ space: 10 }) {
-              Text(this.location)
-                .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize)
-                .fontWeight(FontWeight.Bold)
-                .textAlign(TextAlign.Center)
-                .align(Alignment.Start)
-                .width('100%');
-
-              Text('距离目标位置')
-                .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize-2)
-
-              Text(this.distance)
-                .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize+5)
-                .fontWeight(FontWeight.Bold)
-                .textAlign(TextAlign.Center)
-                .align(Alignment.Start)
-                .width('100%');
-            }
-
-          }
-          .CardStyle()
-          .width("30%")
-          .height('90%')
-          .margin({ left:15 })
-          .onClick(() => {
-            this.navigateToDashboard();
-          })
-        }
 
         ListItem() {
+
           Column({ space: 20 }) {
 
-            // 仪表盘数据展示
-            Column({ space: 10 }) {
-              Column({ space: 5 }) {
-                Row({ space: 60 }){
-                  Text('速度')
-                    .fontColor('#63b8fe')
-                    .fontSize(16)
+            Column({ space: 10 }){
+              Text('导航')
+                .fontColor(this.currentTheme.textColor)
+                .fontSize(this.fontSize+2)
+                .fontWeight(FontWeight.Bold)
+                .align(Alignment.Start)
+                .width('100%')
+                .margin({ top: 8 })
 
-                  Text(`${this.speed} km/h`)
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(24)
-                    .fontWeight(600)
-                }
-                Line({ width: 230, height: 1 })
-                  .backgroundColor('#63b8fe')
-              }
+              Row(){
+                Text("导航图片")
+              }.width('100%').height('50%')
 
-              Column({ space: 5 }) {
-                Row({ space: 80 }){
-                  Text('里程')
-                    .fontColor('#63b8fe')
-                    .fontSize(16)
+              Column({ space: 10 }) {
+                Text(this.location)
+                  .fontColor(this.currentTheme.textColor)
+                  .fontSize(this.fontSize)
+                  .fontWeight(FontWeight.Bold)
+                  .textAlign(TextAlign.Center)
+                  .align(Alignment.Start)
+                  .width('100%');
 
-                  Text(`${this.milometer} km`)
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(24)
-                    .fontWeight(600)
-                }
-                Line({ width: 230, height: 1 })
-                  .backgroundColor('#63b8fe')
-              }
+                Text('距离目标位置')
+                  .fontColor(this.currentTheme.textColor)
+                  .fontSize(this.fontSize-2)
 
-              Column({ space: 5 }) {
-                Row({ space: 40 }){
-                  Text('最高时速')
-                    .fontColor('#63b8fe')
-                    .fontSize(16)
-
-                  Text(`${this.maxSpeed} km/h`)
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(24)
-                    .fontWeight(600)
-                }
-                Line({ width: 230, height: 1 })
-                  .backgroundColor('#63b8fe')
+                Text(this.distance)
+                  .fontColor(this.currentTheme.textColor)
+                  .fontSize(this.fontSize+5)
+                  .fontWeight(FontWeight.Bold)
+                  .textAlign(TextAlign.Center)
+                  .align(Alignment.Start)
+                  .width('100%');
               }
             }
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
             .layoutWeight(1)
-            .onClick(() => {
-              router.pushUrl({ url: 'pages/MusicPage/pages/Index' })
-            })
+            .padding(10)
 
-            Column({ space: 15 }) {
-              Row() {
-                Text('车辆控制')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize+2)
-                  .fontWeight(FontWeight.Bold)
-                  .layoutWeight(1)
+          }
+          .width("31%")
+          .height('90%')
+          .margin({ left:12 })
+        }
 
-                Text('驾驶模式切换')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize)
-              }
-              .justifyContent(FlexAlign.SpaceBetween)
+        ListItem() {
+          Column({ space: 20 }) {
+            //仪表盘数据展示
+            Column({ space: 10 }) {
+              Text('仪表盘')
+                .fontColor(this.currentTheme.textColor)
+                .fontSize(this.fontSize+2)
+                .fontWeight(FontWeight.Bold)
+                .align(Alignment.Start)
+                .width('100%')
+                .margin({ top: 8 })
 
-              Column() {
+              Stack() {
+                Image($r('app.media.road'))
+                  .width("100%")
+                  .height( "55%")
 
-                  TextPicker({ range: this.DrivingMode, selected: this.selectedDrivingMode })
-                  .selectedTextStyle({
-                    font: { size: this.fontSize+2, weight: FontWeight.Bold },
-                    color: '#6abef1'
-                  })
-                  .textStyle({
-                    font: { size: this.fontSize-2 },
-                    color: '#666666'
-                  })
-                  .onChange(async(value: string | string[], index: number | number[]) => {
-                    console.info('Picker item changed, value: ' + value + ', index: ' + index)
-                    this.selectedDrivingMode = index as number
-                    PreferencesUtil.put('selectedMode', this.selectedDrivingMode)
-                    console.info('selectedMode: ' + this.selectedDrivingMode)
-                  })
-                  .width('100%')
-                  .height(110)
+                Image($r('app.media.car2'))
+                  .width("78%")
+                  .offset({ y: -15 })
               }
               .width('100%')
-              .margin({ bottom: 10 })
+              .height("80%")
+              .borderRadius(10)
             }
             .CardStyle()
-            .clip(true) // 隐藏溢出的元素
+            .justifyContent(FlexAlign.SpaceBetween)
+            .layoutWeight(1)
             .onClick(() => {
-              this.navigateToVehicleStatus();
+              this.navigateToDashboard();
             })
 
           }
-          .width("30%")
+          .width("31%")
           .height('90%')
         }
 
         ListItem() {
 
           Column() {
-            Image($r('app.media.travel'))
-              .height('50%')
-              .offset({ y: 15 })
+
+            Column() {
+              Row({ space: 10 }) {
+                Column(){
+                  Image($r('app.media.theme'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("主题")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }
+                .borderRadius(10)
+                .layoutWeight(1)
+                .height("25%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+
+                Column(){
+                  Image($r('app.media.sun_left'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("亮度")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }
+                .layoutWeight(1)
+                .borderRadius(10)
+                .height("16%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+
+
+                Column(){
+                  Image($r('app.media.like'))
+                    .fillColor(this.currentTheme.iconColor)
+                    .width("30%")
+                    .margin({ bottom: 10 })
+                  Text("偏好")
+                    .fontColor(this.currentTheme.textColor)
+                    .fontSize(this.fontSize-2)
+                    .textAlign(TextAlign.Center)
+                }.layoutWeight(1)
+                .height("16%")
+                .justifyContent(FlexAlign.Center)
+                .alignItems(HorizontalAlign.Center)
+                .borderRadius(10)
+              }
+              .width("100%")
+              .justifyContent(FlexAlign.SpaceBetween)
+            }
+            .CardStyle()
+            .padding(10)
+            .margin({ bottom: 10 })
+            .onClick(() => {
+              this.navigateToSettings();
+            })
 
             //天气信息
             Column() {
@@ -321,158 +317,113 @@ struct MainPage {
             .layoutWeight(1)
             .clip(true)
           }
-          .width("28%")
+          .width("31%")
           .height('90%')
         }
 
-        ListItem() {
-          Column({ space: 20 }) {
-
-            Column({ space: 15 }) {
-              Text('车辆状态')
-                .fontColor(this.currentTheme.textColor)
-                .fontSize(this.fontSize+2)
-                .fontWeight(FontWeight.Bold)
-                .align(Alignment.Start)
-                .width('100%');
-
-              Row() {
-                Text('机油')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .layoutWeight(1)
-                  .align(Alignment.Start)
-                Text(this.vehicleStatus.oil)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .fontWeight(FontWeight.Bold)
-                  .align(Alignment.End)
-              }
-              .width('100%')
-
-              Row() {
-                Text('燃油')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .layoutWeight(1)
-                  .align(Alignment.Start)
-                Text(this.vehicleStatus.fuel)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .fontWeight(FontWeight.Bold)
-                  .align(Alignment.End)
-              }
-              .width('100%')
-
-              Row() {
-                Text('电池电压')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .layoutWeight(1)
-                  .align(Alignment.Start)
-                Text(this.vehicleStatus.batteryVoltage)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .fontWeight(FontWeight.Bold)
-                  .align(Alignment.End)
-              }
-              .width('100%')
-
-              Row() {
-                Text('电池温度')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .layoutWeight(1)
-                  .align(Alignment.Start)
-                Text(this.vehicleStatus.coolantTemp)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
-                  .fontWeight(FontWeight.Bold)
-                  .align(Alignment.End)
-              }
-              .width('100%')
-
-            }
-            .CardStyle()
-            .layoutWeight(1)
-            .onClick(() => {
-              this.navigateToVehicleControl();
-            })
-
-            Column() {
-              Row({ space: 10 }) {
-                Column(){
-                  Image($r('app.media.theme'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("主题")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }
-                .borderRadius(10)
-                .layoutWeight(1)
-                .height("20%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-
-                Column(){
-                  Image($r('app.media.sun_left'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("亮度")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }
-                .layoutWeight(1)
-                .borderRadius(10)
-                .height("20%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-
-
-                Column(){
-                  Image($r('app.media.like'))
-                    .fillColor(this.currentTheme.iconColor)
-                    .width("30%")
-                    .margin({ bottom: 10 })
-                  Text("偏好")
-                    .fontColor(this.currentTheme.textColor)
-                    .fontSize(this.fontSize-2)
-                    .textAlign(TextAlign.Center)
-                }.layoutWeight(1)
-                .height("20%")
-                .justifyContent(FlexAlign.Center)
-                .alignItems(HorizontalAlign.Center)
-                .borderRadius(10)
-              }
-              .width("100%")
-              .justifyContent(FlexAlign.SpaceBetween)
-
-            }
-            .CardStyle()
-            .padding(10)
-            .onClick(() => {
-              this.navigateToSettings();
-            })
-
-          }
-          .width("30%")
-          .height('90%')
-        }
       }
       .listDirection(Axis.Horizontal)
-      .scrollBar(BarState.Off)
       .layoutWeight(1)
       .alignListItem(ListItemAlign.Center)
       .width('100%')
       .height('100%')
       .padding(5)
 
-      // Bottom({ currentTheme: this.currentTheme })
+      Row(){
+        Row() {
+
+          Column() {
+            Row({space:4}) {
+              Text(this.currentSong.title)
+                .fontSize(this.fontSize)
+                .fontWeight(FontWeight.Bold)
+                .fontColor(this.currentTheme.textColor)
+              Text('-')
+                .fontSize(this.fontSize)
+                .fontColor(this.currentTheme.textColor)
+              Text(this.currentSong.title)
+                .fontSize(this.fontSize)
+                .fontColor(this.currentTheme.textColor)
+            }
+            .width('100%')
+            .height('100%')
+          }
+          .width('20%')
+          .height('100%')
+          .justifyContent(FlexAlign.SpaceBetween)
+          .alignItems( HorizontalAlign.Center)
+          .onClick(() => {
+            this.navigateToMusic();
+          })
+
+          Column() {
+            Row({space:20}) {
+              Row({space: 50}){
+                Image($r('app.media.ic_prev'))
+                  .width(30)
+                  .height(30)
+                  .fillColor(this.currentTheme.iconColor)
+                  .onClick(() => {
+                    playerManager.prev()
+                  })
+
+                Image(this.isPlaying ? $r('app.media.ic_play') : $r('app.media.ic_pause'))
+                  .width(30)
+                  .height(30)
+                  .onClick(() => {
+                    this.isPlaying = !this.isPlaying;
+                    if (this.isPlaying) {
+                      playerManager.play()
+                    } else {
+                      playerManager.paused()
+                    }
+                  });
+
+                Image($r('app.media.ic_next'))
+                  .width(30)
+                  .height(30)
+                  .fillColor(this.currentTheme.iconColor)
+                  .onClick(() => {
+                    playerManager.next()
+                  })
+              }
+
+              Blank()
+
+              Text(`${this.number2time(this.currentSong.time)} / ${this.number2time(this.currentSong.duration)}`)
+                .fontColor(this.currentTheme.textColor)
+            }
+            .padding({ left: 155, right: 50 })
+            .width('100%')
+            .justifyContent(FlexAlign.Center)
+
+            Slider({
+              value: this.currentSong.time,
+              min: 0,
+              max: this.currentSong.duration,
+              style: SliderStyle.OutSet
+            })
+              .blockColor('#ff1948')
+              .selectedColor('#ff1948')
+              .trackThickness(6)
+              .trackColor(this.currentTheme.mask)
+              .width('90%')
+              .onChange((value) => {
+                playerManager.skip(value)
+              })
+          }
+          .width('70%')
+          .height('100%')
+          .justifyContent(FlexAlign.Center);
+
+        }
+        .width('100%')
+        .margin({left:20})
+
+      }
+      .width('100%')
+      .height('15%')
+
     }
     .width('100%')
     .height('100%')
