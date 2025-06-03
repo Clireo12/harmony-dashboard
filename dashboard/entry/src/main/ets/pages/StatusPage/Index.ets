@@ -164,11 +164,11 @@ export struct VehicleStatusPage {
           Column(){
             Column(){
 
-                Text("方向盘角度反馈")
-                  .fontSize(20)
-                  .fontColor(this.currentTheme.textColor)
-                  .textAlign(TextAlign.Center)
-                  .margin({ bottom: 5 })
+              Text("方向盘角度反馈")
+                .fontSize(20)
+                .fontColor(this.currentTheme.textColor)
+                .textAlign(TextAlign.Center)
+                .margin({ bottom: 5 })
 
               Column(){
                 SteeringWheelAngleFeedback()

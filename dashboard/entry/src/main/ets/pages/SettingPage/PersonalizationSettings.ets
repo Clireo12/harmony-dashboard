@@ -142,7 +142,6 @@ export struct PersonalizationSettings {
           .padding({ left: 30 })
           .height("85%")
 
-
           // 右侧
           Row() {
             // 偏好设置

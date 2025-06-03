@@ -85,7 +85,6 @@ export struct Header {
             .fontColor(this.currentTheme.textColor)
         }
       }
-
       .width("40%")
 
       Row({ space: 10 }){
