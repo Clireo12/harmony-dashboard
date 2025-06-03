@@ -2,6 +2,7 @@ import { http } from "@kit.NetworkKit"
 import { CommonConstant } from "../component/canshu"
 import { hilog } from "@kit.PerformanceAnalysisKit"
 import { BusinessError } from "@kit.BasicServicesKit"
+import WeatherUtils from "./WeatherUtils"
 
 const TAG = "HTTP"
 
@@ -47,22 +48,38 @@ export interface properties {
   mpu_3:string;
   gear_state:string;              // 挡位
   color_theme_state:string;
+  latitude:string;                // 经度
+  longitude:string;               // 纬度
+  song_state:string;              // 语音模块控制
 }
 
-export interface params{
-  service_id: string;
-  command_name: string;
-  paras:paras;
-}
+// export interface IoTCommon{
+//   service_id:ServiceId,    // 服务id
+//   command_name:CommandName,  // 命令名称
+//   paras:paras
+// }
 
-export interface paras{
-  alarm_light_state?:string;   // 报警灯on,off
-  beep_state?:string;          // 蜂鸣器on,off
-}
+// export interface params extends IoTCommon{
+//   paras:paras;
+// }
+
+
+
+
 
 // 获取数据示例
 // this.responseData?.shadow?.[0]?.reported?.properties?.smoke
 // this.responseData?.shadow?.[0]?.reported?.properties?这段是固定的
+
+export interface _paras{
+  alarm_light_state?:string;   // 报警灯on,off
+  beep_state?:string;          // 蜂鸣器on,off
+  gear_state?:GearState|string;// 挡位
+}
+
+// export interface gearCommon extends _IoTCommon{
+//   gear_state:GearState|string;
+// }
 
 
 @Observed
@@ -77,6 +94,10 @@ class IotDataTool{
   public lightStatus:string  = "";  // 灯光
   public mpu_1:string = "";
   public gear_state:string = "";    // 挡位
+  public latitude:string = "";      // 经度
+  public longitude:string = "";     // 纬度
+  public song_state = "暂停"         // 语音模块控制音乐
+
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -157,16 +178,21 @@ class IotDataTool{
           console.log("HTTP", "data=" + JSON.stringify(data))
           if (data.responseCode === 200) {
 
-            let result = JSON.stringify(data.result)
-            console.log("HTTP", "data=" + result)
-            // console.log("正在解析中")
+
 
             this.responseData = data.result as notify_data // 直接类型断言
             this.motorStatus = this.responseData?.shadow?.[0]?.reported?.properties?.motorStatus
             this.lightStatus = this.responseData?.shadow?.[0]?.reported?.properties?.lightStatus
             this.mpu_1 = this.responseData?.shadow?.[0]?.reported?.properties?.mpu_1
             this.gear_state = this.responseData?.shadow?.[0]?.reported?.properties?.gear_state
-            hilog.info(0x00, "DATA", `${this.mpu_1}`)
+            this.latitude  = this.responseData?.shadow?.[0]?.reported?.properties?.latitude.split("°")[0]
+            this.longitude = this.responseData?.shadow?.[0]?.reported?.properties?.longitude.split("°")[0]
+            this.song_state = this.responseData?.shadow?.[0]?.reported?.properties?.song_state
+            AppStorage.setOrCreate("song_state", this.song_state)
+
+
+            // AppStorage.setOrCreate("latitude",this.responseData?.shadow?.[0]?.reported?.properties?.latitude)
+            // AppStorage.setOrCreate("longitude",this.responseData?.shadow?.[0]?.reported?.properties?.longitude)
 
             // console.log("smoke = " + this.responseData?.shadow?.[0]?.reported?.properties?.smoke)
             //
@@ -186,8 +212,13 @@ class IotDataTool{
     })
   }
 
+  async getLocation(){
+    await this.setLatestData()
+
+  }
+
   // 控制设备
-  controlDevice(params:params):Promise<string> {
+  controlDevice(Common:IoTCommon):Promise<string> {
     return new Promise<string>((resolve, reject) => {
 
       let httpRequest: http.HttpRequest = http.createHttp()
@@ -199,7 +230,7 @@ class IotDataTool{
           'Instance-Id': CommonConstant.INSTANCE_ID
         },
         expectDataType: http.HttpDataType.OBJECT, //可选，指定返回数据的类型
-        extraData:params
+        extraData:Common
       }
       console.log("正在发送命令")
       httpRequest.request(`https://${CommonConstant.IAM_ENDPOINT}/v5/iot/${CommonConstant.project_id}/devices/${CommonConstant.device_id}/commands`,options)
@@ -245,6 +276,105 @@ class IotDataTool{
     }
   }
 
+
+
 }
 
 export default new IotDataTool();
+
+// 服务枚举值
+export enum ServiceId {
+  test_1 = "test_1",
+}
+// 命令枚举值
+export enum CommandName {
+  beep = "beep",  // 蜂鸣器on,off
+  alarm_light = "alarm_light",  // 报警灯on,off
+  motor_control = "motor_control",  // 电机on,off
+  color_theme_switch = "color_theme_switch",  //  主题切换
+  key_control = "key_control",  // 按键控制
+  gear_control = "gear_control",  //  挡位控制
+  color_theme_control = "color_theme_control",  // 主题切换
+}
+// 命令参数接口
+export interface CommandParams {
+  alarm_light_state?: ON_OFF;
+  beep_state?: ON_OFF;
+  gear_state?: GearState;
+  motorStatus?: ON_OFF;
+  // 添加更多参数...
+}
+export interface IoTCommon {
+  service_id: ServiceId;
+  command_name: CommandName;
+  paras: CommandParams;
+}
+interface paras{
+  key:string,
+  value:string
+}
+enum ON_OFF{
+  on = "on",
+  off = "off",
+  ON = "ON",
+  OFF = "OFF"
+}
+// 挡位枚举值
+export enum GearState {
+  // P,D,N,L,R
+  P = "P",
+  D = "D",
+  N = "N",
+  L = "L",
+  R = "R",
+}
+// 命令构建器 - 用于生成符合IoTCommon接口的命令对象
+export class CommandFactory {
+  // 创建报警灯控制命令
+  static createAlarmLightCommand(state: ON_OFF): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.alarm_light,
+      paras: { alarm_light_state: state }
+    };
+  }
+
+  // 创建蜂鸣器控制命令
+  static createBeepCommand(state: ON_OFF): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.beep,
+      paras: { beep_state: state }
+    };
+  }
+
+  // 创建挡位控制命令
+  static createGearCommand(gear: GearState): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.gear_control,
+      paras: { gear_state: gear }
+    };
+  }
+
+  // 创建电机控制命令
+  static createMotorCommand(state: ON_OFF): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.motor_control,
+      paras: { motorStatus: state }
+    };
+  }
+
+  // 通用命令创建方法（用于自定义命令）
+  // static createCustomCommand(
+  //   commandName: CommandName,
+  //   params: CommandParams
+  // ): IoTCommon {
+  //   return {
+  //     service_id: ServiceId.test_1,
+  //     command_name,
+  //     paras: params
+  //   };
+  // }
+}
