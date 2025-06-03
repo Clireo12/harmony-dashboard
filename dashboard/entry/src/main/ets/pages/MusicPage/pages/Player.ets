@@ -1,4 +1,5 @@
 import { SongInfo } from '../../../model/SongModel';
+import IotDataTool from '../../../utils/IotDataTool';
 import { playerManager } from '../PlayerManager'
 
 @Entry
@@ -9,7 +10,7 @@ export default struct Player {
   @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
   @State progress: number = 0.3;  //播放进度
   @State isLiked: boolean = false;
-
+  @StorageLink("song_state") @Watch('changePlay') Iotplay:string = IotDataTool.song_state
   //显示播放列表的状态，从StorageProp获取默认值为false
   @StorageLink('showPlaylist') showPlaylist: boolean = false;
   //显示评论的状态，从StorageProp获取默认值为false
@@ -18,6 +19,14 @@ export default struct Player {
   // 时间转换
   number2time(number: number) {
     return number > 60 * 1000 ? Math.floor(number/1000/60).toString().padStart(2, '0') + ':' + Math.floor(number/1000%60).toString().padStart(2, '0') : '00:' + Math.floor(number/1000%60).toString().padStart(2, '0')
+  }
+
+  changePlay(){
+    if (IotDataTool.song_state == "暂停") {
+      playerManager.paused()
+    }else {
+      playerManager.play()
+    }
   }
 
   build() {
