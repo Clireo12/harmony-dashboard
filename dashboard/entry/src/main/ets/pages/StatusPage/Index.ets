@@ -10,6 +10,7 @@ import { ThemeManager } from '../../model/ThemeManager'
 import { ThemeConfig } from '../../model/ThemeConfig'
 import IotDataTool from '../../utils/IotDataTool'
 import { router } from '@kit.ArkUI'
+import { City } from '../../component/City'
 
 
 
@@ -161,18 +162,16 @@ export struct VehicleStatusPage {
         .height(30)
         .justifyContent(FlexAlign.Start)
 
-        Row({space: 100}){
+        Row({space: 20}){
 
           Column(){
             Column(){
-              Row() {
-                Text("方向盘角度反馈")
-                  .fontSize(20)
-                  .fontColor(this.currentTheme.textColor)
-                  .margin({ bottom: 5 })
-              }
-              .width('50%')
-              .height(50)
+
+              Text("方向盘角度反馈")
+                .fontSize(20)
+                .fontColor(this.currentTheme.textColor)
+                .textAlign(TextAlign.Center)
+                .margin({ bottom: 5 })
 
               Column(){
                 SteeringWheelAngleFeedback()
@@ -193,26 +192,27 @@ export struct VehicleStatusPage {
 
           Column() {
             Text('自检功能')
-              .height(50)
               .fontSize(20)
+              .textAlign(TextAlign.Center)
+              .margin({ top:10,bottom: 10 })
               .fontColor(this.currentTheme.textColor)
 
             Stack() {
               //外层进度条
               Circle()
-                .width(200)
-                .height(200)
+                .width(185)
+                .height(185)
                 .fill(Color.Transparent)
                 .stroke($r('app.color.circle_one'))
-                .strokeWidth(22)
+                .strokeWidth(20)
                 .strokeDashArray([this.progress * 6.8, 680]) // 动态进度条
                 .strokeLineCap(LineCapStyle.Round)
                 .rotate({ angle: this.currentAngle })
 
               //中层进度条
               Circle()
-                .width(160)
-                .height(160)
+                .width(150)
+                .height(150)
                 .fill(Color.Transparent)
                 .stroke($r('app.color.circle_two'))
                 .strokeWidth(18)
@@ -222,8 +222,8 @@ export struct VehicleStatusPage {
 
               //内层旋转圆圈
               Circle()
-                .width(145)
-                .height(145)
+                .width(135)
+                .height(135)
                 .fill($r('app.color.circle_three'))
                 .rotate({ angle: this.rotateAngle3 }) // 持续旋转
 
@@ -236,13 +236,13 @@ export struct VehicleStatusPage {
               //显示数值和单位
               Column() {
                 Text(this.progress < 100 ? "自检中" : "自检完成")
-                  .fontSize(22)
+                  .fontSize(21)
                   .fontWeight(600)
                   .fontColor(this.currentTheme.textColor)
                   .margin({ bottom: 5 })
 
                 Text(`${this.progress}%`)
-                  .fontSize(26)
+                  .fontSize(25)
                   .fontWeight(FontWeight.Bold)
                   .fontColor(this.currentTheme.iconColor)
               }
@@ -264,15 +264,25 @@ export struct VehicleStatusPage {
                 .fontSize(15)
                 .fontColor(this.progress > 90 ? this.currentTheme.textColor : Color.Gray)
             }
-            .height(100)
+            .height(90)
+            .margin({ top: 10 })
           }
-          .width('35%')
+          .width('32%')
           .height('88%')
           .backgroundColor(this.currentTheme.mask)
           .borderRadius(25)
+          .margin({right:-85})
+
+          Stack(){
+            City()
+            Image($r('app.media.car')).width(450).height(300)
+          }
+
         }
         .width("100%")
         .height("85%")
+        .margin({ left: 30 })
+        .padding(10)
         .justifyContent(FlexAlign.Center)
       }
     }
