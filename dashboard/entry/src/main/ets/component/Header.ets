@@ -85,28 +85,29 @@ export struct Header {
             .fontColor(this.currentTheme.textColor)
         }
       }
+
       .width("40%")
 
       Row({ space: 10 }){
-        Button(){
-          Text('<')
-            .fontColor(this.currentTheme.textColor)
-        }
-        .backgroundColor(this.currentTheme.theme)
-
-        Image($r('app.media.leaf'))
-          .fillColor(this.currentTheme.textColor)
-          .width("15%")
-        Text('ECO')
-          .fontColor(this.currentTheme.textColor)
-        Button(){
-          Text(">")
-            .fontColor(this.currentTheme.textColor)
-        }
-        .backgroundColor(Color.Transparent)
-        .margin({
-          right:20
-        })
+        // Button(){
+        //   Text('<')
+        //     .fontColor(this.currentTheme.textColor)
+        // }
+        // .backgroundColor(this.currentTheme.theme)
+        //
+        // Image($r('app.media.leaf'))
+        //   .fillColor(this.currentTheme.textColor)
+        //   .width("15%")
+        // Text('ECO')
+        //   .fontColor(this.currentTheme.textColor)
+        // Button(){
+        //   Text(">")
+        //     .fontColor(this.currentTheme.textColor)
+        // }
+        // .backgroundColor(Color.Transparent)
+        // .margin({
+        //   right:20
+        // })
 
         Image(this.currentTheme.locationIcon)
           .width("20%")
@@ -130,7 +131,7 @@ export struct Header {
       .width("40%")
       .justifyContent(FlexAlign.End)
     }
-    .padding({ left: 50, right: 50 })
+    .padding({ left: 22, right: 50 })
     .width('100%')
     .height('10%')
     .justifyContent(FlexAlign.SpaceBetween)

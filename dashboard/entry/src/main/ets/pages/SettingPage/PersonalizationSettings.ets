@@ -74,7 +74,7 @@ export struct PersonalizationSettings {
             Column() {
 
               Text('主题切换')
-                .fontSize(this.fontSize)
+                .fontSize(this.fontSize+2)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ top: 10, bottom: 10 });
@@ -100,7 +100,7 @@ export struct PersonalizationSettings {
             //亮度调节区域
             Column() {
               Text('亮度调节')
-                .fontSize(this.fontSize)
+                .fontSize(this.fontSize+2)
                 .fontColor(this.currentTheme.textColor)
                 .textAlign(TextAlign.Center)
                 .margin({ top: 5, bottom: 5 });
@@ -153,12 +153,12 @@ export struct PersonalizationSettings {
             .backgroundColor(this.currentTheme.mask)
             .borderRadius(25)
             .height("100%")
-            .margin({ left: -110, right: -30 });
+            .margin({ left: -110, right: -45 });
 
             //汽车图片
             Stack(){
               City()
-              Image($r('app.media.car')).width(480).height(300)
+              Image($r('app.media.car')).width(450).height(300)
             }
           }
           .width('50%')
