@@ -64,7 +64,7 @@ export struct CirclePanel {
             .fontColor(this.currentTheme.textColor)
             .fontWeight(600)
           Text(this.unit)
-            .fontSize(23)
+            .fontSize(16)
             .fontWeight(600)
             .fontColor(this.currentTheme.textColor)
             .offset({

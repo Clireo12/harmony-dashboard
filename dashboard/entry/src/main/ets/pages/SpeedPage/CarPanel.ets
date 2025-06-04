@@ -5,7 +5,7 @@ import { router } from "@kit.ArkUI";
 @Component
 export struct CarPanel {
   @Link speed: number //车速
-  @Link distance: number  //里程数
+  @Link RPM: number  //转速数
   @Link activeLight: number
   @State carMove: number = 3  //控制车辆移动
 
@@ -51,9 +51,9 @@ export struct CarPanel {
       .layoutWeight(1)
 
       CirclePanel({
-        num: this.distance,
-        unit: 'km',
-        current: 100,
+        num: this.RPM,
+        unit: 'RPM(x1000)',
+        current: this.RPM,
         reverse: true
       })
     }

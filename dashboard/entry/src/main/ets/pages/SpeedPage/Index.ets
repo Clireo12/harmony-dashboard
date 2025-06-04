@@ -17,10 +17,9 @@ export struct DashboardPage {
   @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
 
   @State speed: number = 0 // 车速
-  @StorageLink("motor_speed") motor_speed:number = (IotDataTool.motor_speed - 1)
+  @StorageLink("motor_speed") motor_speed:number = (IotDataTool.motor_speed)
 
-  @State distance: number = 212
-  @StorageLink("motor_speed") RPM:number = IotDataTool.motor_speed * this.getRandomInt(15, 70)  // 转数
+  @StorageLink("motor_speed") RPM_value:number = IotDataTool.motor_speed * this.getRandomInt(15, 70)  // 转数
   @State trafficLight: number = 1 // 转向灯 0左 2右 1复原
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), active: false },
@@ -34,7 +33,6 @@ export struct DashboardPage {
   @State @Watch('updateSpeedAndDistance') activeTab: string = 'P'
   // 定时器
   speedTimer: number = -1
-  distanceTimer: number = -1
   turnTimer: number = -1
 
   aboutToAppear() {
@@ -44,12 +42,6 @@ export struct DashboardPage {
     this.speedTimer = setInterval(() => {
       this.speed = (this.motor_speed - 1)
     }, 500)
-    // 里程变化
-    this.distanceTimer = setInterval(() => {
-      if (this.distance < 20) {
-        this.distance++
-      }
-    }, 10000)
     this.turnTimer = setInterval(() => {
       let keyStatus = AppStorage.get("keyStatus") as string
       if (keyStatus == "左") {
@@ -64,7 +56,6 @@ export struct DashboardPage {
 
   aboutToDisappear(): void {
     clearInterval(this.speedTimer)
-    clearInterval(this.distanceTimer)
     clearInterval(this.turnTimer)
   }
 
@@ -82,7 +73,7 @@ export struct DashboardPage {
   }
   updateSpeedAndDistance() {
     const totalMileage = PreferencesUtil.get('TotalMileage', 0) as number
-    this.distance = totalMileage
+    this.RPM_value = totalMileage
 
     switch (this.activeTab) {
       case 'P': //停车模式
@@ -119,7 +110,7 @@ export struct DashboardPage {
 
           CarPanel({
             speed: this.speed,
-            distance: this.distance,
+            RPM: this.RPM_value,
             activeLight: this.trafficLight
           })
             .height('60%')
