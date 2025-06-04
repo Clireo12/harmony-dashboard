@@ -6,9 +6,7 @@
     "pages/ControlPage/Index",
     "pages/StatusPage/Index",
     "pages/StartupAnimation",
-    "pages/MusicPage/pages/Index",
-    "pages/MapPage/Map"
-
+    "pages/MusicPage/pages/Index"
   ]
 }
 

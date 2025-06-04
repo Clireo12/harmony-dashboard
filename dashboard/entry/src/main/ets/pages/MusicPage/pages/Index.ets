@@ -33,7 +33,7 @@ struct Index {
         .height('70%')
 
       Player()
-        .width('100%')
+        .width('98%')
         .height('20%')
     }
     .width('100%')

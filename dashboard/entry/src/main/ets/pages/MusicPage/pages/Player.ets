@@ -5,6 +5,7 @@ import { playerManager } from '../PlayerManager'
 @Entry
 @Component
 export default struct Player {
+
   @StorageLink('fontSize') fontSize: number = 18;
   @StorageLink('isPlay') isPlaying: boolean = false;  //播放状态
   @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
@@ -30,7 +31,7 @@ export default struct Player {
             .fontWeight(FontWeight.Bold);
           Text('-')
             .fontSize(this.fontSize);
-          Text(this.currentSong.title)
+          Text(this.currentSong.singer)
             .fontSize(this.fontSize);
           Image($r('app.media.ic_vip'))
             .width(20)
@@ -59,7 +60,7 @@ export default struct Player {
       .width('20%')
       .height('100%')
       .justifyContent(FlexAlign.SpaceBetween)
-      .padding(10);
+      .padding(15)
 
       Column() {
         Row({space:20}) {
@@ -114,25 +115,25 @@ export default struct Player {
             playerManager.skip(value)
           })
       }
-      .width('65%')
+      .width('75%')
       .height('100%')
       .justifyContent(FlexAlign.Center);
 
-      Column() {
-        Image($r('app.media.ic_music_list'))
-          .width(35)
-          .height(35)
-          .fillColor(Color.Black)
-          .onClick(() => {
-            AppStorage.Set('showPlaylist', !this.showPlaylist);
-            AppStorage.Set('showComments', false);
-          });
-      }
-      .width('15%')
-      .height('100%')
-      .justifyContent(FlexAlign.Center);
+      // Column() {
+      //   Image($r('app.media.ic_music_list'))
+      //     .width(35)
+      //     .height(35)
+      //     .fillColor(Color.Black)
+      //     .onClick(() => {
+      //       AppStorage.Set('showPlaylist', !this.showPlaylist);
+      //       AppStorage.Set('showComments', false);
+      //     });
+      // }
+      // .width('15%')
+      // .height('100%')
+      // .justifyContent(FlexAlign.Center);
     }
     .width('100%')
-    .padding(8);
+    .padding(10)
   }
 }
