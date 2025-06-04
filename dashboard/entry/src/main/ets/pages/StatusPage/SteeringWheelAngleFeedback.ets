@@ -28,10 +28,12 @@ export struct SteeringWheelAngleFeedback {
     // 初始化数据轮询
     this.dataPollTimer = setInterval(() => {
       try {
-        const newAngle = parseFloat(
+        let newAngle = parseFloat(
           IotDataTool.responseData?.shadow?.[0]?.reported?.properties?.mpu_1
         ) || 0;
-
+        if (Math.abs(newAngle) > 540){
+          newAngle = 540;
+        }
         // 首次赋值或值变化时更新
         if (this.targetAngle === 0 || Math.abs(newAngle - this.targetAngle) > 0.1) {
           this.targetAngle = newAngle; // 触发@Watch
