@@ -27,7 +27,7 @@ export struct CirclePanel {
     Row() {
       Stack() {
         Progress({ value: this.current / 2, total: this.maxSpeed, type: ProgressType.Ring })
-          .width(300)
+          .width(280)
           .color(this.gradientColor)
           .backgroundColor(Color.Transparent)
           .style({
@@ -38,23 +38,23 @@ export struct CirclePanel {
           .rotate(this.reverse ? { angle: 30 } : { angle: 150 })
 
         Circle()
-          .width(240)
-          .height(240)
+          .width(220)
+          .height(220)
           .fill($r('app.color.circle_one'))
 
         Circle()
-          .width(190)
-          .height(190)
+          .width(170)
+          .height(170)
           .fill($r('app.color.circle_two'))
 
         Circle()
-          .width(140)
-          .height(140)
+          .width(120)
+          .height(120)
           .fill($r('app.color.circle_three'))
 
         Circle()
-          .width(100)
-          .height(100)
+          .width(80)
+          .height(80)
           .fill(this.currentTheme.theme)
 
         //显示数值和单位

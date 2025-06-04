@@ -25,7 +25,7 @@ export struct CarPanel {
       Stack() {
         City()
           .scale({ x: 0.85 })
-          .offset({ x: -10, y: -65 })
+          .offset({ x: -26, y: -65 })
 
         Stack(){
           //车辆图像
@@ -38,11 +38,10 @@ export struct CarPanel {
             Image($r('app.media.car2'))
               .width(250)
               .offset({ x: 50, y: 50 })
-
           } else {    //直行
             Image($r('app.media.car2'))
               .width(250)
-              .offset({ x: -8, y: 50 })
+              .offset({ x: -5, y: 50 })
           }
         }.onClick(() => {
           this.navigateToVehicleStatus();

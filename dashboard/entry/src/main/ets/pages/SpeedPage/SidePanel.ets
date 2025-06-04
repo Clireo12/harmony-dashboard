@@ -36,7 +36,7 @@ export struct SidePanel {
           })
         }
       }
-      .width(80)
+      .width(70)
       .height('90%')
       .padding(10)
     } else {
