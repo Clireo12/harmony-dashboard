@@ -90,7 +90,9 @@ class IotDataTool{
   public turnLED:string = "";       // 转向灯状态(无,左转,和右转)
   public motor_speed:number = 1;    // 电机速度(返回百分比)
   public body_state:string = "";    // 人体传感器状态
-
+  public illumination:string = "";  //  光照传感器状态
+  public temperature:string = "";   //  温度传感器状态
+  public smoke:string  = "";        // 烟雾传感器状态
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -185,6 +187,9 @@ class IotDataTool{
             this.turnLED = this.responseData?.shadow?.[0]?.reported?.properties?.turnLED
             this.motor_speed = parseInt(this.responseData?.shadow?.[0]?.reported?.properties?.motor_speed.replace("%", ""))
             this.body_state  = this.responseData?.shadow?.[0]?.reported?.properties?.body_state
+            this.illumination = this.responseData?.shadow?.[0]?.reported?.properties?.illumination
+            this.temperature = this.responseData?.shadow?.[0]?.reported?.properties?.temperature
+            this.smoke = this.responseData?.shadow?.[0]?.reported?.properties?.smoke
             // AppStorage.setOrCreate("turnLED", this.turnLED)
             AppStorage.setOrCreate("motorStatus", this.motorStatus)
             AppStorage.setOrCreate("keyStatus", this.turnLED)
@@ -193,6 +198,8 @@ class IotDataTool{
             AppStorage.setOrCreate("gear_state", this.gear_state)
             AppStorage.setOrCreate("motor_speed", this.motor_speed)
             AppStorage.setOrCreate("body_state", this.body_state)
+            AppStorage.setOrCreate("temperature", this.temperature)
+            AppStorage.setOrCreate("smoke", this.smoke)
 
 
 
@@ -328,7 +335,7 @@ interface paras{
   key:string,
   value:string
 }
-enum ON_OFF{
+export enum ON_OFF{
   on = "on",
   off = "off",
   ON = "ON",

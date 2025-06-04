@@ -4,7 +4,7 @@ import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
-import IotDataTool from '../utils/IotDataTool';
+import IotDataTool, { CommandFactory, ON_OFF } from '../utils/IotDataTool';
 import { Snow } from './WeatherDisplay/Snow';
 import { Rain } from './WeatherDisplay/Rain';
 import { playerManager } from './MusicPage/PlayerManager';
@@ -53,9 +53,20 @@ struct MainPage {
   //音乐播放
   @StorageLink('isPlay') isPlaying: boolean = false;  //播放状态
   @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
-
-  @StorageLink("body_state") body_state:string = IotDataTool.body_state
-
+  @StorageLink("illumination") illumination:string = IotDataTool.illumination
+  @StorageLink("body_state")@Watch("isBeep") body_state:string = IotDataTool.body_state
+  @StorageLink("temperature") IOT_temperature:string = IotDataTool.temperature
+  @StorageLink("smoke") smoke:string = IotDataTool.smoke
+  isBeep(){
+    // 有人表示手放在了方向盘,则不鸣笛
+    if (this.body_state != "无人" || parseFloat(this.IOT_temperature.replace("℃","")) > 100 || parseFloat(this.smoke.replace("ppm","")) > 100) {
+      let cmmon = CommandFactory.createBeepCommand(ON_OFF.on)
+      IotDataTool.controlDevice(cmmon)
+    }else {
+      let cmmon = CommandFactory.createBeepCommand(ON_OFF.off)
+      IotDataTool.controlDevice(cmmon)
+    }
+  }
   //时间转换
   number2time(number: number) {
     return number > 60 * 1000 ? Math.floor(number/1000/60).toString().padStart(2, '0') + ':' + Math.floor(number/1000%60).toString().padStart(2, '0') : '00:' + Math.floor(number/1000%60).toString().padStart(2, '0')
@@ -134,12 +145,17 @@ struct MainPage {
                 .width('100%')
                 .margin({ top: 8 })
 
-              Row(){
-                Text("方向盘感应:"+this.body_state)
+              Column({space:30}){
+                Text("车辆附件监测:"+this.body_state)
+                Text("车内光照强度:"+this.illumination)
+                Text("车厢电机温度:"+this.IOT_temperature)
+                Text("车内烟雾浓度:"+this.smoke)
               }.width('100%').height('50%')
               .margin({
                 left:"8%"
               })
+              .justifyContent(FlexAlign.Start)
+              .alignItems(HorizontalAlign.Start)
 
               Column({ space: 10 }) {
                 Text(this.location)
@@ -150,9 +166,9 @@ struct MainPage {
                   .align(Alignment.Start)
                   .width('100%');
 
-                Text('距离目标位置')
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize-2)
+                // Text('距离目标位置')
+                //   .fontColor(this.currentTheme.textColor)
+                //   .fontSize(this.fontSize-2)
 
                 Text(this.distance)
                   .fontColor(this.currentTheme.textColor)

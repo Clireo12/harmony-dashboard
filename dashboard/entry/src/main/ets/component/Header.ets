@@ -81,7 +81,7 @@ export struct Header {
           Image($r('app.media.sun_right'))
             .fillColor(this.currentTheme.textColor)
             .width('6%')
-          Text(`${this.temperature}℃`)
+          Text(`${this.temperature}`)
             .fontSize(this.fontSize)
             .fontColor(this.currentTheme.textColor)
         }
