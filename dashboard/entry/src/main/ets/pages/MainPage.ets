@@ -54,6 +54,8 @@ struct MainPage {
   @StorageLink('isPlay') isPlaying: boolean = false;  //播放状态
   @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
 
+  @StorageLink("body_state") body_state:string = IotDataTool.body_state
+
   //时间转换
   number2time(number: number) {
     return number > 60 * 1000 ? Math.floor(number/1000/60).toString().padStart(2, '0') + ':' + Math.floor(number/1000%60).toString().padStart(2, '0') : '00:' + Math.floor(number/1000%60).toString().padStart(2, '0')
@@ -124,7 +126,7 @@ struct MainPage {
           Column({ space: 20 }) {
 
             Column({ space: 10 }){
-              Text('导航')
+              Text('车机状态')
                 .fontColor(this.currentTheme.textColor)
                 .fontSize(this.fontSize+2)
                 .fontWeight(FontWeight.Bold)
@@ -133,8 +135,11 @@ struct MainPage {
                 .margin({ top: 8 })
 
               Row(){
-                Text("导航图片")
+                Text("方向盘感应:"+this.body_state)
               }.width('100%').height('50%')
+              .margin({
+                left:"8%"
+              })
 
               Column({ space: 10 }) {
                 Text(this.location)
