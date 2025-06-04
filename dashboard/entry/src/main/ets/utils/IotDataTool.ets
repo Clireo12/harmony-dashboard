@@ -169,7 +169,7 @@ class IotDataTool{
           console.log("HTTP", "data=" + JSON.stringify(data))
           if (data.responseCode === 200) {
 
-
+            let lastState = this.song_state
 
             this.responseData = data.result as notify_data // 直接类型断言
             this.motorStatus = this.responseData?.shadow?.[0]?.reported?.properties?.motorStatus
@@ -190,21 +190,15 @@ class IotDataTool{
             AppStorage.setOrCreate("longitude",this.longitude)
             AppStorage.setOrCreate("gear_state", this.gear_state)
             AppStorage.setOrCreate("motor_speed", this.motor_speed)
-            switch (this.song_state) {
-              case '暂停':
-                playerManager.paused()
-                break;
-              case '播放':
-                playerManager.play()
-                break;
-              case '上一首':
-                playerManager.prev()
-                break;
-              case '下一首':
-                playerManager.next()
-                break;
-              default:
-                break;
+
+            if (this.song_state == '暂停' && this.song_state != lastState) {
+              playerManager.paused()
+            } else if (this.song_state == '播放' && this.song_state != lastState) {
+              playerManager.play()
+            } else if (this.song_state == '上一首' && this.song_state != lastState) {
+              playerManager.prev()
+            } else if (this.song_state == '下一首' && this.song_state != lastState) {
+              playerManager.next()
             }
 
             // AppStorage.setOrCreate("latitude",this.responseData?.shadow?.[0]?.reported?.properties?.latitude)

@@ -34,7 +34,7 @@ struct MainPage {
   @State milometer: number =212 // 里程
   @State maxSpeed: number = 125 // 最高时速
   // 天气
-  @State area: string = `${WeatherUtils.city}市 ${WeatherUtils.district}`
+  @State area: string = `${WeatherUtils.city} ${WeatherUtils.district}`
   @State temperature: string = WeatherUtils.temperature
   @State weather: string = '多云'   //需要获取
   // 车辆控制
@@ -94,9 +94,9 @@ struct MainPage {
   navigateToSettings() {
     router.pushUrl({ url: 'pages/SettingPage/PersonalizationSettings' });
   }
-  navigateToMap(){
-    router.pushUrl({ url: 'pages/MapPage/Map' });
-  }
+  // navigateToMap(){
+  //   router.pushUrl({ url: 'pages/MapPage/Map' });
+  // }
 
   private getWeatherIcon(): ResourceStr {
     //根据天气类型返回不同的图标
@@ -158,9 +158,9 @@ struct MainPage {
                   .width('100%');
               }
             }
-            .onClick(() => {
-              this.navigateToMap()
-            })
+            // .onClick(() => {
+            //   this.navigateToMap()
+            // })
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
             .layoutWeight(1)
