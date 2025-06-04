@@ -113,8 +113,8 @@ export struct Header {
           .width("20%")
           .offset({ y: -5 })
 
-        Text("东南")
-          .fontColor(this.currentTheme.textColor)
+        // Text("东南")
+        //   .fontColor(this.currentTheme.textColor)
       }
       .layoutWeight(1)
       .justifyContent(FlexAlign.Center)

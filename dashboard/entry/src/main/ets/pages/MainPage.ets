@@ -28,7 +28,7 @@ struct MainPage {
   @State currentThemeKey: ThemeKey = this.themeManager.getCurrentThemeKey();
   // 导航
   @State location: string = `${WeatherUtils.city} ${WeatherUtils.district} ${WeatherUtils.township}`;
-  @State distance: string = '3.2公里';
+  // @State distance: string = '3.2公里';
   // 仪表盘
   @State speed: number = 0 // 车速
   @State milometer: number =212 // 里程
@@ -170,13 +170,13 @@ struct MainPage {
                 //   .fontColor(this.currentTheme.textColor)
                 //   .fontSize(this.fontSize-2)
 
-                Text(this.distance)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize+5)
-                  .fontWeight(FontWeight.Bold)
-                  .textAlign(TextAlign.Center)
-                  .align(Alignment.Start)
-                  .width('100%');
+                // Text(this.distance)
+                //   .fontColor(this.currentTheme.textColor)
+                //   .fontSize(this.fontSize+5)
+                //   .fontWeight(FontWeight.Bold)
+                //   .textAlign(TextAlign.Center)
+                //   .align(Alignment.Start)
+                //   .width('100%');
               }
             }
             // .onClick(() => {
