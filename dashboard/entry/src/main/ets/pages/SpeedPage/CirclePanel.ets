@@ -34,7 +34,7 @@ export struct CirclePanel {
             strokeWidth: 10,
             shadow: true
           })
-          // .rotate({ angle: this.reverse ? 180 : 150 })
+            // .rotate({ angle: this.reverse ? 180 : 150 })
           .rotate(this.reverse ? { angle: 30 } : { angle: 150 })
 
         Circle()

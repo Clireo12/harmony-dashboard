@@ -94,6 +94,9 @@ struct MainPage {
   navigateToSettings() {
     router.pushUrl({ url: 'pages/SettingPage/PersonalizationSettings' });
   }
+  navigateToMap(){
+    router.pushUrl({ url: 'pages/MapPage/Map' });
+  }
 
   private getWeatherIcon(): ResourceStr {
     //根据天气类型返回不同的图标
@@ -155,6 +158,9 @@ struct MainPage {
                   .width('100%');
               }
             }
+            .onClick(() => {
+              this.navigateToMap()
+            })
             .CardStyle()
             .justifyContent(FlexAlign.SpaceBetween)
             .layoutWeight(1)

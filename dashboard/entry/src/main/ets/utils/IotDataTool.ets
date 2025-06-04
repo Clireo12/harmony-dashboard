@@ -52,19 +52,9 @@ export interface properties {
   latitude:string;                // 经度
   longitude:string;               // 纬度
   song_state:string;              // 语音模块控制
+  turnLED:string;                 // 转向灯状态
+  motor_speed:string;             // 电机速度(返回百分比)
 }
-
-// export interface IoTCommon{
-//   service_id:ServiceId,    // 服务id
-//   command_name:CommandName,  // 命令名称
-//   paras:paras
-// }
-
-// export interface params extends IoTCommon{
-//   paras:paras;
-// }
-
-
 
 
 
@@ -78,9 +68,7 @@ export interface _paras{
   gear_state?:GearState|string;// 挡位
 }
 
-// export interface gearCommon extends _IoTCommon{
-//   gear_state:GearState|string;
-// }
+
 
 
 @Observed
@@ -99,6 +87,8 @@ class IotDataTool{
   public longitude:string = "";     // 纬度
   public song_state = "暂停"         // 语音模块控制音乐
   public keyStatus:string = "停止";
+  public turnLED:string = "";       // 转向灯状态(无,左转,和右转)
+  public motor_speed:number = 1;   // 电机速度(返回百分比)
 
   // 登录方法,获取后续操作的token
   login(): Promise<string> {
@@ -190,11 +180,16 @@ class IotDataTool{
             this.longitude = this.responseData?.shadow?.[0]?.reported?.properties?.longitude.split("°")[0]
             this.song_state = this.responseData?.shadow?.[0]?.reported?.properties?.song_state
             this.keyStatus = this.responseData?.shadow?.[0]?.reported?.properties?.keyStatus ||  "停止"
+            this.turnLED = this.responseData?.shadow?.[0]?.reported?.properties?.turnLED
+            this.motor_speed = parseInt(this.responseData?.shadow?.[0]?.reported?.properties?.motor_speed.replace("%", ""))
+
+            // AppStorage.setOrCreate("turnLED", this.turnLED)
             AppStorage.setOrCreate("motorStatus", this.motorStatus)
-            AppStorage.setOrCreate("keyStatus", this.keyStatus)
+            AppStorage.setOrCreate("keyStatus", this.turnLED)
             AppStorage.setOrCreate("latitude",this.latitude)
             AppStorage.setOrCreate("longitude",this.longitude)
-
+            AppStorage.setOrCreate("gear_state", this.gear_state)
+            AppStorage.setOrCreate("motor_speed", this.motor_speed)
             switch (this.song_state) {
               case '暂停':
                 playerManager.paused()

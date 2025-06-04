@@ -1,16 +1,16 @@
 import { themeConfig, ThemeConfig } from "../../model/ThemeConfig"
+import { Animator } from "@kit.ArkUI";
 
 @Component
 export struct SignalLight {
   @State currentTheme: ThemeConfig = this.getTimeBasedTheme();
-  // @State light: number[] = [0.3, 0.3, 0.3]
-  private timer: number = 0
   @State speed: number = 30 // 车速
   @State distance: number = 212 // 里程数
-
+  @StorageLink("gear_state") gear_state:string = 'S'
   @Link activeLight: number  // 0-左转，2-右转，1-直行
-  @State flash: boolean = false
-  flashTimer: number = -1
+
+  timer: number = -1
+  @State currentOpacity: number = 0
 
   // 根据时间获取主题
   private getTimeBasedTheme(): ThemeConfig {
@@ -19,18 +19,13 @@ export struct SignalLight {
     return isDayTime ? themeConfig['classic-blackRed'] : themeConfig['minimal-white'];
   }
 
-  aboutToAppear(): void {
-    // this.light[this.activeLight] = 1
-    this.flashTimer = setInterval(() => {
-      if (this.activeLight === 1) {
-        clearInterval(this.flashTimer)
-      } else {
-        this.flash = !this.flash
-      }
-    }, 600)
+  aboutToAppear() {
+    this.timer = setInterval(() => {
+      this.currentOpacity = 1 - this.currentOpacity
+    }, 500)
   }
 
-  aboutToDisappear(): void {
+  aboutToDisappear() {
     clearInterval(this.timer)
   }
 
@@ -38,49 +33,37 @@ export struct SignalLight {
     Column() {
       // 指示灯
       Row() {
-        if (this.activeLight === 0 && this.flash) {
-          Image($r('app.media.active_arrow'))
-            .width(50)
+        if (this.activeLight === 0) {
+          Stack() {
+            Image($r('app.media.active_arrow'))
+              .width(50)
+              .opacity(this.currentOpacity)
+            Image($r('app.media.arrow'))
+              .width(50)
+              .rotate({ angle: 180 })
+              .opacity(1 - this.currentOpacity)
+          }
         } else {
           Image($r('app.media.arrow'))
             .width(50)
             .rotate({ angle: 180 })
         }
 
-        Text("S")   //档位显示，需要根据实际时速动态判断档位
+        Text(this.gear_state)   //档位显示，需要根据实际时速动态判断档位
           .fontSize(50)
           .fontColor(this.currentTheme.textColor)
           .margin({ left: 50, right: 50 })
 
-        // Row() {
-        //   Circle()
-        //     .width(36)
-        //     .height(36)
-        //     .fill('#f00')
-        //     .opacity(this.light[0])
-        //   Circle()
-        //     .width(36)
-        //     .height(36)
-        //     .fill('#ff0')
-        //     .opacity(this.light[1])
-        //   Circle()
-        //     .width(36)
-        //     .height(36)
-        //     .fill('#0f0')
-        //     .opacity(this.light[2])
-        // }
-        // .margin({ left: 20, right: 20 })
-        // .padding({ left: 20, right: 20 })
-        // .width(200)
-        // .height(70)
-        // .justifyContent(FlexAlign.SpaceBetween)
-        // .backgroundColor($r('app.color.traffic_light_bg'))
-        // .borderRadius(10)
-
-        if (this.activeLight === 2 && this.flash) {
-          Image($r('app.media.active_arrow'))
-            .width(50)
-            .rotate({ angle: 180 })
+        if (this.activeLight === 2) {
+          Stack() {
+            Image($r('app.media.active_arrow'))
+              .width(50)
+              .rotate({ angle: 180 })
+              .opacity(this.currentOpacity)
+            Image($r('app.media.arrow'))
+              .width(50)
+              .opacity(1 - this.currentOpacity)
+          }
         } else {
           Image($r('app.media.arrow'))
             .width(50)
