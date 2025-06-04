@@ -7,12 +7,6 @@ import { playerManager } from '../PlayerManager';
 import { CommentItem, LyricLine } from './SongData';
 import { SongInfo } from '../../../model/SongModel';
 
-//初始化歌词行数据
-const initialLyricLines: LyricLine[] = [
-  { id: 1, text: "第一行歌词" },
-  { id: 2, text: "第二行歌词" }
-];
-
 //初始化评论数据
 const initialComments: CommentItem[] = [
   { id: 1, username: "User 1", content: "This is comment number 1", time: "10:00" }
@@ -27,7 +21,6 @@ export default struct Content {
   @StorageLink('showComments') showComments: boolean = false;
   @StorageLink('currentSong') currentSong: SongInfo = playerManager.currentSong
 
-  @State lyricLines: LyricLine[] = initialLyricLines;
   @State comments: CommentItem[] = initialComments;
   @State mainContentWidth: string = '100%';
 
@@ -35,9 +28,11 @@ export default struct Content {
   @State currentAlbumIndex: number = 0  //当前专辑索引
 
   @State albums: Resource[] = [
-    $r('app.media.ic_avatar1'),
+    $r('app.media.ic_dream'),
+    $r('app.media.ic_avatar5'),
     $r('app.media.ic_avatar2'),
-    $r('app.media.ic_avatar3')
+    $r('app.media.ic_avatar17'),
+    $r('app.media.ic_avatar4'),
   ];
 
   aboutToUpdate() {
@@ -62,46 +57,23 @@ export default struct Content {
               this.currentAlbumIndex = index;
             }
           })
-            .width('75%')
-            .margin({ right: 20 })
+            .width('65%')
+            .margin({ right: 10 })
         }
-        .width(this.showPlaylist || this.showComments ? '45%' : '50%')
+        .width(this.showComments ? '45%' : '50%')
         .justifyContent(FlexAlign.Center)
 
+        // 播放列表
         Column() {
-          Text(this.currentSong.title)
-            .fontSize(22)
-            .fontWeight(FontWeight.Bold)
-            .margin({ bottom: 8 });
-
-          Row() {
-            Image($r('app.media.ic_vip'))
-              .height(16)
-              .width(16)
-              .margin({ right: 5 });
-            Text(this.currentSong.singer)
-              .fontSize(16);
-          }
-          .margin({ bottom: 12 });
-
-          Scroll() {
-            Column() {
-              ForEach(this.lyricLines, (item: LyricLine) => {
-                Text(item.text)
-                  .fontSize(14)
-                  .margin({ bottom: 10 });
-              })
-            }
-            .padding(8)
-          }
-          .height('70%')
+          PlayList()
+            .height('95%')
         }
-        .width(this.showPlaylist || this.showComments ? '55%' : '50%')
+        .width(this.showComments ? '55%' : '50%')
       }
-      .width(this.showPlaylist || this.showComments ? '70%' : '80%')
+      .width( this.showComments ? '70%' : '80%')
       .height('100%')
       .position({
-        x: this.showPlaylist || this.showComments ? '0%' : '10%'
+        x: this.showComments ? '0%' : '10%'
       })
       .animation({
         duration: 200,
@@ -109,9 +81,9 @@ export default struct Content {
       })
 
       Column() {
-        if (this.showPlaylist) {
-          PlayList()
-        }
+        // if (this.showPlaylist) {
+        //   PlayList()
+        // }
         if (this.showComments) {
           CommentPanel()
         }
@@ -119,7 +91,7 @@ export default struct Content {
       .width('30%')
       .height('100%')
       .position({
-        x: this.showPlaylist || this.showComments ? '70%' : '100%'
+        x:  this.showComments ? '72%' : '100%'
       })
       .animation({
         duration: 200,

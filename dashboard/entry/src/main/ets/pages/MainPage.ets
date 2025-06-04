@@ -100,7 +100,7 @@ struct MainPage {
     router.pushUrl({ url: 'pages/StatusPage/Index' });
   }
 
-  navigateToVehicleControl() {
+  navigateToMusic() {
     router.pushUrl({ url: 'pages/MusicPage/pages/Index' });
   }
 
@@ -381,9 +381,9 @@ struct MainPage {
           .height('100%')
           .justifyContent(FlexAlign.SpaceBetween)
           .alignItems( HorizontalAlign.Center)
-          // .onClick(() => {
-          //   this.navigateToMusic();
-          // })
+          .onClick(() => {
+            this.navigateToMusic();
+          })
 
           Column() {
             Row({space:20}) {
@@ -435,7 +435,6 @@ struct MainPage {
               .blockColor('#ff1948')
               .selectedColor('#ff1948')
               .trackThickness(6)
-              .trackColor(this.currentTheme.mask)
               .width('90%')
               .onChange((value) => {
                 playerManager.skip(value)
@@ -447,10 +446,10 @@ struct MainPage {
 
         }
         .width('100%')
-        .margin({left:20})
-
       }
-      .width('100%')
+      .CardStyle()
+      .margin({bottom:10})
+      .width('97%')
       .height('15%')
 
     }
@@ -458,6 +457,7 @@ struct MainPage {
     .height('100%')
     .backgroundColor(this.currentTheme.theme)
   }
+
 
   @Styles
   CardStyle() {
