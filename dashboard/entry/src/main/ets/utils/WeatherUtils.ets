@@ -234,7 +234,9 @@ class WeatherUtils {
           console.log("resp=>",JSON.parse(JSON.stringify(resp.result)).toString())
           if (resp.responseCode == 200) {
             let weather = JSON.parse(resp.result.toString()) as WeatherResponse;
-
+            if (weather.reason != "查询成功!") {
+              return
+            }
             this.temperature = weather?.result?.realtime?.temperature;
             AppStorage.setOrCreate("temperature", this.temperature || "26")
             console.log("temperature",this.temperature)

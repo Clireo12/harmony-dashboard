@@ -15,7 +15,7 @@ export struct Header {
   @State date: Date = new Date()
   @State time: string = ''
   @State timeState: string = ''
-  @StorageProp("temperature") temperature: string = ""
+  @State temperature: string = WeatherUtils.temperature + "℃"
   @Prop TotalMileage: number = 2800
   @State timer: number = -1
   @State textColor:Resource = $r("app.color.text_color")
