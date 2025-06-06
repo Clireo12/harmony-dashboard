@@ -158,13 +158,13 @@ struct MainPage {
               .alignItems(HorizontalAlign.Start)
 
               Column({ space: 10 }) {
-                Text(this.location)
-                  .fontColor(this.currentTheme.textColor)
-                  .fontSize(this.fontSize)
-                  .fontWeight(FontWeight.Bold)
-                  .textAlign(TextAlign.Center)
-                  .align(Alignment.Start)
-                  .width('100%');
+                // Text(this.location)
+                //   .fontColor(this.currentTheme.textColor)
+                //   .fontSize(this.fontSize)
+                //   .fontWeight(FontWeight.Bold)
+                //   .textAlign(TextAlign.Center)
+                //   .align(Alignment.Start)
+                //   .width('100%');
 
                 // Text('距离目标位置')
                 //   .fontColor(this.currentTheme.textColor)
