@@ -81,6 +81,7 @@ class PlayerManager {
       this.playIndex = this.playList.findIndex(item => item.id === song.id)
     }
     this.changeSong(song)
+    this.isPlay = true
   }
 
   // 切换歌曲
@@ -90,6 +91,7 @@ class PlayerManager {
     this.currentSong.duration = 0
     this.setCurrentSong(song)
     this.player!.url = song.src
+    AppStorage.setOrCreate('isPlay', true)
   }
 
   // 跳转进度
