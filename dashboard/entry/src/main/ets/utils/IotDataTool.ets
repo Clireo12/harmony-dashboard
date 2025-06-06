@@ -76,7 +76,7 @@ class IotDataTool{
   public token:string = ""
   public responseData:notify_data = {} as notify_data
   private timerId: number = -1; // 定时器ID
-  public pollingInterval:number = 1500; // 轮询间隔，单位为毫秒
+  public pollingInterval:number = 750; // 轮询间隔，单位为毫秒
 
   // 设备数据
   public motorStatus:string  = "";  // 电机

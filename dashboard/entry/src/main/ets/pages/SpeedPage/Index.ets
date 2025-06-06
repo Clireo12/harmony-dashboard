@@ -19,7 +19,8 @@ export struct DashboardPage {
   @State speed: number = 0 // 车速
   @StorageLink("motor_speed") motor_speed:number = IotDataTool.motor_speed
 
-  @StorageLink("motor_speed") RPM_value:number = IotDataTool.motor_speed * this.getRandomInt(15, 70)  // 转数
+  // @StorageLink("motor_speed") RPM_value:number = IotDataTool.motor_speed * this.getRandomInt(15, 70)  // 转数
+  @State RPM_value:number = IotDataTool.motor_speed * 15 //转数
   @State trafficLight: number = 1 // 转向灯 0左 2右 1复原
   @State leftMenu: MenuItem[] = [
     { img: $r('app.media.warning'), active: false },
@@ -40,7 +41,8 @@ export struct DashboardPage {
     this.updateSpeedAndDistance()
     // 时速变化
     this.speedTimer = setInterval(() => {
-      this.speed = this.motor_speed
+      this.speed = this.motor_speed - 1
+      this.RPM_value = this.motor_speed * 15
     }, 500)
     this.turnTimer = setInterval(() => {
       let keyStatus = AppStorage.get("keyStatus") as string
