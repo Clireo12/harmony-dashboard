@@ -317,6 +317,8 @@ export enum CommandName {
   key_control = "key_control",  // 按键控制
   gear_control = "gear_control",  //  挡位控制
   color_theme_control = "color_theme_control",  // 主题切换
+  song_control = "song_control",  // 播放歌曲
+
 }
 // 命令参数接口
 export interface CommandParams {
@@ -324,6 +326,8 @@ export interface CommandParams {
   beep_state?: ON_OFF;
   gear_state?: GearState;
   motorStatus?: ON_OFF;
+  color_theme_state?:theme_state;
+  song_control?:song_state
   // 添加更多参数...
 }
 export interface IoTCommon {
@@ -334,6 +338,16 @@ export interface IoTCommon {
 interface paras{
   key:string,
   value:string
+}
+export enum theme_state{
+  black = "黑色",
+  green = "绿色",
+  blue = "蓝色",
+  wright = "白色"
+}
+export enum song_state{
+  start = "start",
+  stop = "stop",
 }
 export enum ON_OFF{
   on = "on",
@@ -386,6 +400,24 @@ export class CommandFactory {
       command_name: CommandName.motor_control,
       paras: { motorStatus: state }
     };
+  }
+
+  // 创建主题切换命令
+  static createColorThemeCommand(state: theme_state): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.color_theme_control,
+      paras: { color_theme_state: state }
+    }
+  }
+
+  // 创建音乐播放命令
+  static createSongCommand(state: song_state): IoTCommon {
+    return {
+      service_id: ServiceId.test_1,
+      command_name: CommandName.song_control,
+      paras: { song_control: state }
+    }
   }
 
   // 通用命令创建方法（用于自定义命令）

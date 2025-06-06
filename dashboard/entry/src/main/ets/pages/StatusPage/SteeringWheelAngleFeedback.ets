@@ -32,7 +32,11 @@ export struct SteeringWheelAngleFeedback {
           IotDataTool.responseData?.shadow?.[0]?.reported?.properties?.mpu_1
         ) || 0;
         if (Math.abs(newAngle) > 540){
-          newAngle = 540;
+          if (newAngle > 0) {
+            newAngle = 540
+          }else {
+            newAngle = -540;
+          }
         }
         // 首次赋值或值变化时更新
         if (this.targetAngle === 0 || Math.abs(newAngle - this.targetAngle) > 0.1) {

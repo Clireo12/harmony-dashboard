@@ -4,7 +4,7 @@ import router from '@ohos.router';
 import { ThemeManager } from '../model/ThemeManager';
 import { themeConfig, ThemeConfig,ThemeKey} from '../model/ThemeConfig';
 import PreferencesUtil from '../utils/PreferencesUtil';
-import IotDataTool, { CommandFactory, ON_OFF } from '../utils/IotDataTool';
+import IotDataTool, { CommandFactory, IoTCommon, ON_OFF, song_state } from '../utils/IotDataTool';
 import { Snow } from './WeatherDisplay/Snow';
 import { Rain } from './WeatherDisplay/Rain';
 import { playerManager } from './MusicPage/PlayerManager';
@@ -400,12 +400,15 @@ struct MainPage {
                   .width(30)
                   .height(30)
                   .onClick(() => {
-                    this.isPlaying = !this.isPlaying;
+                    let common = {} as IoTCommon
                     if (this.isPlaying) {
                       playerManager.play()
+                      common = CommandFactory.createSongCommand(song_state.start)
                     } else {
                       playerManager.paused()
+                      common = CommandFactory.createSongCommand(song_state.stop)
                     }
+                    IotDataTool.controlDevice(common)
                   });
 
                 Image($r('app.media.ic_next'))

@@ -1,5 +1,5 @@
 import { SongInfo } from '../../../model/SongModel';
-import IotDataTool from '../../../utils/IotDataTool';
+import IotDataTool, { CommandFactory, IoTCommon, song_state } from '../../../utils/IotDataTool';
 import { playerManager } from '../PlayerManager'
 
 @Entry
@@ -77,11 +77,15 @@ export default struct Player {
               .height(36)
               .onClick(() => {
                 this.isPlaying = !this.isPlaying;
+                let common = {} as IoTCommon
                 if (this.isPlaying) {
                   playerManager.play()
+                  common = CommandFactory.createSongCommand(song_state.start)
                 } else {
                   playerManager.paused()
+                  common = CommandFactory.createSongCommand(song_state.stop)
                 }
+                IotDataTool.controlDevice(common)
               });
 
             Image($r('app.media.ic_next'))

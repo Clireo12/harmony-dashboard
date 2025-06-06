@@ -6,6 +6,7 @@ import PreferencesUtil from '../../utils/PreferencesUtil';
 import { common } from '@kit.AbilityKit';
 import { PreferenceModel } from './PreferenceModel';
 import { router } from '@kit.ArkUI';
+import IotDataTool, { CommandFactory, IoTCommon, theme_state } from '../../utils/IotDataTool';
 
 // 定义偏好设置项的类型
 interface PreferenceItem {
@@ -189,6 +190,31 @@ export struct PersonalizationSettings {
           await this.themeManager.changeTheme(theme);
           this.currentThemeKey = theme;
           this.currentTheme = this.themeManager.getCurrentTheme();
+          let common = {} as IoTCommon;
+          switch (theme){
+            case 'fresh-green':
+              // 将设备颜色主题设置为 fresh-green(绿)
+              common = CommandFactory.createColorThemeCommand(theme_state.green)
+              IotDataTool.controlDevice(common)
+              break;
+            case 'tech-blue':
+              // 将设备颜色主题设置为 tech-blue(蓝)
+              common = CommandFactory.createColorThemeCommand(theme_state.blue)
+              IotDataTool.controlDevice(common)
+              break;
+            case 'minimal-white':
+              // 将设备颜色主题设置为 minimal-white(白)
+              common = CommandFactory.createColorThemeCommand(theme_state.wright)
+              IotDataTool.controlDevice(common)
+              break;
+            case 'classic-blackRed':
+              // 将设备颜色主题设置为 classic-blackRed(黑)
+              common = CommandFactory.createColorThemeCommand(theme_state.black)
+              IotDataTool.controlDevice(common)
+              break;
+              default :
+                break;
+          }
         });
 
       Text(label)
