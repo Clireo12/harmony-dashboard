@@ -205,8 +205,10 @@ class IotDataTool{
 
             if (this.song_state == '暂停' && this.song_state != lastState) {
               playerManager.paused()
+              AppStorage.set("isPlay",  false)
             } else if (this.song_state == '播放' && this.song_state != lastState) {
               playerManager.play()
+              AppStorage.set("isPlay",  true)
             } else if (this.song_state == '上一首' && this.song_state != lastState) {
               playerManager.prev()
             } else if (this.song_state == '下一首' && this.song_state != lastState) {
