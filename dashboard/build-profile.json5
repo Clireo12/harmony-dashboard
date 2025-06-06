@@ -1,20 +1,5 @@
 {
   "app": {
-    "signingConfigs": [
-      {
-        "name": "default",
-        "type": "HarmonyOS",
-        "material": {
-          "certpath": "C:\\Users\\MR\\.ohos\\config\\default_dashboard_dosmlTKge8We0PGDMIQMn5wUgtYYEoXNIIBrT93FqfI=.cer",
-          "keyAlias": "debugKey",
-          "keyPassword": "0000001BCC836CEE062F64F530B3B5852ACCB5FD18E8855AED7B540D7A7A4615E26270920362C6C540BD2D",
-          "profile": "C:\\Users\\MR\\.ohos\\config\\default_dashboard_dosmlTKge8We0PGDMIQMn5wUgtYYEoXNIIBrT93FqfI=.p7b",
-          "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\MR\\.ohos\\config\\default_dashboard_dosmlTKge8We0PGDMIQMn5wUgtYYEoXNIIBrT93FqfI=.p12",
-          "storePassword": "0000001B66B72DD622DC5B6E32CB0CE6C4C8CCDC4CF8B276FAF47D066DE407C6B21471F7CEF83CFA4A92C8"
-        }
-      }
-    ],
     "products": [
       {
         "name": "default",
@@ -35,6 +20,21 @@
       },
       {
         "name": "release"
+      }
+    ],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\13537\\.ohos\\config\\default_dashboard_YGxv58AcrWQODoS1ydipsOD5XSz3shTl5A6kpfyVncw=.cer",
+          "storePassword": "0000001BB399141AFBFEB1BD49D1636AD44331B410C915ACBFACE1323F7C448FC97DAA08EFE4BB62131D83",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001BC6A6AFC3D3351CC63AB73FB7097C0FA5F51AE6F3311C85F3269BEF65456EA138DA94D33A049C5D",
+          "profile": "C:\\Users\\13537\\.ohos\\config\\default_dashboard_YGxv58AcrWQODoS1ydipsOD5XSz3shTl5A6kpfyVncw=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\13537\\.ohos\\config\\default_dashboard_YGxv58AcrWQODoS1ydipsOD5XSz3shTl5A6kpfyVncw=.p12"
+        }
       }
     ]
   },

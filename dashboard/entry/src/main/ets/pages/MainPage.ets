@@ -400,6 +400,7 @@ struct MainPage {
                   .width(30)
                   .height(30)
                   .onClick(() => {
+                    this.isPlaying = !this.isPlaying;
                     let common = {} as IoTCommon
                     if (this.isPlaying) {
                       playerManager.play()
