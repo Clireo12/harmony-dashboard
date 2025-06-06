@@ -18,33 +18,33 @@ import { SongItem } from '../pages/SongData';
 
 const songList: SongItem[] = [
   { id: 0, title: '背对背拥抱', singer: '林俊杰', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_dream'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=c3Nta3hr&k=320kmp3', // https://joy127.jstools.net/uploads/mp3/202505/30/1123683924a864458960177.mp3
+    label: $r('app.media.ic_dream'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E8%83%8C%E5%AF%B9%E8%83%8C%E6%8B%A5%E6%8A%B1.mp3?Expires=1749243802&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=ODSriWuDlYcIAkR7Z6MvkT2zuwA%3D', // https://joy127.jstools.net/uploads/mp3/202505/30/1123683924a864458960177.mp3
     index: 0, lyric: '' },
 
   { id: 1, title: 'Nobody', singer: 'Wonder Girls', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_dream'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=eGRoZG52&k=320kmp3', index:0,
+    label: $r('app.media.ic_dream'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/Nobody.aac?Expires=1749243721&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=qsNuiNWtD9WeuVVhIZ4%2Bs%2BNVngg%3D', index:0,
     lyric: 'lrcfiles/DreamItPossible.lrc' },
 
   { id: 2, title: '逆战', singer: '张杰', mark: $r('app.media.ic_sq'),
-    label: $r('app.media.ic_avatar2'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=dmNraG53bmM&k=320kmp3', index:1, lyric: '' },
+    label: $r('app.media.ic_avatar2'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E9%80%86%E6%88%98.mp3', index:1, lyric: '' },
 
   { id: 3, title: '同桌的你', singer: '老狼', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_avatar16'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=d2tkbWhtYw&k=320kmp3', index:2, lyric: '' },
+    label: $r('app.media.ic_avatar16'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E5%90%8C%E6%A1%8C%E7%9A%84%E4%BD%A0.mp3?Expires=1749243749&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=L%2B1pB%2BTPUbsZkxavyasXCpmamx4%3D', index:2, lyric: '' },
 
   { id: 4, title: '喜欢你', singer: 'G.E.M. 邓紫棋', mark: $r('app.media.ic_sq'),
-    label: $r('app.media.ic_avatar4'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=dm14dndkaw&k=320kmp3' , index:3, lyric: ''},
+    label: $r('app.media.ic_avatar4'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E5%96%9C%E6%AC%A2%E4%BD%A0.mp3?Expires=1749243764&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=gxCT3aGD3fQuGd0pdHMR2gesTc8%3D' , index:3, lyric: ''},
 
   { id: 5, title: 'Love Story', singer: 'Taylor Swift', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_avatar5'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=dnN4ZGNtaGQ&k=320kmp3', index:4, lyric: '' },
+    label: $r('app.media.ic_avatar5'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/Love%20Story.mp3?Expires=1749243693&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=ujssZlSDaB5Om3txCt1q3v%2FHGm0%3D', index:4, lyric: '' },
 
   { id: 6, title: '等一分钟', singer: '徐誉滕', mark: $r('app.media.ic_sq'),
-    label: $r('app.media.ic_avatar6'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=ZHdjY3Nj&k=320kmp3' , index:5, lyric: ''},
+    label: $r('app.media.ic_avatar6'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E7%AD%89%E4%B8%80%E5%88%86%E9%92%9F.mp3?Expires=1749243788&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=%2ByVNJ8q9t%2FaImio49jnnuowADqI%3D' , index:5, lyric: ''},
 
   { id: 7, title: '你瞒我瞒', singer: '陈柏宇', mark: $r('app.media.ic_vip'),
-    label: $r('app.media.ic_avatar17'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=Y21jbXNo&k=320kmp3', index:6, lyric: '' },
+    label: $r('app.media.ic_avatar17'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E4%BD%A0%E7%9E%92%E6%88%91%E7%9E%92.mp3?Expires=1749243734&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=sUse%2BQzvQ%2BR8Loyy6U%2Bd0lA4itU%3D', index:6, lyric: '' },
 
   { id: 8, title: '淘汰', singer: '陈奕迅', mark: $r('app.media.ic_sq'),
-    label: $r('app.media.ic_avatar8'), src: 'https://www.2t58.com/plug/down.php?ac=music&id=bWRjY2hu&k=320kmp3', index:7, lyric: '' },
+    label: $r('app.media.ic_avatar8'), src: 'https://arkts-music.oss-cn-shenzhen.aliyuncs.com/%E6%B7%98%E6%B1%B0.mp3?Expires=1749243776&OSSAccessKeyId=TMP.3KrF7SkkahM6oKLfCgBDyLMqzZ464iYr9ZbcDeLHNxKc2mTkuLW6M1fSTnCDYm2FKb27Sqt5a1DLF23jaXg6FhN38otRUs&Signature=hkVCQyBGU3TuhUEymHFKPxw86go%3D', index:7, lyric: '' },
   //
   // { id: 9, title: 'Call Me Now', singer: 'Michael Calfan、INNA', mark: $r('app.media.ic_vip'),
   //   label: $r('app.media.ic_avatar9'), src: 'https://lv-sycdn.kuwo.cn/df1a5d6f81f3228e4bdbcf1eb89bbb67/683d51f7/resource/30106/trackmedia/M500001QfJy13xbK3m.mp3', index:8, lyric: '' },
