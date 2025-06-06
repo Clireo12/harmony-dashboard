@@ -200,7 +200,14 @@ class IotDataTool{
             AppStorage.setOrCreate("body_state", this.body_state)
             AppStorage.setOrCreate("temperature", this.temperature)
             AppStorage.setOrCreate("smoke", this.smoke)
-
+            if (Math.abs(parseFloat(this.mpu_1)) > 540){
+              if (parseFloat(this.mpu_1) > 0) {
+                this.mpu_1 = "540"
+              }else {
+                this.mpu_1 = "-540";
+              }
+            }
+            AppStorage.setOrCreate("mpu_1", this.mpu_1)
 
 
             if (this.song_state == '暂停' && this.song_state != lastState) {
